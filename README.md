@@ -2,7 +2,7 @@
 
 ## Elevator Pitch
 
-This asset is our opinionated implementation of the GitOps principles, using the latest and greatest tooling available, to enable our customers to hit one big red button (figuratively) to start provisioning a platform that provides Cluster and Virtual Machine Provisioning capabilities, Governence and policy management, observability of Clusters and workloads and finally deployment of IBM Cloud Paks, all within a single command*. Codified, Repeatable and Auditable.
+This asset is our opinionated implementation of the GitOps principles, using the latest and greatest tooling available, to enable the hitting of one big red button (figuratively) to start provisioning a platform that provides Cluster and Virtual Machine Provisioning capabilities, Governence and policy management, observability of Clusters and workloads and finally deployment of IBM Cloud Paks, all within a single command*. Codified, Repeatable and Auditable.
 
 ![OTP](doc/images/ztp.png)
 *Disclaimer, may actually be more than just one command to type. ;)
@@ -74,7 +74,7 @@ This respository is not intended to be a Step-by-Step Guide and some prior knowl
 
 ### Coming Soon
 
-- Zero Touch Provisioning of Managed OpenShift Clusters to Bare-metal nodes (Think Edge Deployments)
+- Zero Touch Provisioning of Managed OpenShift Clusters to Bare-metal nodes (think Edge deployments)
 
 ## Pre-requisites ⬅️
 

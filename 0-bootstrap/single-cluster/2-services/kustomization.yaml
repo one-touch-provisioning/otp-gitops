@@ -1,0 +1,79 @@
+resources:
+# IBM Foundations / Common Services
+- argocd/operators/ibm-foundations.yaml
+- argocd/instances/ibm-foundational-services-instance.yaml
+# - argocd/operators/ibm-automation-foundation-core-operator.yaml
+# - argocd/operators/ibm-automation-foundation-operator.yaml
+# - argocd/operators/ibm-common-services-mcm.yaml
+# - argocd/instances/ibm-common-services-mcm-instance.yaml
+
+# IBM Catalogs
+- argocd/operators/ibm-catalogs.yaml
+
+# Required for IBM MQ
+#- argocd/instances/openldap.yaml
+# Required for IBM ACE, IBM MQ
+#- argocd/operators/cert-manager.yaml
+#- argocd/instances/cert-manager-instance.yaml
+
+# Sealed Secrets
+- argocd/instances/sealed-secrets.yaml
+
+# CICD
+#- argocd/operators/grafana-operator.yaml
+#- argocd/instances/grafana-instance.yaml
+# In OCP 4.7+ we need to install openshift-pipelines and possibly privileged scc to the pipeline serviceaccount
+- argocd/operators/openshift-pipelines.yaml
+
+# Service Mesh
+#- argocd/operators/elasticsearch.yaml
+#- argocd/operators/jaeger.yaml
+#- argocd/operators/kiali.yaml
+#- argocd/operators/openshift-service-mesh.yaml
+#- argocd/instances/openshift-service-mesh-instance.yaml
+
+# MultiCloud Management / Red Hat Advanced Cluster Management
+- argocd/operators/openshift-acm.yaml
+- argocd/instances/openshift-acm-instance.yaml
+- argocd/instances/openshift-acm-observability-instance.yaml
+##- argocd/operators/ibm-cp4mcm-operator.yaml
+##- argocd/instances/ibm-cp4mcm-instance.yaml
+- argocd/operators/ibm-infra-automation-operator.yaml
+- argocd/instances/ibm-infra-automation-instance.yaml
+
+# Ansible Automation Platform
+- argocd/operators/ansible-automation-platform-operator.yaml
+- argocd/instances/ansible-automation-platform-instance.yaml
+
+# Observability
+#- argocd/operators/turbonomic.yaml
+#- argocd/instances/instana-agent.yaml
+
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=services"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_SERVICES}
+    - op: add
+      path: /spec/source/targetRevision
+      value: ${GIT_GITOPS_BRANCH}
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=services,gitops.tier.source=helm"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: ${HELM_REPOURL}
+- target:
+    name: ibm-automation-foundation-operator
+  patch: |-
+    - op: add
+      path: /spec/source/helm/parameters/-
+      value:
+        name: spec.channel
+        value: v1.1

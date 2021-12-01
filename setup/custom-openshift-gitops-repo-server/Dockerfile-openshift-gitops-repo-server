@@ -1,0 +1,10 @@
+FROM registry.redhat.io/openshift-gitops-1/argocd-rhel8@sha256:6087f905ccb8192fd640109694ba836ae87d107234a157b98723f175ce14c97d
+ENV KUSTOMIZE_PLUGIN_HOME=/etc/kustomize/plugin \
+    POLICY_GENERATOR_VERSION=v1.2.2
+USER 0
+RUN mkdir -p $KUSTOMIZE_PLUGIN_HOME/policy.open-cluster-management.io/v1/policygenerator && \
+    curl -L \
+      -o $KUSTOMIZE_PLUGIN_HOME/policy.open-cluster-management.io/v1/policygenerator/PolicyGenerator \
+      https://github.com/open-cluster-management/policy-generator-plugin/releases/download/$POLICY_GENERATOR_VERSION/linux-amd64-PolicyGenerator && \
+    chmod +x $KUSTOMIZE_PLUGIN_HOME/policy.open-cluster-management.io/v1/policygenerator/PolicyGenerator
+USER argocd

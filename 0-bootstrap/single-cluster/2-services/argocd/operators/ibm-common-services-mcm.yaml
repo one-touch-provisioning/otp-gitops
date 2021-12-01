@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ibm-common-services-mcm-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "210"
+  labels:
+    gitops.tier.group: ibm-cloudpak
+    gitops.tier.layer: services
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: openshift-operators
+    server: 'https://kubernetes.default.svc'
+  project: services
+  source:
+    path: operators/ibm-common-services-mcm-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

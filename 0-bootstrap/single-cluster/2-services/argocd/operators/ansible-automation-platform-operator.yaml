@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ansible-automation-platform-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "200"
+  labels:
+    gitops.tier.group: cntk
+    gitops.tier.layer: services
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: ansible-automation-platform
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: operators/ansible-automation-platform-operator
+    helm:
+      values: |
+        ansible:
+          config:
+            operatorGroupName: ansible-automation-platform
+            namespace: ansible-automation-platform
+            channel: early-access
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

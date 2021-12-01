@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespace-ibm-cp4mcm
+  labels:
+    gitops.tier.layer: infra
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+spec:
+  destination:
+    namespace: ibm-cp4mcm
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    path: namespaces/ibm-cp4mcm
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

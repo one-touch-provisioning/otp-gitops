@@ -1,0 +1,42 @@
+resources:
+- argocd/consolenotification.yaml
+- argocd/namespace-ibm-common-services.yaml
+- argocd/namespace-cloudpak.yaml
+#- argocd/namespace-openldap.yaml
+- argocd/namespace-sealed-secrets.yaml
+- argocd/namespace-tools.yaml
+# Observability
+- argocd/namespace-turbonomic.yaml
+- argocd/namespace-instana-agent.yaml
+# RHACM
+- argocd/namespace-openshift-acm.yaml
+- argocd/namespace-openshift-acm-observability.yaml
+- argocd/namespace-openshift-rhacm-credentials.yaml
+- argocd/namespace-policies.yaml
+# Ansible Tower
+- argocd/namespace-ansible-automation-platform.yaml
+# IBM Infrastruture Automation aka MCM
+- argocd/namespace-ibm-infra-automation.yaml
+#- argocd/namespace-ibm-cp4mcm.yaml
+#- argocd/namespace-ibm-cp4i-argocd.yaml
+# OpenShift Data Foundation aka OpenShift Container Storage
+# - unneeded for IBM Cloud ROKS with ODF add-on configured
+- argocd/namespace-openshift-storage.yaml
+- argocd/storage.yaml
+# MachineSets and Infra Nodes
+# - unneeded for IBM Cloud ROKS with ODF add-on configured
+- argocd/machinesets.yaml
+- argocd/infraconfig.yaml
+
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=infra"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_INFRA}
+    - op: add
+      path: /spec/source/targetRevision
+      value: ${GIT_GITOPS_BRANCH}

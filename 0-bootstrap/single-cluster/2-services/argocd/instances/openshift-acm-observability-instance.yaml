@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-acm-observability-instance
+  annotations:
+    argocd.argoproj.io/sync-wave: "260"
+  labels:
+    gitops.tier.group: cntk
+    gitops.tier.layer: services
+spec:
+  destination:
+    namespace: open-cluster-management-observability
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: instances/openshift-acm-observability-instance
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

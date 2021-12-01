@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ibm-cp4mcm-instance
+  annotations:
+    argocd.argoproj.io/sync-wave: "290"
+  labels:
+    gitops.tier.group: ibm-cloudpak
+    gitops.tier.layer: services
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  destination:
+    namespace: ibm-cp4mcm
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: instances/ibm-cp4mcm-instance

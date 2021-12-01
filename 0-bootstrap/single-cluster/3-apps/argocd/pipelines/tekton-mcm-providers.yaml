@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps-infra-tekton-pipeline-mcm-providers
+  annotations:
+    argocd.argoproj.io/sync-wave: "250"
+  labels:
+    gitops.tier.layer: applications
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: mcm-gitops 
+    server: https://kubernetes.default.svc
+  project: applications
+  source:
+    path: infra/providers/mcm/
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

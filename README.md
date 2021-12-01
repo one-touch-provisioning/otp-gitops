@@ -1,4 +1,4 @@
-# One Touch Provisioning for IBM Cloud Pak across Multi Cloud
+# One Touch Provisioning across Multi-Cloud
 
 ## Elevator Pitch
 

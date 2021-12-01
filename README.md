@@ -155,13 +155,13 @@ To get an entitlement key:
 
 - The following set of Git repositories will be used for our GitOps workflow.  
 
-    - Main GitOps repository ([https://github.com/apac-mcm-aiops-asset/mcm-aiops-gitops](https://github.com/apac-mcm-aiops-asset/mcm-aiops-gitops)): This repository contains all the ArgoCD Applications for  the `infrastructure`, `services` and `application` layers.  Each ArgoCD Application will reference a specific K8s resource (yaml resides in a separate git repository), contain the configuration of the K8s resource, and determine where it will be deployed into the cluster.  
+    - Main GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops](https://github.com/one-touch-provisioning/otp-gitops)): This repository contains all the ArgoCD Applications for  the `infrastructure`, `services` and `application` layers.  Each ArgoCD Application will reference a specific K8s resource (yaml resides in a separate git repository), contain the configuration of the K8s resource, and determine where it will be deployed into the cluster.  
 
-    - Infrastructure GitOps repository ([https://github.com/apac-mcm-aiops-asset/mcm-aiops-gitops-infra](https://github.com/apac-mcm-aiops-asset/mcm-aiops-gitops-infra)): Contains the YAMLs for cluster-wide and/or infrastructure related K8s resources managed by a cluster administrator.  This would include `namespaces`, `clusterroles`, `clusterrolebindings`, `machinesets` to name a few.
+    - Infrastructure GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-infra](https://github.com/one-touch-provisioning/otp-gitops-infra)): Contains the YAMLs for cluster-wide and/or infrastructure related K8s resources managed by a cluster administrator.  This would include `namespaces`, `clusterroles`, `clusterrolebindings`, `machinesets` to name a few.
 
-    - Services GitOps repository ([https://github.com/apac-mcm-aiops-asset/mcm-aiops-gitops-services](https://github.com/apac-mcm-aiops-asset/mcm-aiops-gitops-services)): Contains the YAMLs for K8s resources which will be used by the `application` layer.  This could include `subscriptions` for Operators, YAMLs of custom resources provided, or Helm Charts for tools provided by a third party.  These resource would usually be managed by the Administrator(s) and/or a DevOps team supporting application developers.
+    - Services GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-services](https://github.com/one-touch-provisioning/otp-gitops-services)): Contains the YAMLs for K8s resources which will be used by the `application` layer.  This could include `subscriptions` for Operators, YAMLs of custom resources provided, or Helm Charts for tools provided by a third party.  These resource would usually be managed by the Administrator(s) and/or a DevOps team supporting application developers.
 
-    - Apps GitOps repository ([https://github.com/apac-mcm-aiops-asset/mcm-aiops-gitops-apps](https://github.com/apac-mcm-aiops-asset/mcm-aiops-gitops-apps)): Contains the YAMLs for K8s resources to deploy `applications`. Within this asset, we treat Managed OpenShift clusters as `applications`.
+    - Apps GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-apps](https://github.com/one-touch-provisioning/otp-gitops-apps)): Contains the YAMLs for K8s resources to deploy `applications`. Within this asset, we treat Managed OpenShift clusters as `applications`.
 
 1. Create a new GitHub Organization using instructions from this [GitHub documentation](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch).
 
@@ -173,23 +173,23 @@ To get an entitlement key:
 3. Clone the repositories locally.
 
     ```bash
-    mkdir -p gitops-repos
-    cd gitops-repos
+    mkdir -p <gitops-repos>
+    cd <gitops-repos>
     
     # Example: set default Git org for clone commands below
-    GIT_ORG=apac-mcm-aiops-asset
+    GIT_ORG=one-touch-provisioning
 
     # Clone using SSH
-    git clone git@github.com:$GIT_ORG/mcm-aiops-gitops.git
-    git clone git@github.com:$GIT_ORG/mcm-aiops-gitops-infra.git
-    git clone git@github.com:$GIT_ORG/mcm-aiops-gitops-services.git
-    git clone git@github.com:$GIT_ORG/mcm-aiops-gitops-apps.git
+    git clone git@github.com:$GIT_ORG/otp-gitops.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-infra.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-services.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-apps.git
     ```
 
-4. Update the default Git URl and branch references in your `mcm-aiops-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
+4. Update the default Git URl and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
 
     ```bash
-    cd mcm-aiops-gitops
+    cd otp-gitops
     GIT_ORG=<GIT_ORG> GIT_BRANCH=master ./scripts/set-git-source.sh
     git add .
     git commit -m "Update Git URl and branch references"
@@ -244,7 +244,7 @@ If you are running a managed OpenShift cluster on IBM Cloud, you can deploy Open
     oc extract secrets/openshift-gitops-cntk-cluster --keys=admin.password -n openshift-gitops --to=-
     ```
 
-2. The resources required to be deployed for this asset have been pre-selected, and you should just need to clone the `mcm-aiops-gitops` repository in your Git Organization if you have not already done so. However, you can review and modify the resources deployed by editing the following.
+2. The resources required to be deployed for this asset have been pre-selected, and you should just need to clone the `otp-gitops` repository in your Git Organization if you have not already done so. However, you can review and modify the resources deployed by editing the following.
 
      ```
      0-bootstrap/single-cluster/1-infra/kustomization.yaml
@@ -379,7 +379,7 @@ Review the `Applications` layer [kustomization.yaml](0-bootstrap/single-cluster/
 
 ### Hibernating Managed OpenShift Clusters
 
-  * You can Hibernate deployed Managed OpenShift Clusters running on AWS, Azure and GCP when not in use to reduce on running costs. This has to be done *AFTER* a cluster has been deployed. This is accomplished by modifying the `spec.powerState` from `Running` to `Hibernating` of the ClusterDeployment manifest (Located under `mcm-aiops-gitops-apps repo/clusters/cluster-build/<aws|azure|gcp>/<cluster-name>/templates/clusterdeployment.yaml`) of the Managed OpenShift Cluster and committing to Git.
+  * You can Hibernate deployed Managed OpenShift Clusters running on AWS, Azure and GCP when not in use to reduce on running costs. This has to be done *AFTER* a cluster has been deployed. This is accomplished by modifying the `spec.powerState` from `Running` to `Hibernating` of the ClusterDeployment manifest (Located under `otp-gitops-apps repo/clusters/cluster-build/<aws|azure|gcp>/<cluster-name>/templates/clusterdeployment.yaml`) of the Managed OpenShift Cluster and committing to Git.
 
   ```yaml
   spec:
@@ -427,7 +427,7 @@ oc create secret docker-registry ibm-entitlement-key -n tools \
 
 *Note:* Our aim is to reduce these steps in future releases of the asset.
 
-You will need to update the `tenents/cloudpaks/cp4i/cp4i-placement-rule.yaml` file within the `mcm-aiops-gitops-apps` repository to match the cluster you wish to deploy the Cloud Pak to and commit to Git.
+You will need to update the `tenents/cloudpaks/cp4i/cp4i-placement-rule.yaml` file within the `otp-gitops-apps` repository to match the cluster you wish to deploy the Cloud Pak to and commit to Git.
 
 ```yaml
 apiVersion: apps.open-cluster-management.io/v1
@@ -458,4 +458,4 @@ resources:
  - argocd/cloudpaks/cp4i/cp4i.yaml
 ```
 
-OpenShift GitOps will create a RHACM Application that subscribes to the `multi-tenancy-gitops` repository you configured and apply the manifests to the Managed Cluster's OpenShift-GitOps controller. 
+OpenShift GitOps will create a RHACM Application that subscribes to the `multi-tenancy-gitops` repository you configured and apply the manifests to the Managed Cluster's OpenShift-GitOps controller.

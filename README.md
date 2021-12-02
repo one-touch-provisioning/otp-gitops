@@ -7,7 +7,7 @@ This asset is our opinionated implementation of the GitOps principles, using the
 - Codified, Repeatable and Auditable.
 
 ![OTP](doc/images/ztp.png)
-*Disclaimer, may actually be more than just one command to type. ;)
+*Disclaimer, may actually be more than just one command to type. 😉
 
 The asset is not intended to be used straight into Production, and a lot of assumptions have been made when putting this together. It's main intention is to show the `Art of the Possible`, but it can be used a base to roll your own.
 
@@ -217,9 +217,9 @@ To get an entitlement key:
     while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-cntk-server -n openshift-gitops > /dev/null; do sleep 30; done
     ```
 
-    *Note:* We use a custom openshift-gitops-repo-server image to enable the use of Plugins within OpenShift Gitops. This is required to allow RHACM to utilise Policy Generator plugin. We have included the Dockerfile used to build this under `setup/custom-openshift-gitops-repo-server` folder.
+    *Note:* We use a custom openshift-gitops-repo-server image to enable the use of Plugins within OpenShift Gitops. This is required to allow RHACM to utilise the Policy Generator plugin. The Dockerfile can be found here: [https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server](https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server).
 
-3. Configure TLS on IBM Cloud ROKS
+3. Configure TLS if using IBM Cloud ROKS as a Hub Cluster
 
     ```bash
     scripts/patch-argocd-tls.sh

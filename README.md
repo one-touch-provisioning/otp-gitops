@@ -172,7 +172,42 @@ To get an entitlement key:
 
     ![Create repository from a template](doc/images/git-repo-template-button.png)
 
-3. Clone the repositories locally.
+3. (Optional) OpenShift GitOps can leverage GitHub tokens. Many users may wish to use private Git repositories on GitHub to store their manifests, rather than leaving them publically readable. The following steps will need to repeated for each repository.
+
+    - Generate GitHub Token
+      - Visit [https://github.com/settings/tokens](https://github.com/settings/tokens) and select "Generate new token". Give your token a name, an expiration date and select the scope. The token will need to have repo access.
+
+        ![Create a GitHub Secret](doc/images/github-token-scope.png)
+
+      - Click on "Generate token" and copy your token! You will not get another chance to copy your token and you will need to regenerate if you missed to opportunity.
+
+    - Generate Secret
+      - export the GitHub token you copied earlier.
+
+        ```bash
+        $ export GITHUB_TOKEN=<insert github token>
+        ```
+
+      - Create a secret that will reside within the `openshift-gitops` namespace.
+
+        ```bash
+        $ cat <<EOF > setup/ocp/otp-gitops-repo-secret.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: otp-gitops-repo-secret
+          namespace: openshift-gitops
+          labels:
+            argocd.argoproj.io/secret-type: repository
+        stringData:
+          url: https://github.com/one-touch-provisioning/otp-gitops
+          password: ${GITHUB_TOKEN}
+          username: not-used
+        EOF
+        ```
+      - Repeat the above steps for each of the repositories.
+
+4. Clone the repositories locally.
 
     ```bash
     mkdir -p <gitops-repos>
@@ -188,7 +223,7 @@ To get an entitlement key:
     git clone git@github.com:$GIT_ORG/otp-gitops-apps.git
     ```
 
-4. Update the default Git URl and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
+5. Update the default Git URl and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
 
     ```bash
     cd otp-gitops

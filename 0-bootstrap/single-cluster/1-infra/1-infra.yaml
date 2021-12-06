@@ -46,10 +46,6 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: policies
     server: https://kubernetes.default.svc
-  - namespace: policy
-    server: https://kubernetes.default.svc
-  - namespace: ibm-cp4i-argocd
-    server: https://kubernetes.default.svc
   - namespace: turbonomic
     server: https://kubernetes.default.svc
   - namespace: openshift-rhacm-credentials

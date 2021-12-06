@@ -18,7 +18,6 @@ resources:
 # IBM Infrastruture Automation aka MCM
 - argocd/namespace-ibm-infra-automation.yaml
 #- argocd/namespace-ibm-cp4mcm.yaml
-#- argocd/namespace-ibm-cp4i-argocd.yaml
 # OpenShift Data Foundation aka OpenShift Container Storage
 # - unneeded for IBM Cloud ROKS with ODF add-on configured
 - argocd/namespace-openshift-storage.yaml

@@ -1,11 +1,6 @@
 resources:
  - 1-infra/1-infra.yaml
-## Uncomment 2-services/2-services.yaml once
-## 1-infra/1-infra.yaml has been completed
 # - 2-services/2-services.yaml
-## Uncomment to deploy Clusters and Applications
-## Must be done after all steps for 1-infra & 2-services
-## have been completed. 
 # - 3-apps/3-apps.yaml
 patches:
 - target:

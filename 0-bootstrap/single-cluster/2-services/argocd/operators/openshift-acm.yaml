@@ -21,7 +21,7 @@ spec:
         rhacm:
           enabled: true
           config:
-            operatorGroupName: rhacm-operator-group
+            operatorGroupName: open-cluster-management
             namespace: open-cluster-management
             version: 2.4
   syncPolicy:

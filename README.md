@@ -9,7 +9,7 @@ This asset is our opinionated implementation of the GitOps principles, using the
 ![OTP](doc/images/ztp.png)
 *Disclaimer, may actually be more than just one command to type. 😉
 
-The asset is not intended to be used straight into Production, and a lot of assumptions have been made when putting this together. It's main intention is to show the `Art of the Possible`, but it can be used a base to roll your own.
+The asset is not intended to be used straight into Production, and a lot of assumptions have been made when putting this together. It's main intention is to show the `Art of the Possible`, but it can be used as base to roll your own.
 
 Whilst all efforts have been made to provide a complete `One Touch Provisioning` asset, it may not suit every environment and your mileage may vary.
 

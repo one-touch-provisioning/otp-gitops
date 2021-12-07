@@ -16,13 +16,6 @@ spec:
   project: services
   source:
     path: operators/ansible-automation-platform-operator
-    helm:
-      values: |
-        ansible:
-          config:
-            operatorGroupName: ansible-automation-platform
-            namespace: ansible-automation-platform
-            channel: early-access
   syncPolicy:
     automated:
       prune: true

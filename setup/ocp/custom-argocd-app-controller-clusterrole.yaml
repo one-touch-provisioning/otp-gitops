@@ -353,3 +353,9 @@ rules:
       - apps.open-cluster-management.io
     resources:
       - placementrules
+  - verbs:
+      - '*'
+    apiGroups:
+      - automationcontroller.ansible.com
+    resources: 
+      - '*'

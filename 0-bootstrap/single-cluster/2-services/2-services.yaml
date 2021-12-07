@@ -86,6 +86,8 @@ spec:
     kind: MultiClusterObservability
   - group: "objectbucket.io"
     kind: objectbucketclaims
+  - group: "automationcontroller.ansible.com" 
+    kind: automationcontrollers
   roles:
   # A role which provides read-only access to all applications in the project
   - name: read-only

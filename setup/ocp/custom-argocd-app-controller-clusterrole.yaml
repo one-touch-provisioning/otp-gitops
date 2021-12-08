@@ -359,3 +359,31 @@ rules:
       - automationcontroller.ansible.com
     resources: 
       - '*'
+  - verbs:
+      - create
+      - update
+      - patch
+      - delete
+    apiGroups:
+      - hco.kubevirt.io
+    resources: 
+      - hyperconvergeds
+  - verbs:
+      - create
+      - update
+      - patch
+      - delete
+    apiGroups:
+      - cdi.kubevirt.io
+    resources: 
+      - datavolumes
+  - verbs:
+      - create
+      - update
+      - patch
+      - delete
+    apiGroups:
+      - kubevirt.io
+    resources: 
+      - virtualmachines
+      - virtualmachineinstances

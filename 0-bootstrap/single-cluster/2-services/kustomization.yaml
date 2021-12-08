@@ -47,6 +47,7 @@ resources:
 
 # OpenShift Virtualization (Used to host instana instance)
 - argocd/operators/openshift-virtualization.yaml
+- argocd/instances/openshift-virtualization-instance.yaml
 
 # Observability
 - argocd/operators/turbonomic.yaml

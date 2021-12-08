@@ -45,6 +45,9 @@ resources:
 - argocd/operators/ansible-automation-platform-operator.yaml
 - argocd/instances/ansible-automation-platform-instance.yaml
 
+# OpenShift Virtualization (Used to host instana instance)
+- argocd/operators/openshift-virtualization.yaml
+
 # Observability
 - argocd/operators/turbonomic.yaml
 #- argocd/instances/instana-agent.yaml

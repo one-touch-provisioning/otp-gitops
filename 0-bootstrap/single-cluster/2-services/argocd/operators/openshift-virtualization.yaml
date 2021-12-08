@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-virtualization-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "250"
+  labels:
+    gitops.tier.group: cntk
+    gitops.tier.layer: services
+spec:
+  destination:
+    namespace: openshift-cnv
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: operators/openshift-virtualization-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -33,4 +33,4 @@ spec:
           ## The location of the banner. Options: BannerTop, BannerBottom, BannerTopBottom
           location: BannerTop
           ## The text that should be displayed in the banner. This value is required for the banner to be created
-          text: "RHACM / MCM Hub Cluster"
+          text: "Red Hat Advanced Cluster Management Hub Cluster (Inc. IBM Infrastructure Automation)"

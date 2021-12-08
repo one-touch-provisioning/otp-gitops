@@ -57,7 +57,9 @@ spec:
   - namespace: openshift-cnv
     server: https://kubernetes.default.svc
   - namespace: openshift-virtualization-images
-    server: https://kubernetes.default.svc  
+    server: https://kubernetes.default.svc
+  - namespace: openshift-virtualization-virtual-machines
+    server: https://kubernetes.default.svc 
   clusterResourceWhitelist:
   - group: ""
     kind: Namespace

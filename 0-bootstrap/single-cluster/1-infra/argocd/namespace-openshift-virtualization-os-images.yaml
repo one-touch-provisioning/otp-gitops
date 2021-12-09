@@ -1,18 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: namespace-openshift-virtualization-images
+  name: namespace-openshift-virtualization-os-images
   labels:
     gitops.tier.layer: infra
   annotations:
     argocd.argoproj.io/sync-wave: "100"
 spec:
   destination:
-    namespace: openshift-virtualization-images
+    namespace: openshift-virtualization-os-images
     server: https://kubernetes.default.svc
   project: infra
   source:
-    path: namespaces/openshift-virtualization-images
+    path: namespaces/openshift-virtualization-os-images
   syncPolicy:
     automated:
       prune: true

@@ -387,3 +387,4 @@ rules:
     resources: 
       - virtualmachines
       - virtualmachineinstances
+      - virtualmachine-validator

@@ -17,7 +17,7 @@ resources:
 - argocd/namespace-ansible-automation-platform.yaml
 # OpenShift Virtualization (Used to host Instana Instance)
 - argocd/namespace-openshift-virtualization.yaml
-- argocd/namespace-openshift-virtualization-images.yaml
+- argocd/namespace-openshift-virtualization-os-images.yaml
 - argocd/namespace-openshift-virtualization-virtual-machines.yaml
 # IBM Infrastruture Automation aka MCM
 - argocd/namespace-ibm-infra-automation.yaml

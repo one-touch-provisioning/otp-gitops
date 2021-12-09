@@ -64,7 +64,7 @@ patches:
       value: https://github.com/rampadc/otp-gitops-services.git
     - op: add
       path: /spec/source/targetRevision
-      value: master
+      value: feat-console-link
 - target:
     group: argoproj.io
     kind: Application

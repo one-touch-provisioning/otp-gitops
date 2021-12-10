@@ -388,3 +388,9 @@ rules:
       - virtualmachines
       - virtualmachineinstances
       - virtualmachine-validator
+  - verbs:
+    - get
+    apiGroups:
+    - route.openshift.io
+    resources:
+    - routes

@@ -60,6 +60,8 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: openshift-virtualization-virtual-machines
     server: https://kubernetes.default.svc 
+  - namespace: stackrox
+    server: https://kubernetes.default.svc 
   clusterResourceWhitelist:
   - group: ""
     kind: Namespace

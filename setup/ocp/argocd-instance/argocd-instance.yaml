@@ -206,7 +206,7 @@ spec:
       ignoreDifferences: |
         jsonPointers:
         - /status/ingress
-    /ServiceAccount:
+    ServiceAccount:
       ignoreDifferences: |
         jsonPointers:
         - /imagePullSecrets

@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-acs-instance
+  annotations:
+    argocd.argoproj.io/sync-wave: "250"
+  labels:
+    gitops.tier.group: cntk
+    gitops.tier.layer: services
+spec:
+  destination:
+    namespace: stackrox 
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: instances/openshift-acs-instance/aggregate/minimal/
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

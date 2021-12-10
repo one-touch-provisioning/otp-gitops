@@ -388,3 +388,9 @@ rules:
       - virtualmachines
       - virtualmachineinstances
       - virtualmachine-validator
+  - verbs:
+      - '*'
+    apiGroups:
+      - platform.stackrox.io
+    resources: 
+      - '*'

@@ -107,7 +107,7 @@ spec:
           end
         end
         return hs
-    kubevirt.io/VirtualMachineInstance
+    kubevirt.io/VirtualMachineInstance:
       health.lua: |
         hs = { status="Progressing", message="No status available"}
         if obj.status ~= nil then
@@ -206,7 +206,7 @@ spec:
       ignoreDifferences: |
         jsonPointers:
         - /status/ingress
-    /ServiceAccount:
+    ServiceAccount:
       ignoreDifferences: |
         jsonPointers:
         - /imagePullSecrets

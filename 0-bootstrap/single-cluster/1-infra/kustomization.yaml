@@ -31,7 +31,7 @@ resources:
 # - argocd/machinesets.yaml
 # - argocd/infraconfig.yaml
 # OpenShift GitOps console link
-- argocd/consolelink.yaml
+# - argocd/consolelink.yaml
 
 patches:
 - target:

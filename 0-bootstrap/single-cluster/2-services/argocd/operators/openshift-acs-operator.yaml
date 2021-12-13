@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-acs-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "200"
+  labels:
+    gitops.tier.group: cntk
+    gitops.tier.layer: services
+spec:
+  destination:
+    namespace: stackrox 
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: operators/openshift-acs-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

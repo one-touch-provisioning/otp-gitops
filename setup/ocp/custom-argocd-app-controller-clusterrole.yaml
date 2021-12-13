@@ -389,8 +389,8 @@ rules:
       - virtualmachineinstances
       - virtualmachine-validator
   - verbs:
-    - get
+    - '*'
     apiGroups:
-    - route.openshift.io
-    resources:
-    - routes
+      - platform.stackrox.io
+    resources: 
+      - '*'

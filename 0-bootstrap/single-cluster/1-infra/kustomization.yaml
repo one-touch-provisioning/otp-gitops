@@ -30,7 +30,7 @@ resources:
 # - unneeded for IBM Cloud ROKS with ODF add-on configured
 # - argocd/machinesets.yaml
 # - argocd/infraconfig.yaml
-# OpenShift GitOps console link
+# Console link
 - argocd/consolelink.yaml
 
 patches:

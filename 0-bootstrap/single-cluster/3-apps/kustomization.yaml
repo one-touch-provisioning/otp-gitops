@@ -1,42 +1,41 @@
 resources:
-# Enable RHACM to install OpenShift GitOps on Managed Clusters for "Last Mile" Configuration
+ ## Enable RHACM to install OpenShift GitOps on Managed Clusters for "Last Mile" Configuration
  - argocd/managed-openshift-gitops/managed-openshift-gitops.yaml
 
-## Create Pipelines
+ ## Create Pipelines
  - argocd/pipelines/tekton-mcm-gitops.yaml
  - argocd/pipelines/tekton-mcm-providers.yaml
 
-## Create RHACM Credentials
-## Include any Private or Public Cloud Providers you may have
-## Examples have been provided
-# - argocd/infra/providers/rhacm/aws/aws-aus.yaml
-# - argocd/infra/providers/rhacm/azure/azure-aus.yaml
-# - argocd/infra/providers/rhacm/vsphere/vsphere-eltham.yaml
-# - argocd/infra/providers/rhacm/rhocm/rhocm-test.yaml 
+ ## Create RHACM Credentials
+ ## Include any Private or Public Cloud Providers you may have
+ ## Examples have been provided
+ #- argocd/infra/providers/rhacm/aws/aws-aus.yaml
+ #- argocd/infra/providers/rhacm/azure/azure-aus.yaml
+ #- argocd/infra/providers/rhacm/vsphere/vsphere-eltham.yaml
+ #- argocd/infra/providers/rhacm/rhocm/rhocm-test.yaml 
 
-## Discover & Import Existing Clusters (Require RHOCM Credentials to be created and enabled)
-# - argocd/clusters/discover/discover-openshift.yaml
-#
-## Include any Clusters you wish to manually import below
-## Examples have been provided
-# - argocd/clusters/import/ibmcloud/ibmcloud-syd.yaml
-# - argocd/clusters/import/vsphere/ocp-swinney-io.yaml
+ ## Discover & Import Existing Clusters (Require RHOCM Credentials to be created and enabled)
+ #- argocd/clusters/discover/discover-openshift.yaml
+ #
+ ## Include any Clusters you wish to manually import below
+ ## Examples have been provided
+ #- argocd/clusters/import/ibmcloud/ibmcloud-syd.yaml
+ #- argocd/clusters/import/vsphere/ocp-swinney-io.yaml
 
-## Create Clusters
-## Include the Clusters you wish to create below
-## Examples have been provided
-# - argocd/clusters/create/aws/aws-tokyo.yaml
-# - argocd/clusters/create/azure/azure-aus.yaml
-# - argocd/clusters/create/vsphere/vsphere-eltham.yaml
+ ## Create Clusters
+ ## Include the Clusters you wish to create below
+ ## Examples have been provided
+ #- argocd/clusters/create/aws/aws-tokyo.yaml
+ #- argocd/clusters/create/azure/azure-aus.yaml
+ #- argocd/clusters/create/vsphere/vsphere-eltham.yaml
 
-## Create Instana Virtual Machines
-# - argocd/infra/virtual-machines/instana/instana-vm.yaml
+ ## Create Instana Virtual Machines
+ #- argocd/infra/virtual-machines/instana/instana-vm.yaml
 
-
-## Deploy Applications to Managed Clusters
-## Include the Applications you wish to deploy below
-## An example has been provided
-# - argocd/cloudpaks/cp4i/cp4i.yaml
+ ## Deploy Applications to Managed Clusters
+ ## Include the Applications you wish to deploy below
+ ## An example has been provided
+ #- argocd/cloudpaks/cp4i/cp4i.yaml
 
 patches:
 - target:

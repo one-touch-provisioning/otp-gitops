@@ -19,6 +19,8 @@ resources:
 - argocd/namespace-openshift-virtualization.yaml
 - argocd/namespace-openshift-virtualization-os-images.yaml
 - argocd/namespace-openshift-virtualization-virtual-machines.yaml
+# Openshift Advanced Cluster Security
+- argocd/namespace-openshift-acs.yaml
 # IBM Infrastruture Automation aka MCM
 - argocd/namespace-ibm-infra-automation.yaml
 #- argocd/namespace-ibm-cp4mcm.yaml
@@ -30,8 +32,8 @@ resources:
 # - unneeded for IBM Cloud ROKS with ODF add-on configured
 # - argocd/machinesets.yaml
 # - argocd/infraconfig.yaml
-# OpenShift GitOps console link
-# - argocd/consolelink.yaml
+# Console link
+- argocd/consolelink.yaml
 
 patches:
 - target:

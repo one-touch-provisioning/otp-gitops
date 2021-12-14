@@ -29,6 +29,10 @@ resources:
 # - argocd/clusters/create/azure/azure-aus.yaml
 # - argocd/clusters/create/vsphere/vsphere-eltham.yaml
 
+## Create Instana Virtual Machines
+# - argocd/infra/virtual-machines/instana/instana-vm.yaml
+
+
 ## Deploy Applications to Managed Clusters
 ## Include the Applications you wish to deploy below
 ## An example has been provided

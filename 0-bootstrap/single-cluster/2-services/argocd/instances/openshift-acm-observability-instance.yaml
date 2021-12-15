@@ -4,6 +4,7 @@ metadata:
   name: openshift-acm-observability-instance
   annotations:
     argocd.argoproj.io/sync-wave: "260"
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
   labels:
     gitops.tier.group: cntk
     gitops.tier.layer: services

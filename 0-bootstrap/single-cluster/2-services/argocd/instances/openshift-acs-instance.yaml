@@ -13,7 +13,7 @@ spec:
     server: https://kubernetes.default.svc
   project: services
   source:
-    path: instances/openshift-acs-instance/aggregate/minimal/
+    path: instances/openshift-acs-instance/
   syncPolicy:
     automated:
       prune: true

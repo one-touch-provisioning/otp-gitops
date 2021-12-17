@@ -1,12 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: elasticsearch
+  name: elasticsearch-operator
   annotations:
     argocd.argoproj.io/sync-wave: "200"
   labels:
     gitops.tier.group: cntk
     gitops.tier.layer: services
+    gitops.catalog: redhat-cop
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -15,15 +16,9 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: services
   source:
-    path: operators/elasticsearch
-    helm:
-      values: |
-        elasticsearch-operator:
-          clusterType: "ocp4"
-          ocpCatalog:
-            source: redhat-operators
-            channel: "4.6"
-            name: elasticsearch-operator
+    repoURL: https://github.com/redhat-cop/gitops-catalog.git
+    targetRevision: main
+    path: elastisearch-operator/overlays/stable
   syncPolicy:
     automated:
       prune: true

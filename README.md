@@ -2,26 +2,26 @@
 
 ## Elevator Pitch
 
-This asset is our opinionated implementation of the GitOps principles, using the latest and greatest tooling available, to enable the hitting of one big red button (figuratively) to start provisioning a platform that provides Cluster and Virtual Machine Provisioning capabilities, Governence and policy management, observability of Clusters and workloads and finally deployment of IBM Cloud Paks and other applications, all within a single command*.
+This method/pattern is our opinionated implementation of the GitOps principles, using the latest and greatest tooling available, to enable the hitting of one big red button (figuratively) to start provisioning a platform that provides Cluster and Virtual Machine Provisioning capabilities, Governence and policy management, observability of Clusters and workloads and finally deployment of IBM Cloud Paks and other applications, all within a single command*.
 
 - Codified, Repeatable and Auditable.
 
 ![OTP](doc/images/ztp.png)
 *Disclaimer, may actually be more than just one command to type. 😉
 
-The asset is not intended to be used straight into Production, and a lot of assumptions have been made when putting this together. It's main intention is to show the `Art of the Possible`, but it can be used as base to roll your own.
+The method/pattern is not intended to be used straight into Production, and a lot of assumptions have been made when putting this together. It's main intention is to show the `Art of the Possible`, but it can be used as base to roll your own.
 
-Whilst all efforts have been made to provide a complete `One Touch Provisioning` asset, it may not suit every environment and your mileage may vary.
+Whilst all efforts have been made to provide a complete `One Touch Provisioning` method/pattern, it may not suit every environment and your mileage may vary.
 
 ## Shout outs 📣
 
-This asset has been built on the shoulders of giants and leverages the great work and effort undertaken by the [Cloud Native Toolkit - GitOps Production Deployment Guide](https://github.com/cloud-native-toolkit/multi-tenancy-gitops) and [IBM Garage TSA](https://github.com/ibm-garage-tsa/cp4mcm-installer) teams. Without those efforts, then this asset would have struggled to get off the ground.
+This asset has been built on the shoulders of giants and leverages the great work and effort undertaken by the [Cloud Native Toolkit - GitOps Production Deployment Guide](https://github.com/cloud-native-toolkit/multi-tenancy-gitops), [IBM Garage TSA](https://github.com/ibm-garage-tsa/cp4mcm-installer) and [Red Hat Communities of Practice](https://github.com/redhat-cop) teams. Without these efforts, then this asset would have struggled to get off the ground.
 
 The reference architecture for this GitOps workflow can be found [here](https://cloudnativetoolkit.dev/adopting/use-cases/gitops/gitops-ibm-cloud-paks/).  
 
 ## Table of contents
 
-- [One Touch Provisioning for IBM Cloud Pak across Multi Cloud](#one-touch-provisioning-for-ibm-cloud-pak-across-multi-cloud)
+- [One Touch Provisioning across Multi Cloud](#one-touch-provisioning-across-multi-cloud)
   - [Elevator Pitch](#elevator-pitch)
     - [Shout outs](#shout-outs)
   - [Table of contents](#table-of-contents)
@@ -181,11 +181,18 @@ To get an entitlement key:
 
       - Click on "Generate token" and copy your token! You will not get another chance to copy your token and you will need to regenerate if you missed to opportunity.
 
+    - Generate OpenShift GitOps Namespace
+
+       ```bash
+       oc apply -f setup/ocp/openshift-gitops-namespace.yaml
+       ```
+
     - Generate Secret
       - export the GitHub token you copied earlier.
 
         ```bash
         $ export GITHUB_TOKEN=<insert github token>
+        $ export GIT_ORG=<git organisation>
         ```
 
       - Create a secret that will reside within the `openshift-gitops` namespace.
@@ -200,12 +207,13 @@ To get an entitlement key:
           labels:
             argocd.argoproj.io/secret-type: repository
         stringData:
-          url: https://github.com/one-touch-provisioning/otp-gitops
+          url: https://github.com/${GIT_ORG}/otp-gitops
           password: ${GITHUB_TOKEN}
           username: not-used
         EOF
         ```
-      - Repeat the above steps for each of the repositories.
+
+      - Repeat the above steps for `otp-gitops-infra`, `otp-gitops-services` and `otp-gitops-apps` repositories.
 
 4. Clone the repositories locally.
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 ## Script to request infrastructure and storage nodes
 ## Script to install OCS
@@ -23,11 +23,11 @@ popd () {
 }
 
 set +e
-oc version --client | grep '4.7\|4.8'
+oc version --client | grep '4.8\|4.9'
 OC_VERSION_CHECK=$?
 set -e
 if [[ ${OC_VERSION_CHECK} -ne 0 ]]; then
-    echo "Please use oc client version 4.7 or 4.8 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
+    echo "Please use oc client version 4.8 or 4.9 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
 fi
 
 # Check whether in GIT multi-tenancy-gitops
@@ -37,13 +37,13 @@ pushd ${SCRIPTDIR}/..
 if [[ -d "0-bootstrap" ]]; then
     echo "Finding 0-bootstrap directory."
 else
-    echo "Cannot ensure that you are in multi-tenancy-gitops or its copy"
+    echo "Cannot ensure that you are in otp-gitops or its copy"
     exit 100
 fi
 
 popd
 
-# Check whether OpenShift is connected
+# Check if OpenShift is connected
 
 set +e
 if oc cluster-info>/dev/null 2>&1; then
@@ -54,8 +54,6 @@ else
 fi
 set -e
 
-# uncomment the kustomize.yaml - which one?
-
 echo "Applying Infrastructure updates"
 
 pushd ${SCRIPTDIR}/../0-bootstrap/single-cluster/1-infra
@@ -64,12 +62,11 @@ ocpversion=$(oc get clusterversion version | grep -v NAME | awk '{print $2}')
 a=( ${ocpversion//./ } )
 majorVer="${a[0]}.${a[1]}"
 installconfig=$(oc get configmap cluster-config-v1 -n kube-system -o jsonpath='{.data.install-config}')
-managed1=$(echo $installconfig|grep 'api.openshift.com/managed')
-
-if [[ $managed1 =~ "true" ]]; then
-    managed=true
+if echo $installconfig|grep 'api.openshift.com/managed';then
+    managed1=$(echo "${installconfig}" | grep "api.openshift.com\/managed" | cut -d":" -f2  )
+    managed=${managed1:-"false"}
 else
-    managed=false
+    managed="false"
 fi
 
 infraID=$(oc get -o jsonpath='{.status.infrastructureName}' infrastructure cluster)

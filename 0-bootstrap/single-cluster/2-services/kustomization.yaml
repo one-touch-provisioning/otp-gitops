@@ -85,3 +85,14 @@ patches:
       value:
         name: spec.channel
         value: v1.1
+- target:
+    name: kiali-operator
+    kind: Application
+    labelSelector: "gitops.tier.layer=services"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: https://github.com/redhat-cop/gitops-catalog.git
+    - op: add
+      path: /spec/source/targetRevision
+      value: main

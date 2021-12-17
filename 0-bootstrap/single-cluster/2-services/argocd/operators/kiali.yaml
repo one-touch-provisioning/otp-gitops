@@ -7,7 +7,6 @@ metadata:
   labels:
     gitops.tier.group: cntk
     gitops.tier.layer: services
-    gitops.catalog: redhat-cop
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -16,9 +15,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: services
   source:
-    repoURL: https://github.com/redhat-cop/gitops-catalog.git
-    targetRevision: main
-    path: kiali-operator/overlays/stable
+    path: operators/kiali-operator/overlays/stable
   syncPolicy:
     automated:
       prune: true

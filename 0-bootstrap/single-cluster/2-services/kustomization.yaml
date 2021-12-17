@@ -69,10 +69,10 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_SERVICES}
+      value: https://github.com/rampadc/otp-gitops-services.git
     - op: add
       path: /spec/source/targetRevision
-      value: ${GIT_GITOPS_BRANCH}
+      value: feat-ossm
 - target:
     group: argoproj.io
     kind: Application
@@ -80,7 +80,7 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: ${HELM_REPOURL}
+      value: https://charts.cloudnativetoolkit.dev
 - target:
     name: ibm-automation-foundation-operator
   patch: |-
@@ -89,13 +89,3 @@ patches:
       value:
         name: spec.channel
         value: v1.1
-- target:
-    kind: Application
-    labelSelector: "gitops.catalog=redhat-cop"
-  patch: |-
-    - op: add
-      path: /spec/source/repoURL
-      value: https://github.com/redhat-cop/gitops-catalog.git
-    - op: add
-      path: /spec/source/targetRevision
-      value: main

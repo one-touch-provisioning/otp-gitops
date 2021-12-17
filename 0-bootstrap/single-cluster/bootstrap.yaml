@@ -11,7 +11,7 @@ spec:
   source:
     path: 0-bootstrap/single-cluster
     repoURL: https://github.com/rampadc/otp-gitops.git
-    targetRevision: master
+    targetRevision: feat-ossm
   syncPolicy:
     automated:
       prune: true

@@ -12,6 +12,7 @@ spec:
   destination:
     namespace: istio-system
     server: https://kubernetes.default.svc
+  project: services
   source:
     repoURL: https://github.com/redhat-cop/gitops-catalog.git
     targetRevision: main

@@ -25,6 +25,8 @@ resources:
  - argocd/namespace-ibm-infra-automation.yaml
  # RHSSO
  - argocd/namespace-sso.yaml
+ # OpenShift Service Mesh
+ - argocd/namespace-ossm.yaml
  #- argocd/namespace-ibm-cp4mcm.yaml
  # OpenShift Data Foundation aka OpenShift Container Storage
  #- unneeded for IBM Cloud ROKS with ODF add-on configured

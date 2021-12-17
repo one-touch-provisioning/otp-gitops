@@ -15,15 +15,9 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: services
   source:
-    path: operators/kiali
-    helm:
-      values: |
-        kiali-operator:
-          clusterType: "ocp4"
-          ocpCatalog:
-            source: redhat-operators
-            channel: stable
-            name: kiali-ossm
+    repoURL: https://github.com/redhat-cop/gitops-catalog.git
+    targetRevision: main
+    path: kiali-operator/overlays/stable
   syncPolicy:
     automated:
       prune: true

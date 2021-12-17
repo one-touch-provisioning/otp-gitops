@@ -43,9 +43,6 @@ patches:
     - op: add
       path: /spec/sourceRepos/-
       value: https://github.com/rampadc/otp-gitops-services.git
-    - op: add
-      path: /spec/sourceRepos/-
-      value: https://github.com/redhat-cop/gitops-catalog.git
 - target:
     group: argoproj.io
     kind: AppProject

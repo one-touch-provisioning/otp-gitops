@@ -13,7 +13,7 @@ patches:
       value: https://github.com/rampadc/otp-gitops.git
     - op: add
       path: /spec/source/targetRevision
-      value: feat-ossm
+      value: master
 - target:
     group: argoproj.io
     kind: AppProject

@@ -30,7 +30,7 @@ resources:
  - argocd/operators/jaeger.yaml
  - argocd/operators/kiali.yaml
  - argocd/operators/openshift-service-mesh.yaml
- #- argocd/instances/openshift-service-mesh-instance.yaml
+ - argocd/instances/openshift-service-mesh-instance.yaml
 
  # MultiCloud Management / Red Hat Advanced Cluster Management
  - argocd/operators/openshift-acm.yaml

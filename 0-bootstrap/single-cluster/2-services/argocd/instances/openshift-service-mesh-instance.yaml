@@ -7,13 +7,15 @@ metadata:
   labels:
     gitops.tier.group: cntk
     gitops.tier.layer: services
+    gitops.catalog: redhat-cop
 spec:
   destination:
     namespace: istio-system
     server: https://kubernetes.default.svc
-  project: services
   source:
-    path: instances/service-mesh
+    repoURL: https://github.com/redhat-cop/gitops-catalog.git
+    targetRevision: main
+    path: openshift-servicemesh/instance/overlays/default
   syncPolicy:
     automated:
       prune: true

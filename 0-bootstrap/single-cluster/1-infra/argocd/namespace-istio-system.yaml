@@ -12,7 +12,7 @@ spec:
     server: https://kubernetes.default.svc
   project: infra
   source:
-    path: namespaces/openshift-servicemesh
+    path: namespaces/openshift-istio-system
   syncPolicy:
     automated:
       prune: true

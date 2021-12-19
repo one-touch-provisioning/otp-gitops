@@ -9,7 +9,7 @@ resources:
  ## Create RHACM Credentials
  ## Include any Private or Public Cloud Providers you may have
  ## Examples have been provided
- #- argocd/infra/providers/rhacm/aws/aws-aus.yaml
+ - argocd/infra/providers/rhacm/aws/aws-aus.yaml
  #- argocd/infra/providers/rhacm/azure/azure-aus.yaml
  #- argocd/infra/providers/rhacm/vsphere/vsphere-eltham.yaml
  #- argocd/infra/providers/rhacm/rhocm/rhocm-test.yaml 
@@ -28,6 +28,7 @@ resources:
  #- argocd/clusters/create/aws/aws-tokyo.yaml
  #- argocd/clusters/create/azure/azure-aus.yaml
  #- argocd/clusters/create/vsphere/vsphere-eltham.yaml
+ - argocd/clusters/create/aws/aws-aus.yaml
 
  ## Create Instana Virtual Machines
  #- argocd/infra/virtual-machines/instana/instana-vm.yaml
@@ -45,7 +46,7 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_APPLICATIONS}
+      value: https://github.com/rampadc/otp-gitops-apps.git
     - op: add
       path: /spec/source/targetRevision
-      value: ${GIT_GITOPS_BRANCH}
+      value: master

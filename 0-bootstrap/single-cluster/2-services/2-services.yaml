@@ -54,7 +54,11 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: stackrox
     server: https://kubernetes.default.svc
+  - namespace: openshift-operators-redhat
+    server: https://kubernetes.default.svc
   - namespace: sso
+    server: https://kubernetes.default.svc
+  - namespace: istio-system
     server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   # TODO: SCC needs to be moved to 1-infra, here for now for artifactory

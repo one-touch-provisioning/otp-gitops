@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: jaeger
+  name: jaeger-operator
   annotations:
     argocd.argoproj.io/sync-wave: "200"
   labels:
@@ -15,15 +15,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: services
   source:
-    path: operators/jaeger
-    helm:
-      values: |
-        jaeger-operator:
-        clusterType: "ocp4"
-        ocpCatalog:
-          source: redhat-operators
-          channel: 2.3
-          name: jaeger-product
+    path: operators/jaeger-operator/overlays/stable
   syncPolicy:
     automated:
       prune: true

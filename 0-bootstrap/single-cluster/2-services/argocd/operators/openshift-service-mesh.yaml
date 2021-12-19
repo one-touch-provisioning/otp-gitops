@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: openshift-service-mesh
   annotations:
-    argocd.argoproj.io/sync-wave: "200"
+    argocd.argoproj.io/sync-wave: "201"
   labels:
     gitops.tier.group: service-mesh
     gitops.tier.layer: services
@@ -15,7 +15,7 @@ spec:
     server: https://kubernetes.default.svc
   project: services
   source:
-    path: operators/openshift-service-mesh
+    path: operators/openshift-servicemesh/overlays/stable
   syncPolicy:
     automated:
       prune: true

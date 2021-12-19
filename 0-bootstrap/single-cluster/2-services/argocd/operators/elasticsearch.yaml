@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: elasticsearch
+  name: elasticsearch-operator
   annotations:
     argocd.argoproj.io/sync-wave: "200"
   labels:
@@ -15,15 +15,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: services
   source:
-    path: operators/elasticsearch
-    helm:
-      values: |
-        elasticsearch-operator:
-          clusterType: "ocp4"
-          ocpCatalog:
-            source: redhat-operators
-            channel: "4.6"
-            name: elasticsearch-operator
+    path: operators/elasticsearch-operator/overlays/stable
   syncPolicy:
     automated:
       prune: true

@@ -64,6 +64,10 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: sso
     server: https://kubernetes.default.svc
+  - namespace: openshift-operators-redhat
+    server: https://kubernetes.default.svc
+  - namespace: istio-system
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ""
     kind: Namespace

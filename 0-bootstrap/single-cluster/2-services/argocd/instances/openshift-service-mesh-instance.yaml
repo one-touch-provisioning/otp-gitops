@@ -13,7 +13,7 @@ spec:
     server: https://kubernetes.default.svc
   project: services
   source:
-    path: instances/service-mesh
+    path: instances/openshift-servicemesh/overlays/default
   syncPolicy:
     automated:
       prune: true

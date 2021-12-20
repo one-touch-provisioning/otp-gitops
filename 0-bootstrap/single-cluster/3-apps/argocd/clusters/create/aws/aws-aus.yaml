@@ -23,7 +23,7 @@ spec:
       values: |
         cluster: aws-cluster-au
         type: aws
-        imageName: img4.8.19-x86-64-appsub
+        imageName: img4.8.24-x86-64-appsub
 
         provider:
             region: ap-northeast-1

@@ -3,13 +3,13 @@ resources:
  - argocd/managed-openshift-gitops/managed-openshift-gitops.yaml
 
  ## Create Pipelines
- - argocd/pipelines/tekton-mcm-gitops.yaml
- - argocd/pipelines/tekton-mcm-providers.yaml
+#  - argocd/pipelines/tekton-mcm-gitops.yaml
+#  - argocd/pipelines/tekton-mcm-providers.yaml
 
  ## Create RHACM Credentials
  ## Include any Private or Public Cloud Providers you may have
  ## Examples have been provided
- - argocd/infra/providers/rhacm/aws/aws-aus.yaml
+#  - argocd/infra/providers/rhacm/aws/aws-aus.yaml
  #- argocd/infra/providers/rhacm/azure/azure-aus.yaml
  #- argocd/infra/providers/rhacm/vsphere/vsphere-eltham.yaml
  #- argocd/infra/providers/rhacm/rhocm/rhocm-test.yaml 

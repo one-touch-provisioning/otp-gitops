@@ -29,7 +29,7 @@ resources:
  #- argocd/clusters/create/azure/azure-aus.yaml
  #- argocd/clusters/create/vsphere/vsphere-eltham.yaml
  - argocd/clusters/create/aws/aws-cluster-2.yaml
- - argocd/clusters/create/aws/aws-cluster-3.yaml
+#  - argocd/clusters/create/aws/aws-cluster-3.yaml
 #  - argocd/clusters/create/aws/aws-cluster-4.yaml
 #  - argocd/clusters/create/aws/aws-cluster-5.yaml
 #  - argocd/clusters/create/aws/aws-cluster-6.yaml

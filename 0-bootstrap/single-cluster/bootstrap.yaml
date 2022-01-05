@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     path: 0-bootstrap/single-cluster
-    repoURL: https://github.com/rampadc/otp-gitops.git
+    repoURL: https://github.com/otp-gitops-2/otp-gitops.git
     targetRevision: master
   syncPolicy:
     automated:

@@ -38,8 +38,8 @@ resources:
  #- argocd/infra/virtual-machines/instana/instana-vm.yaml
 
  - argocd/clusters/submariner/create-managed-clusterset.yaml
- - argocd/clusters/submariner/add-clusters-to-clusterset.yaml
- - argocd/clusters/submariner/deploy-submariner.yaml
+#  - argocd/clusters/submariner/add-clusters-to-clusterset.yaml
+#  - argocd/clusters/submariner/deploy-submariner.yaml
 
  ## Deploy Applications to Managed Clusters
  ## Include the Applications you wish to deploy below

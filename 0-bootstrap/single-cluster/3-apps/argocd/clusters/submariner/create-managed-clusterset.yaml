@@ -15,8 +15,9 @@ spec:
   project: applications
   source:
     path: clusters/submariner/create-managed-clusterset/
-    # declare resources in ottp-gitops-apps?
-
+    helm:
+      values: |
+        name: "submariner-clusterset-test"
   syncPolicy:
     automated:
       prune: true

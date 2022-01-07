@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-cluster-add-managed-clusterset
+  name: apps-add-clusters-to-managed-clusterset
   annotations:
     argocd.argoproj.io/sync-wave: "410"
   labels:
@@ -15,7 +15,10 @@ spec:
   project: applications
   source:
     path: clusters/submariner/add-clusters/
-    # so using app of apps we declare the actual resources in otp-gitops-apps??
+    helm:
+      values: |
+        clusterList: "aws-cluster-0 aws-cluster-2"
+        clusterSet: "submariner-clusterset-test"
   syncPolicy:
     automated:
       prune: true

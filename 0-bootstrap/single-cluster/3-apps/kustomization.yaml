@@ -3,13 +3,13 @@ resources:
  - argocd/managed-openshift-gitops/managed-openshift-gitops.yaml
 
  ## Create Pipelines
- - argocd/pipelines/tekton-mcm-gitops.yaml
- - argocd/pipelines/tekton-mcm-providers.yaml
+#  - argocd/pipelines/tekton-mcm-gitops.yaml
+#  - argocd/pipelines/tekton-mcm-providers.yaml
 
  ## Create RHACM Credentials
  ## Include any Private or Public Cloud Providers you may have
  ## Examples have been provided
- #- argocd/infra/providers/rhacm/aws/aws-aus.yaml
+#  - argocd/infra/providers/rhacm/aws/aws-aus.yaml
  #- argocd/infra/providers/rhacm/azure/azure-aus.yaml
  #- argocd/infra/providers/rhacm/vsphere/vsphere-eltham.yaml
  #- argocd/infra/providers/rhacm/rhocm/rhocm-test.yaml 
@@ -28,6 +28,11 @@ resources:
  #- argocd/clusters/create/aws/aws-tokyo.yaml
  #- argocd/clusters/create/azure/azure-aus.yaml
  #- argocd/clusters/create/vsphere/vsphere-eltham.yaml
+ - argocd/clusters/create/aws/aws-cluster-2.yaml
+ - argocd/clusters/create/aws/aws-cluster-3.yaml
+ - argocd/clusters/create/aws/aws-cluster-4.yaml
+#  - argocd/clusters/create/aws/aws-cluster-5.yaml
+#  - argocd/clusters/create/aws/aws-cluster-6.yaml
 
  ## Create Instana Virtual Machines
  #- argocd/infra/virtual-machines/instana/instana-vm.yaml

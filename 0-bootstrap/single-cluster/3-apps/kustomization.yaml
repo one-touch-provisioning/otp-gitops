@@ -1,6 +1,6 @@
 resources:
  ## Enable RHACM to install OpenShift GitOps on Managed Clusters for "Last Mile" Configuration
- - argocd/managed-openshift-gitops/managed-openshift-gitops.yaml
+ # - argocd/managed-openshift-gitops/managed-openshift-gitops.yaml
 
  ## Create Pipelines
 #  - argocd/pipelines/tekton-mcm-gitops.yaml
@@ -29,14 +29,18 @@ resources:
  #- argocd/clusters/create/azure/azure-aus.yaml
  #- argocd/clusters/create/vsphere/vsphere-eltham.yaml
  - argocd/clusters/create/aws/aws-cluster-2.yaml
- - argocd/clusters/create/aws/aws-cluster-3.yaml
- - argocd/clusters/create/aws/aws-cluster-4.yaml
+#  - argocd/clusters/create/aws/aws-cluster-3.yaml
+#  - argocd/clusters/create/aws/aws-cluster-4.yaml
 #  - argocd/clusters/create/aws/aws-cluster-5.yaml
 #  - argocd/clusters/create/aws/aws-cluster-6.yaml
 
  ## Create Instana Virtual Machines
  #- argocd/infra/virtual-machines/instana/instana-vm.yaml
 
+ - argocd/clusters/submariner/create-managed-clusterset.yaml
+ # - argocd/clusters/submariner/add-clusters-to-clusterset.yaml
+ 
+ - argocd/clusters/submariner/deploy-submariner.yaml
  ## Deploy Applications to Managed Clusters
  ## Include the Applications you wish to deploy below
  ## An example has been provided

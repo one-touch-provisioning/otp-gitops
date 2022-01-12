@@ -33,12 +33,13 @@ resources:
 #  - argocd/clusters/create/aws/aws-cluster-4.yaml
 #  - argocd/clusters/create/aws/aws-cluster-5.yaml
 #  - argocd/clusters/create/aws/aws-cluster-6.yaml
+  - argocd/clusters/create/aws/aws-cluster-shared-0.yaml
 
  ## Create Instana Virtual Machines
  #- argocd/infra/virtual-machines/instana/instana-vm.yaml
 
-#  - argocd/clusters/submariner/create-managed-clusterset.yaml
- # - argocd/clusters/submariner/add-clusters-to-clusterset.yaml
+  - argocd/clusters/submariner/create-managed-clusterset.yaml
+  - argocd/clusters/submariner/add-clusters-to-clusterset.yaml
  
 #  - argocd/clusters/submariner/deploy-submariner.yaml
  ## Deploy Applications to Managed Clusters

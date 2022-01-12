@@ -18,8 +18,8 @@ spec:
     helm:
       values: |
         clusterList: 
-          - "aws-cluster-0" 
-          - "aws-cluster-2"
+          - "aws-cluster-shared-0"
+          - "aws-cluster-shared-1"
   syncPolicy:
     automated:
       prune: true

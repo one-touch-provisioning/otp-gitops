@@ -17,7 +17,7 @@ spec:
     path: clusters/submariner/create-managed-clusterset/
     helm:
       values: |
-        name: "submariner-clusterset-test"
+        name: "azure-aws-clusterset"
   syncPolicy:
     automated:
       prune: true

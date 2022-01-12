@@ -17,10 +17,13 @@ spec:
     path: clusters/submariner/deploy-submariner/
     helm:
       values: |
-        clusterList: 
-          - "aws-cluster-shared-0"
-          - "aws-cluster-shared-1"
+        clustersList: 
+        - aws-cluster-shared-0
+        - aws-cluster-shared-1
+        awsClustersList: 
+        - aws-cluster-shared-0
+        - aws-cluster-shared-1
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
+      selfHeal: true

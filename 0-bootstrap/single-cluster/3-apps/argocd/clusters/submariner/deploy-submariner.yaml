@@ -18,6 +18,7 @@ spec:
     helm:
       values: |
         clusterList: 
+          - "aws-cluster-shared-0"
           - "aws-cluster-shared-1"
   syncPolicy:
     automated:

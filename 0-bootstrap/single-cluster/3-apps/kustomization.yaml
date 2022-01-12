@@ -33,7 +33,7 @@ resources:
 #  - argocd/clusters/create/aws/aws-cluster-4.yaml
 #  - argocd/clusters/create/aws/aws-cluster-5.yaml
 #  - argocd/clusters/create/aws/aws-cluster-6.yaml
-  # - argocd/clusters/create/aws/aws-cluster-shared-0.yaml
+  - argocd/clusters/create/aws/aws-cluster-shared-0.yaml
   - argocd/clusters/create/aws/aws-cluster-shared-1.yaml
 
  ## Create Instana Virtual Machines

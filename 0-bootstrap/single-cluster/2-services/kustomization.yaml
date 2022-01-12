@@ -54,12 +54,12 @@ resources:
  - argocd/instances/openshift-acs-instance.yaml
 
  # Observability
- - argocd/operators/turbonomic.yaml
+#  - argocd/operators/turbonomic.yaml
  #- argocd/instances/instana-agent.yaml
 
  # RHSSO
  - argocd/operators/rhsso-operator.yaml
- # - argocd/instances/rhsso-instance.yaml
+ - argocd/instances/rhsso-instance.yaml
 
 patches:
 - target:

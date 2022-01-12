@@ -1,14 +1,14 @@
 resources:
  # IBM Foundations / Common Services
- - argocd/operators/ibm-foundations.yaml
- - argocd/instances/ibm-foundational-services-instance.yaml
+#  - argocd/operators/ibm-foundations.yaml
+#  - argocd/instances/ibm-foundational-services-instance.yaml
  # - argocd/operators/ibm-automation-foundation-core-operator.yaml
  # - argocd/operators/ibm-automation-foundation-operator.yaml
  # - argocd/operators/ibm-common-services-mcm.yaml
  # - argocd/instances/ibm-common-services-mcm-instance.yaml
 
  # IBM Catalogs
- - argocd/operators/ibm-catalogs.yaml
+#  - argocd/operators/ibm-catalogs.yaml
 
  # Required for IBM MQ
  #- argocd/instances/openldap.yaml
@@ -38,8 +38,8 @@ resources:
  - argocd/instances/openshift-acm-observability-instance.yaml
  #- argocd/operators/ibm-cp4mcm-operator.yaml
  #- argocd/instances/ibm-cp4mcm-instance.yaml
- - argocd/operators/ibm-infra-automation-operator.yaml
- - argocd/instances/ibm-infra-automation-instance.yaml
+#  - argocd/operators/ibm-infra-automation-operator.yaml
+#  - argocd/instances/ibm-infra-automation-instance.yaml
 
  # Ansible Automation Platform
  - argocd/operators/ansible-automation-platform-operator.yaml

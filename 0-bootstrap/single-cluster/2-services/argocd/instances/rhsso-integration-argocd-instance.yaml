@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhsso-integration-argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "252"
+  labels:
+    gitops.tier.group: cntk
+    gitops.tier.layer: services
+spec:
+  destination:
+    namespace: sso-integration
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: instances/rhsso-integration-argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

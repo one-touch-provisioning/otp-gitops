@@ -25,6 +25,7 @@ resources:
  - argocd/namespace-ibm-infra-automation.yaml
  # RHSSO
  - argocd/namespace-sso.yaml
+ - argocd/namespace-sso-integration.yaml
  # OpenShift Service Mesh
  - argocd/namespace-openshift-operators-redhat.yaml
  - argocd/namespace-istio-system.yaml

@@ -61,6 +61,10 @@ resources:
  - argocd/operators/rhsso-operator.yaml
  - argocd/instances/rhsso-instance.yaml
 
+# RHSSO instance - configs
+ - argocd/instances/rhsso-integration-preprocessing-instance.yaml
+ - argocd/instances/rhsso-integration-argocd-instance.yaml
+
 patches:
 - target:
     group: argoproj.io

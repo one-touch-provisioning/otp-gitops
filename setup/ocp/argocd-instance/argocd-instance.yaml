@@ -53,6 +53,11 @@ spec:
               hs.message = "Managed cluster is added to hub cluster"
               return hs
             end
+            if condition.reason == "ManagedClusterLeaseUpdateStopped" and condition.status == "Unknown" and condition.type == "ManagedClusterConditionAvailable" then
+              hs.status = "Degraded"
+              hs.message = "Managed cluster failed to deploy"
+              return hs
+            end
           end
         end
         hs.status = "Progressing"

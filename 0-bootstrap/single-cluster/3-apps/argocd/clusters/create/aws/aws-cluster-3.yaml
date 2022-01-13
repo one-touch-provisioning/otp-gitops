@@ -48,3 +48,15 @@ spec:
             diskType: io1
             machineType: m5.xlarge
 
+        powerState: Running
+
+        networking:
+          clusterNetwork:
+            - cidr: 10.255.0.0/14 # aws cluster 2 has 10.128.0.0/14
+              hostPrefix: 23
+          machineNetwork:
+          - cidr: 10.0.0.0/16
+          networkType: OpenShiftSDN
+          serviceNetwork:
+          - 172.40.0.0/16  # aws cluster 2 has 172.30.0.0/16
+

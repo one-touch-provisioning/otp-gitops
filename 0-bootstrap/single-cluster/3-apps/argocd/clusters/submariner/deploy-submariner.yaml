@@ -20,9 +20,11 @@ spec:
         clustersList: 
         - aws-cluster-shared-0
         - aws-cluster-shared-1
+        - aws-cluster-shared-2
         awsClustersList: 
         - aws-cluster-shared-0
         - aws-cluster-shared-1
+        - aws-cluster-shared-2
   syncPolicy:
     automated:
       prune: true

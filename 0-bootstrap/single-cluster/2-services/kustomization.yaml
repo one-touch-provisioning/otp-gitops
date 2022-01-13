@@ -62,8 +62,7 @@ resources:
  - argocd/instances/rhsso-instance.yaml
 
  # RHSSO instance - configs
-#  sync-wave: 251
-
+ - argocd/instances/rhsso-integration-preprocessing-instance.yaml
 
 
 patches:

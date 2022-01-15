@@ -401,3 +401,9 @@ rules:
       - platform.stackrox.io
     resources: 
       - '*'
+  - verbs:
+    - '*'
+    apiGroups:
+      - oauth.openshift.io
+    resources: 
+      - 'oauthclients'

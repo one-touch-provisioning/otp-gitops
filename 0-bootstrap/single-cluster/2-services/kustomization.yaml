@@ -61,6 +61,9 @@ resources:
  - argocd/operators/rhsso-operator.yaml
  - argocd/instances/rhsso-instance.yaml
 
+ # OpenShift ACME
+ - argocd/instances/openshift-acme.yaml
+
 patches:
 - target:
     group: argoproj.io

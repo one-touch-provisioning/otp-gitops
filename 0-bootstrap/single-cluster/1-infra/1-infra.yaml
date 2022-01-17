@@ -68,6 +68,8 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: istio-system
     server: https://kubernetes.default.svc
+  - namespace: openshift-acme
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ""
     kind: Namespace

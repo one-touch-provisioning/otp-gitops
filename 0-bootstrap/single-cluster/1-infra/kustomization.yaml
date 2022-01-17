@@ -39,6 +39,8 @@ resources:
  - argocd/infraconfig.yaml
  # Console link
  - argocd/consolelink.yaml
+  # OpenShift Service Mesh
+ - argocd/namespace-openshift-acme.yaml
 
 patches:
 - target:

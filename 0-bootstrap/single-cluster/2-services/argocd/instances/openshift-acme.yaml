@@ -17,4 +17,4 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: true
+      selfHeal: false # Disabling due to letscrypt cert updating overwrites the fields in the config map

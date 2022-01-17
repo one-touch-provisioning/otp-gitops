@@ -61,14 +61,13 @@ resources:
  - argocd/operators/rhsso-operator.yaml
  - argocd/instances/rhsso-instance.yaml
 
-<<<<<<< HEAD
- # OpenShift ACME
- - argocd/instances/openshift-acme.yaml
-=======
 # RHSSO instance - configs
  - argocd/instances/rhsso-integration-preprocessing-instance.yaml
  - argocd/instances/rhsso-integration-argocd-instance.yaml
->>>>>>> eac1e6b3af126fcf06a5c9d939f7c928dc336520
+ 
+ # OpenShift ACME
+ - argocd/instances/openshift-acme.yaml
+
 
 patches:
 - target:

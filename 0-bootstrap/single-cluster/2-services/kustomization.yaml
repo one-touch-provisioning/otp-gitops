@@ -65,10 +65,6 @@ resources:
  - argocd/instances/rhsso-integration-preprocessing-instance.yaml
  - argocd/instances/rhsso-integration-argocd-instance.yaml
 
- # OpenShift ACME
- - argocd/instances/openshift-acme.yaml
-
-
 patches:
 - target:
     group: argoproj.io

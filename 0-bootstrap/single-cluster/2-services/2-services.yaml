@@ -60,6 +60,8 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: sso-integration
     server: https://kubernetes.default.svc
+  - namespace: openshift-authentication
+    server: https://kubernetes.default.svc
   - namespace: istio-system
     server: https://kubernetes.default.svc
   clusterResourceWhitelist:

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rhsso-integration-argocd
+  name: rhsso-integration-hub
   annotations:
     argocd.argoproj.io/sync-wave: "252"
   labels:
@@ -15,7 +15,7 @@ spec:
     server: https://kubernetes.default.svc
   project: services
   source:
-    path: instances/rhsso-integration-argocd
+    path: instances/rhsso-integration-hub
   syncPolicy:
     automated:
       prune: true

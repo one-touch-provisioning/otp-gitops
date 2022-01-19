@@ -22,7 +22,7 @@ spec:
         - aws-cluster-shared-1
         - aws-cluster-shared-2
         - azure-cluster-shared-05
-        - azure-cluster-aus
+        - azure-cluster-shared-06
         awsClustersList: 
         - aws-cluster-shared-0
         - aws-cluster-shared-1

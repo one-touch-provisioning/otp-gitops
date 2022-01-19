@@ -64,6 +64,7 @@ resources:
 # RHSSO instance - configs
  - argocd/instances/rhsso-integration-preprocessing-instance.yaml
  - argocd/instances/rhsso-integration-argocd-instance.yaml
+ - argocd/instances/rhsso-integration-hub-instance.yaml
  
  # OpenShift ACME
  - argocd/instances/openshift-acme.yaml

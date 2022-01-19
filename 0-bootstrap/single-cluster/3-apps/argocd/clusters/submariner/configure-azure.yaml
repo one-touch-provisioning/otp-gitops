@@ -18,7 +18,8 @@ spec:
     helm:
       values: |
         clustersList: 
-        - azure-cluster-shared-06
+          - azure-cluster-shared-06
+          - azure-cluster-shared-5
   syncPolicy:
     automated:
       prune: true

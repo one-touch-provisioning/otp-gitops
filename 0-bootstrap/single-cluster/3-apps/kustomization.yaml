@@ -26,7 +26,7 @@ resources:
  ## Include the Clusters you wish to create below
  ## Examples have been provided
  #- argocd/clusters/create/aws/aws-tokyo.yaml
- #- argocd/clusters/create/azure/azure-aus.yaml
+  - argocd/clusters/create/azure/azure-aus.yaml
  #- argocd/clusters/create/vsphere/vsphere-eltham.yaml
 #  - argocd/clusters/create/aws/aws-cluster-2.yaml
 #  - argocd/clusters/create/aws/aws-cluster-3.yaml
@@ -37,9 +37,10 @@ resources:
   - argocd/clusters/create/aws/aws-cluster-shared-1.yaml
   - argocd/clusters/create/aws/aws-cluster-shared-2.yaml
 
+
  ## Create Instana Virtual Machines
  #- argocd/infra/virtual-machines/instana/instana-vm.yaml
-
+  - argocd/clusters/submariner/configure-azure.yaml
   - argocd/clusters/submariner/create-managed-clusterset.yaml 
   - argocd/clusters/submariner/deploy-submariner.yaml
  ## Deploy Applications to Managed Clusters

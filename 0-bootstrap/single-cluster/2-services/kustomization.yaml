@@ -13,8 +13,8 @@ resources:
  # Required for IBM MQ
  #- argocd/instances/openldap.yaml
  # Required for IBM ACE, IBM MQ
- - argocd/operators/cert-manager.yaml
- - argocd/instances/cert-manager-instance.yaml
+#  - argocd/operators/cert-manager.yaml
+#  - argocd/instances/cert-manager-instance.yaml
 
  # Sealed Secrets
  - argocd/instances/sealed-secrets.yaml
@@ -66,9 +66,6 @@ resources:
  - argocd/instances/rhsso-integration-argocd-instance.yaml
  - argocd/instances/rhsso-integration-hub-instance.yaml
  
- # OpenShift ACME
- - argocd/instances/openshift-acme.yaml
-
 
 patches:
 - target:

@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: apps-configure-azure-for-submariner
   annotations:
-    argocd.argoproj.io/sync-wave: "400"
+    argocd.argoproj.io/sync-wave: "415"
   labels:
     gitops.tier.layer: applications
   finalizers:
@@ -18,7 +18,8 @@ spec:
     helm:
       values: |
         clustersList: 
-        - azure-shared-cluster-06
+        - azure-cluster-03
+        - azure-cluster-shared-06
   syncPolicy:
     automated:
       prune: true

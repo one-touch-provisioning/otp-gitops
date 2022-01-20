@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: apps-cluster-deploy-submariner
   annotations:
-    argocd.argoproj.io/sync-wave: "415"
+    argocd.argoproj.io/sync-wave: "400"
   labels:
     gitops.tier.layer: applications
   finalizers:
@@ -23,6 +23,7 @@ spec:
         - aws-cluster-shared-2
         - azure-cluster-shared-05
         - azure-cluster-shared-06
+        - azure-cluster-03
         awsClustersList: 
         - aws-cluster-shared-0
         - aws-cluster-shared-1

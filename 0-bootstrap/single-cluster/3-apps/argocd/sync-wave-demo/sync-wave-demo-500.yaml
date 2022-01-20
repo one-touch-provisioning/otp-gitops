@@ -22,3 +22,4 @@ spec:
     helm:
       values: |
         syncWave: 500
+        enableNamespace: true

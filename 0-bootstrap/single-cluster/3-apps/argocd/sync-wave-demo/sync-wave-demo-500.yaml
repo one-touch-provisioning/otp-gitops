@@ -22,5 +22,5 @@ spec:
     plugin:
       env:
       - name: SECONDS
-        value: 60
+        value: "60"
     

@@ -21,5 +21,4 @@ spec:
     path: wait
     helm:
       values: |
-        syncWave: 500
         enableNamespace: true

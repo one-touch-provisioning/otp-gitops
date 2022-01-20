@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-sync-wave-demo-500
+  name: apps-sync-wave-demo-0
   annotations:
-    argocd.argoproj.io/sync-wave: "500"
+    argocd.argoproj.io/sync-wave: "300"
   labels:
     gitops.tier.layer: applications
   finalizers:

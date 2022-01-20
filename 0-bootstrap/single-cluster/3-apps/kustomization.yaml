@@ -46,6 +46,10 @@ resources:
  ## Include the Applications you wish to deploy below
  ## An example has been provided
  #- argocd/cloudpaks/cp4i/cp4i.yaml
+ 
+  - argocd/sync-wave-demo/sync-wave-demo-500.yaml
+  - argocd/sync-wave-demo/sync-wave-demo-501.yaml
+
 
 patches:
 - target:

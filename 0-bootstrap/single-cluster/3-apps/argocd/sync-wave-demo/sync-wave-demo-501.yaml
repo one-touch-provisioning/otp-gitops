@@ -19,8 +19,5 @@ spec:
   project: applications
   source:
     path: wait
-    plugin:
-      env:
-      - name: SECONDS
-        value: "60"
+
     

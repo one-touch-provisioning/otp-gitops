@@ -19,5 +19,7 @@ spec:
   project: applications
   source:
     path: wait
-
+    helm:
+      values: |
+        syncWave: 501
     

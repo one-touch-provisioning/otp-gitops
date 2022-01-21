@@ -20,7 +20,6 @@ spec:
         clustersList: 
         - azure-cluster-03
         - azure-cluster-06
-        - azure-cluster-shared-06
   syncPolicy:
     automated:
       prune: true

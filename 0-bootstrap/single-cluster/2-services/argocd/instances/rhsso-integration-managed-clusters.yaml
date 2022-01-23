@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: rhsso-integration-managed-clusters
   annotations:
-    argocd.argoproj.io/sync-wave: "252"
+    argocd.argoproj.io/sync-wave: "253"
   labels:
     gitops.tier.group: cntk
     gitops.tier.layer: services

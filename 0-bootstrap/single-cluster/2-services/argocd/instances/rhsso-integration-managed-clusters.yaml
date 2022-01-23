@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rhsso-integration-hub
+  name: rhsso-integration-managed-clusters
   annotations:
     argocd.argoproj.io/sync-wave: "252"
   labels:

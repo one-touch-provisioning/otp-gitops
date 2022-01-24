@@ -50,7 +50,10 @@ resources:
   - argocd/sync-wave-demo/sync-wave-demo-0.yaml
   - argocd/sync-wave-demo/sync-wave-demo-1.yaml
 
-
+## Sync Wave Dev purposes only.
+  - argocd/sync-wave-dev/first-app.yaml
+  - argocd/sync-wave-dev/second-app.yaml
+  
 patches:
 - target:
     group: argoproj.io

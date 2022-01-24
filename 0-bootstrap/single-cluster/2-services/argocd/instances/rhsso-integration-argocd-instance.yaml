@@ -7,8 +7,6 @@ metadata:
   labels:
     gitops.tier.group: cntk
     gitops.tier.layer: services
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: sso-integration

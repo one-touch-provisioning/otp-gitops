@@ -32,12 +32,12 @@ resources:
  #- argocd/namespace-ibm-cp4mcm.yaml
  # OpenShift Data Foundation aka OpenShift Container Storage
  #- unneeded for IBM Cloud ROKS with ODF add-on configured
- #- argocd/namespace-openshift-storage.yaml
- #- argocd/storage.yaml
+ - argocd/namespace-openshift-storage.yaml
+ - argocd/storage.yaml
  # MachineSets and Infra Nodes
  #- unneeded for IBM Cloud ROKS with ODF add-on configured
- #- argocd/machinesets.yaml
- #- argocd/infraconfig.yaml
+ - argocd/machinesets.yaml
+ - argocd/infraconfig.yaml
  # Console link
  - argocd/consolelink.yaml
 

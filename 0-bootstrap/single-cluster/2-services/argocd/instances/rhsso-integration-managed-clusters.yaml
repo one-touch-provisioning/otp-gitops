@@ -1,32 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-cluster-deploy-submariner
+  name: rhsso-integration-managed-clusters
   annotations:
-    argocd.argoproj.io/sync-wave: "400"
+    argocd.argoproj.io/sync-wave: "253"
   labels:
-    gitops.tier.layer: applications
+    gitops.tier.group: cntk
+    gitops.tier.layer: services
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: sso-integration
     server: https://kubernetes.default.svc
-  project: applications
+  project: services
   source:
-    path: clusters/submariner/deploy-submariner/
+    path: instances/rhsso-integration-managed-clusters
     helm:
       values: |
         clustersList: 
         - aws-cluster-shared-0
         - aws-cluster-shared-1
         - aws-cluster-shared-2
-        - azure-cluster-03
+        - aws-cluster-shared-03
         - azure-cluster-06
-        awsClustersList: 
-        - aws-cluster-shared-0
-        - aws-cluster-shared-1
-        - aws-cluster-shared-2
   syncPolicy:
     automated:
       prune: true

@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-cluster-deploy-submariner
+  name: apps-configure-azure-for-submariner
   annotations:
-    argocd.argoproj.io/sync-wave: "400"
+    argocd.argoproj.io/sync-wave: "415"
   labels:
     gitops.tier.layer: applications
   finalizers:
@@ -14,19 +14,12 @@ spec:
     server: https://kubernetes.default.svc
   project: applications
   source:
-    path: clusters/submariner/deploy-submariner/
+    path: clusters/submariner/configure-azure/
     helm:
       values: |
         clustersList: 
-        - aws-cluster-shared-0
-        - aws-cluster-shared-1
-        - aws-cluster-shared-2
         - azure-cluster-03
         - azure-cluster-06
-        awsClustersList: 
-        - aws-cluster-shared-0
-        - aws-cluster-shared-1
-        - aws-cluster-shared-2
   syncPolicy:
     automated:
       prune: true

@@ -22,8 +22,8 @@ spec:
           infrastructureId: "${INFRASTRUCTURE_ID}"
           # cloudProvider.name set to aws, azure or vsphere
           cloudProvider:
-            name: "${PLATFORM}" 
-            managed: ${MANAGED} 
+            name: "${PLATFORM}"
+            managed: ${MANAGED}
           # only for "aws" or "azure" maybe "gcp"
           cloud:
             region: ${REGION}

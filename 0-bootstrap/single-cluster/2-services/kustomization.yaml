@@ -67,6 +67,9 @@ resources:
  - argocd/instances/rhsso-integration-hub-instance.yaml
  - argocd/instances/rhsso-integration-managed-clusters.yaml
 
+ # Global load balancer operator
+ - argocd/operators/global-load-balancer-operator.yaml
+
 patches:
 - target:
     group: argoproj.io

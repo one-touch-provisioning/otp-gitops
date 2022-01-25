@@ -49,7 +49,7 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: https://github.com/otp-az-sub/otp-gitops-infra.git
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_INFRA}
     - op: add
       path: /spec/source/targetRevision
-      value: master
+      value: ${GIT_GITOPS_BRANCH}

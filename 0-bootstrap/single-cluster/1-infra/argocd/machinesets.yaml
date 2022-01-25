@@ -19,15 +19,15 @@ spec:
     helm:
       values: |
         refarch-machinesets:
-          infrastructureId: hub-kqpvq
+          infrastructureId: "${INFRASTRUCTURE_ID}"
           # cloudProvider.name set to aws, azure or vsphere
           cloudProvider:
-            name: azure
-            managed: false
+            name: "${PLATFORM}"
+            managed: ${MANAGED}
           # only for "aws" or "azure" maybe "gcp"
           cloud:
-            region: australiaeast
-            image: rhcos-48.84.202109241901-0-azure.x86_64.vhd
+            region: ${REGION}
+            image: ${IMAGE_NAME}
             cloudpakNodes:
               nodeCount: 1
           # only for "vsphere" - ignored for other

@@ -241,6 +241,9 @@ To get an entitlement key:
     git push origin master
     ```
 
+7. Create vault token when the vault is ready
+VAULT_TOKEN=${VAULT_TOKEN} ./scripts/setup-vault-token.sh
+
 ## Install and configure OpenShift GitOps
 
 - [Red Hat OpenShift GitOps](https://docs.openshift.com/container-platform/4.8/cicd/gitops/understanding-openshift-gitops.html) uses [Argo CD](https://argoproj.github.io/argo-cd/), an open-source declarative tool, to maintain and reconcile cluster resources.

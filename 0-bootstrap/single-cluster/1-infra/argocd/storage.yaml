@@ -19,9 +19,9 @@ spec:
     helm:
       values: |
         ocs-operator:
-          channel: stable-4.8
+          channel: ${CHANNEL}
           sizeGiB: 512
-          storageClass: managed-premium
+          storageClass: ${STORCLASS}
           argo:
             namespace: openshift-gitops
             serviceAccount: openshift-gitops-cntk-argocd-application-controller

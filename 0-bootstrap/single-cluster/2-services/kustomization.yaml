@@ -66,6 +66,7 @@ resources:
  - argocd/instances/rhsso-integration-argocd-instance.yaml
  - argocd/instances/rhsso-integration-hub-instance.yaml
  - argocd/instances/rhsso-integration-managed-clusters.yaml
+ - argocd/instances/rhsso-integration-azure-instance.yaml
 
  # Global load balancer operator
  - argocd/operators/global-load-balancer-operator.yaml

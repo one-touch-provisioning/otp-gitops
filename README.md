@@ -242,7 +242,9 @@ To get an entitlement key:
     ```
 
 7. Create vault token when the vault is ready
+```bash
 VAULT_TOKEN=${VAULT_TOKEN} ./scripts/setup-vault-token.sh
+```
 
 ## Install and configure OpenShift GitOps
 

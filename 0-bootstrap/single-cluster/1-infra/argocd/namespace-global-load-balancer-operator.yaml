@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespace-global-load-balancer-operator
+  namespace: openshift-gitops
+  labels:
+    gitops.tier.layer: infra
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+spec:
+  destination:
+    namespace: global-load-balancer-operator
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    path: namespaces/global-load-balancer-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -41,6 +41,9 @@ resources:
  # Console link
  - argocd/consolelink.yaml
 
+ # Global load balancer
+ - argocd/namespace-global-load-balancer-operator.yaml
+
 patches:
 - target:
     group: argoproj.io

@@ -70,6 +70,8 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: istio-system
     server: https://kubernetes.default.svc
+  - namespace: global-load-balancer-operator
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ""
     kind: Namespace

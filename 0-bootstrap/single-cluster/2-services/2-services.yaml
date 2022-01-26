@@ -60,9 +60,9 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: sso-integration
     server: https://kubernetes.default.svc
-  - namespace: openshift-authentication
-    server: https://kubernetes.default.svc
   - namespace: istio-system
+    server: https://kubernetes.default.svc
+  - namespace: cert-manager 
     server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   # TODO: SCC needs to be moved to 1-infra, here for now for artifactory

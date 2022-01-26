@@ -61,7 +61,7 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: https://github.com/otp-demo/otp-gitops-apps.git
+      value: https://${GIT_BASEURL}/${GIT_ORG}/otp-gitops-apps.git
     - op: add
       path: /spec/source/targetRevision
-      value: master
+      value: ${GIT_GITOPS_BRANCH}

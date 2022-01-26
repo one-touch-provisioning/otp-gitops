@@ -76,10 +76,10 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: https://github.com/otp-demo/otp-gitops-services.git
+      value: https://${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_SERVICES}
     - op: add
       path: /spec/source/targetRevision
-      value: master
+      value: ${GIT_GITOPS_BRANCH}
 - target:
     group: argoproj.io
     kind: Application
@@ -87,7 +87,7 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: https://charts.cloudnativetoolkit.dev
+      value: ${HELM_REPOURL}
 - target:
     name: ibm-automation-foundation-operator
   patch: |-

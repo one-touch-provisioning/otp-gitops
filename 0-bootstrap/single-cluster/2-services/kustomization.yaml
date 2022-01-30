@@ -19,8 +19,11 @@ resources:
  - argocd/operators/cert-manager.yam
  - argocd/instances/cert-manager.yaml
 
- # Sealed Secrets
+ # Secrets Managment
  - argocd/instances/sealed-secrets.yaml
+ - argocd/operator/external-secrets.yaml
+ - argocd/instances/external-secrets.yaml
+
 
  # CICD
  #- argocd/operators/grafana-operator.yaml

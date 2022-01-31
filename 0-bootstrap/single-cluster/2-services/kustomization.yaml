@@ -16,7 +16,7 @@ resources:
  #- argocd/instances/cert-manager-instance.yaml
  
  # Certificate Management
- - argocd/operators/cert-manager.yam
+ - argocd/operators/cert-manager.yaml
  - argocd/instances/cert-manager.yaml
 
  # Secrets Managment

@@ -14,7 +14,7 @@ spec:
     server: https://kubernetes.default.svc
   project: applications
   source:
-    path: tenents/cloudpaks/cp4i
+    path: tenants/cloudpaks/cp4i
   syncPolicy:
     automated:
       prune: true

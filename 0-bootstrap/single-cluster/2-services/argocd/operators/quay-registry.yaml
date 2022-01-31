@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: openshift-acm-operator
+  name: quay-registery-operator
   annotations:
     argocd.argoproj.io/sync-wave: "200"
   labels:
@@ -11,11 +11,11 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: open-cluster-management
+    namespace: openshift-gitops
     server: https://kubernetes.default.svc
   project: services
   source:
-    path: operators/openshift-acm
+    path: operators/quay-registry
   syncPolicy:
     automated:
       prune: true

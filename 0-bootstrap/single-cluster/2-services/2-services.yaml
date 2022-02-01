@@ -8,6 +8,8 @@ metadata:
 spec:
   sourceRepos: [] # Populated by kustomize patches in 2-services/kustomization.yaml
   destinations:
+  - namespace: '*'
+    server: https://kubernetes.default.svc
   - namespace: tools
     server: https://kubernetes.default.svc
   - namespace: ibm-common-services
@@ -102,6 +104,19 @@ spec:
     kind: objectbucketclaims
   - group: "automationcontroller.ansible.com" 
     kind: automationcontrollers
+  - group: ""
+    kind: Namespace
+  - group: "admissionregistration.k8s.io"   #added for cert-manager
+    kind: MutatingWebhookConfiguration
+  - group: "admissionregistration.k8s.io"   #added for cert-manager
+    kind: ValidatingWebhookConfiguration
+  - group: "cert-manager.io"
+    kind: ClusterIssuer
+  - group: "cert-manager.io"
+    kind: Issuer 
+  - group: "cert-manager.io"
+    kind: Certificate 
+  
   roles:
   # A role which provides read-only access to all applications in the project
   - name: read-only

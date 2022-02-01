@@ -30,11 +30,11 @@ resources:
  - argocd/operators/openshift-pipelines.yaml
 
  # Service Mesh
- - argocd/operators/elasticsearch.yaml
- - argocd/operators/jaeger.yaml
- - argocd/operators/kiali.yaml
- - argocd/operators/openshift-service-mesh.yaml
- - argocd/instances/openshift-service-mesh-instance.yaml
+ #- argocd/operators/elasticsearch.yaml
+ #- argocd/operators/jaeger.yaml
+ #- argocd/operators/kiali.yaml
+ #- argocd/operators/openshift-service-mesh.yaml
+ #- argocd/instances/openshift-service-mesh-instance.yaml
 
  # MultiCloud Management / Red Hat Advanced Cluster Management
  - argocd/operators/openshift-acm.yaml
@@ -49,16 +49,16 @@ resources:
  - argocd/operators/ansible-automation-platform-operator.yaml
  - argocd/instances/ansible-automation-platform-instance.yaml
 
- # OpenShift Virtualization (Used to host instana instance)
- - argocd/operators/openshift-virtualization.yaml
- - argocd/instances/openshift-virtualization-instance.yaml
+ # OpenShift Virtualization (Can be used to host instana instance)
+ #- argocd/operators/openshift-virtualization.yaml
+ #- argocd/instances/openshift-virtualization-instance.yaml
 
  # OpenShift Advanced Cluster Security (aka Stackrox)
  - argocd/operators/openshift-acs-operator.yaml
  - argocd/instances/openshift-acs-instance.yaml
 
  # Observability
-#  - argocd/operators/turbonomic.yaml
+ #- argocd/operators/turbonomic.yaml
  #- argocd/instances/instana-agent.yaml
 
 #  # RHSSO

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-cluster-aws-cluster-4
+  name: apps-cluster-aws-cluster-1
   annotations:
     argocd.argoproj.io/sync-wave: "350"
   labels:
@@ -21,7 +21,7 @@ spec:
     path: clusters/cluster-build/aws/
     helm:
       values: |
-        cluster: aws-cluster-4
+        cluster: aws-cluster-1
         type: aws
         imageName: img4.8.24-x86-64-appsub
 

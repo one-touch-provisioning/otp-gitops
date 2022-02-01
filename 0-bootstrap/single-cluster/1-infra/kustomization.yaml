@@ -1,43 +1,54 @@
 resources:
  - argocd/consolenotification.yaml
- - argocd/namespace-ibm-common-services.yaml
- - argocd/namespace-cloudpak.yaml
+ #- argocd/namespace-ibm-common-services.yaml
+ #- argocd/namespace-cloudpak.yaml
  #- argocd/namespace-openldap.yaml
  - argocd/namespace-sealed-secrets.yaml
  - argocd/namespace-tools.yaml
+
  # Observability
- - argocd/namespace-turbonomic.yaml
- - argocd/namespace-instana-agent.yaml
+ #- argocd/namespace-turbonomic.yaml
+ #- argocd/namespace-instana-agent.yaml
+ 
  # RHACM
  - argocd/namespace-openshift-acm.yaml
  - argocd/namespace-openshift-acm-observability.yaml
  - argocd/namespace-openshift-rhacm-credentials.yaml
  - argocd/namespace-policies.yaml
+ 
  # Ansible Automation Platform
  - argocd/namespace-ansible-automation-platform.yaml
- # OpenShift Virtualization (Used to host Instana Instance)
- - argocd/namespace-openshift-virtualization.yaml
- - argocd/namespace-openshift-virtualization-os-images.yaml
- - argocd/namespace-openshift-virtualization-virtual-machines.yaml
+ 
+ # OpenShift Virtualization (Can be used to host Instana Instance)
+ #- argocd/namespace-openshift-virtualization.yaml
+ #- argocd/namespace-openshift-virtualization-os-images.yaml
+ #- argocd/namespace-openshift-virtualization-virtual-machines.yaml
+ 
  # Openshift Advanced Cluster Security
  - argocd/namespace-openshift-acs.yaml
+ 
  # IBM Infrastruture Automation aka MCM
- - argocd/namespace-ibm-infra-automation.yaml
+ #- argocd/namespace-ibm-infra-automation.yaml
+ 
  # RHSSO
  - argocd/namespace-sso.yaml
  - argocd/namespace-sso-integration.yaml
+ 
  # OpenShift Service Mesh
- - argocd/namespace-openshift-operators-redhat.yaml
- - argocd/namespace-istio-system.yaml
+ #- argocd/namespace-openshift-operators-redhat.yaml
+ #- argocd/namespace-istio-system.yaml
  #- argocd/namespace-ibm-cp4mcm.yaml
+ 
  # OpenShift Data Foundation aka OpenShift Container Storage
  #- unneeded for IBM Cloud ROKS with ODF add-on configured
  - argocd/namespace-openshift-storage.yaml
  - argocd/storage.yaml
+ 
  # MachineSets and Infra Nodes
  #- unneeded for IBM Cloud ROKS with ODF add-on configured
  - argocd/machinesets.yaml
  - argocd/infraconfig.yaml
+ 
  # Console link
  - argocd/consolelink.yaml
 

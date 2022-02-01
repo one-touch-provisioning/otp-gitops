@@ -437,7 +437,7 @@ spec:
   #   scopes: '[groups]'
   repo:
     image: quay.io/benswinneyau/openshift-gitops-repo-server
-    version: latest
+    version: v1.4.1-1
     resources:
       limits:
         cpu: '1'

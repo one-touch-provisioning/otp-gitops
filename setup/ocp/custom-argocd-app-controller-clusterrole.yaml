@@ -407,3 +407,11 @@ rules:
       - oauth.openshift.io
     resources: 
       - 'oauthclients'
+  - verbs:
+    - '*'
+    apiGroups:
+      - cert-manager.io
+    resources: 
+      - 'certificates'
+      - 'issuers'
+      - 'clusterissuers'

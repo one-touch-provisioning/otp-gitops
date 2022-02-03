@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 ## Script to request infrastructure and storage nodes
 ## Script to install OCS

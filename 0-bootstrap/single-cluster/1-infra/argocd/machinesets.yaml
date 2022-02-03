@@ -18,7 +18,6 @@ spec:
     path: machinesets
     helm:
       values: |
-        refarch-machinesets:
           infrastructureId: "${INFRASTRUCTURE_ID}"
           # cloudProvider.name set to aws, azure or vsphere
           cloudProvider:

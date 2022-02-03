@@ -17,9 +17,9 @@ spec:
     path: clusters/submariner/configure-azure/
     helm:
       values: |
-        clustersList: 
-        - azure-cluster-03
-        - azure-cluster-06
+        azureClustersList: 
+        - azure0
+        - azure1
   syncPolicy:
     automated:
       prune: true

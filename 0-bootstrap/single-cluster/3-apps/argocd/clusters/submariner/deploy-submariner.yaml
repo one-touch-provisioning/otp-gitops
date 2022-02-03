@@ -17,10 +17,17 @@ spec:
     path: clusters/submariner/deploy-submariner/
     helm:
       values: |
-        clusterList: 
-          - "aws-cluster-0" 
-          - "aws-cluster-2"
+        clustersList: 
+          - aws0 
+          - aws1
+          - aws2
+          - azure0
+          - azure1
+        awsClusterList:
+         - aws0
+         - aws1
+         - aws2
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
+      selfHeal: true

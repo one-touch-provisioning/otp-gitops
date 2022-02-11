@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-cluster-discover-openshift
+  name: apps-cluster-rhacm-discovery-service
   annotations:
     argocd.argoproj.io/sync-wave: "350"
   labels:
@@ -14,7 +14,7 @@ spec:
     server: https://kubernetes.default.svc
   project: applications
   source:
-    path: clusters/discover-openshift/
+    path: clusters/rhacm-discovery-service/
   syncPolicy:
     automated:
       prune: true

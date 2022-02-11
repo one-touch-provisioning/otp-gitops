@@ -15,7 +15,7 @@ resources:
  #- argocd/infra/providers/rhacm/rhocm/rhocm-test.yaml 
 
  ## Discover & Import Existing Clusters (Require RHOCM Credentials to be created and enabled)
- #- argocd/clusters/discover/discover-openshift.yaml
+ #- argocd/clusters/rhacm-discovery-service/rhacm-discovery-service.yaml
  #
  ## Include any Clusters you wish to manually import below
  ## Examples have been provided

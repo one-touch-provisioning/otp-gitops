@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-cluster-aws-tokyo
+  name: apps-cluster-rhacm-discovery-service
   annotations:
     argocd.argoproj.io/sync-wave: "350"
   labels:
@@ -10,11 +10,11 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: openshift-rhacm-credentials
     server: https://kubernetes.default.svc
   project: applications
   source:
-    path: clusters/cluster-build/aws/aws-tokyo/
+    path: clusters/rhacm-discovery-service/
   syncPolicy:
     automated:
       prune: true

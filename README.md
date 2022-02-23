@@ -2,7 +2,7 @@
 
 ## Elevator Pitch
 
-This method/pattern is our opinionated implementation of the GitOps principles, using the latest and greatest tooling available, to enable the hitting of one big red button (figuratively) to start provisioning a platform that provides Cluster and Virtual Machine Provisioning capabilities, Governence and policy management, observability of Clusters and workloads and finally deployment of IBM Cloud Paks and other applications, all within a single command*.
+This method/pattern is our opinionated implementation of the GitOps principles, using the latest and greatest tooling available, to enable the hitting of one big red button (figuratively) to start provisioning a platform that provides Cluster and Virtual Machine Provisioning capabilities, Governance and policy management, observability of Clusters and workloads and finally deployment of applications, such as IBM Cloud Paks, all within a single command*.
 
 - Codified, Repeatable and Auditable.
 
@@ -56,7 +56,7 @@ This respository is not intended to be a Step-by-Step Guide and some prior knowl
 
 ## Asset Capabilities 🚀
 
-- The asset will deploy an opionated OpenShift Hub cluster running OpenShift GitOps, OpenShift Pipelines, OpenShift Data Foundation, Ansible Automation Platform (Additional Subscription required), Red Hat Advanced Cluster Management 2.4, Red Hat Advanced Cluster Security, OpenShift Virtualisation, IBM Infrastructure Automation from the IBM Cloud Pak for AIOps 3.2, SealedSecrets, Instana, Turbonomics and RHACM Observability.
+- The asset will deploy an opionated OpenShift Hub cluster running OpenShift GitOps, OpenShift Pipelines, OpenShift Data Foundation, Ansible Automation Platform (Additional Subscription required), Red Hat Advanced Cluster Management, Red Hat Advanced Cluster Security, OpenShift Virtualisation, IBM Infrastructure Automation from the IBM Cloud Pak for AIOps 3.2, SealedSecrets, Instana, Turbonomics and RHACM Observability.
 
 - Deployment and management of Managed OpenShift Clusters via OpenShift GitOps (everything Infrastructure as Code) onto Amazon Web Services, Microsoft Azure, Google Cloud Platform, VMWare vSphere and Bare-metal environments, including Single Node OpenShift onto On Premise hosts. Treat Managed OpenShift Clusters as "cattle" not "pets' if desired.
 
@@ -262,7 +262,7 @@ To get an entitlement key:
 
     *Note:* We use a custom openshift-gitops-repo-server image to enable the use of Plugins within OpenShift Gitops. This is required to allow RHACM to utilise the Policy Generator plugin. The Dockerfile can be found here: [https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server](https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server).
 
-3. Configure TLS if using IBM Cloud ROKS as a Hub Cluster
+3. If using IBM Cloud ROKS as a Hub Cluster, configure TLS.
 
     ```bash
     scripts/patch-argocd-tls.sh

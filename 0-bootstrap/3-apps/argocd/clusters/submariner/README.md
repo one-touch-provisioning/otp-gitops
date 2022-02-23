@@ -44,8 +44,8 @@ We tried to leverage CRD's such as ClusterDeployments in order to configure the 
 
 Usage is fairly straightforward, refer to the following files given below:
 
-1. [Deploy Submariner Application](https://github.com/otp-az-sub/otp-gitops/blob/master/0-bootstrap/single-cluster/3-apps/argocd/clusters/submariner/deploy-submariner.yaml)
-2. [Configure Azure for Submariner](https://github.com/otp-az-sub/otp-gitops/blob/master/0-bootstrap/single-cluster/3-apps/argocd/clusters/submariner/configure-azure.yaml)
+1. [Deploy Submariner Application](https://github.com/one-touch-provisioning/otp-gitops/blob/master/0-bootstrap/3-apps/argocd/clusters/submariner/deploy-submariner.yaml)
+2. [Configure Azure for Submariner](https://github.com/one-touch-provisioning/otp-gitops/blob/master/0-bootstrap/3-apps/argocd/clusters/submariner/configure-azure.yaml)
 
 Once the clusters are created. Say, azure-cluster-01 and azure-cluster-02, add these clusters to the helm->values->clusterList field in the files above and perform a git push. This should trigger Argo to both configure the cluster and deploy the submariner operator.
 

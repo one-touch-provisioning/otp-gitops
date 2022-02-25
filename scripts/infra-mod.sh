@@ -56,7 +56,7 @@ set -e
 
 echo "Applying Infrastructure updates"
 
-pushd ${SCRIPTDIR}/../0-bootstrap/1-infra
+pushd ${SCRIPTDIR}/../0-bootstrap/single-cluster/1-infra
 
 ocpversion=$(oc get clusterversion version | grep -v NAME | awk '{print $2}')
 a=( ${ocpversion//./ } )
@@ -148,6 +148,9 @@ sed -i '' -e 's#.*storageClass.*$#          storageClass: '${storageClass}'#' ar
 popd
 
 pushd "${SCRIPTDIR}/.."
+
+#echo "Syncing Manifests"
+#${SCRIPTDIR}/sync-manifests.sh
 
 echo "Updating Git"
 git add .

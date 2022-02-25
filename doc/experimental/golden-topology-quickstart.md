@@ -34,10 +34,10 @@
     gh repo fork cloud-native-toolkit/multi-tenancy-gitops --clone --org ${GIT_ORG} --remote
     mv multi-tenancy-gitops gitops-0-bootstrap
     ```
-- Modify the `kustomization.yaml` to add or remove features, the infrastructure capabilities are in `0-bootstrap/1-infra/kustomization.yaml` and you must enable the lines below:
+- Modify the `kustomization.yaml` to add or remove features, the infrastructure capabilities are in `0-bootstrap/single-cluster/1-infra/kustomization.yaml` and you must enable the lines below:
 
     ```bash
-    vi 0-bootstrap/1-infra/kustomization.yaml
+    vi 0-bootstrap/single-cluster/1-infra/kustomization.yaml
     ```
 
     ```yaml
@@ -62,7 +62,7 @@
 - Commit your changes to the `kustomization.yaml`
 
     ```bash
-    git add 0-bootstrap/1-infra/kustomization.yaml
+    git add 0-bootstrap/single-cluster/1-infra/kustomization.yaml
     git commit -m "Enable infrastructure components"
     git push origin
     ```

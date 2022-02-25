@@ -292,8 +292,8 @@ If you are running a managed OpenShift cluster on IBM Cloud, you can deploy Open
 2. The resources required to be deployed for this asset have been pre-selected, and you should just need to clone the `otp-gitops` repository in your Git Organization if you have not already done so. However, you can review and modify the resources deployed by editing the following.
 
      ```
-     0-bootstrap/1-infra/kustomization.yaml
-     0-bootstrap/2-services/kustomization.yaml
+     0-bootstrap/single-cluster/1-infra/kustomization.yaml
+     0-bootstrap/single-cluster/2-services/kustomization.yaml
      ```
 
   If you choose to disable any Infrastructure or Services resources before the Initial Bootstrap, you will need to re-commit those changes back to your Git repository, otherwise they will not be picked up by OpenShift GitOps.
@@ -301,12 +301,12 @@ If you are running a managed OpenShift cluster on IBM Cloud, you can deploy Open
 3. Deploy the OpenShift GitOps Bootstrap Application.
 
     ```bash
-    oc apply -f 0-bootstrap/bootstrap.yaml
+    oc apply -f 0-bootstrap/single-cluster/bootstrap.yaml
     ```
 
 4. Its recommended to deploy the Infrastructure components, then the Service Componenets once complete. ArgoCD Sync waves are used to managed the order of manifest deployments, but we have seen occassions where applying both the Infrastructure and Services layers at the same time can fail. YMMV.
 
-Once the Infrastructure layer has been deployed, update the `0-bootstrap/kustomization.yaml` manifest to enable the Services layer and commit to Git. OpenShift GitOps will then automatically deploy the Services.
+Once the Infrastructure layer has been deployed, update the `0-bootstrap/single-cluster/kustomization.yaml` manifest to enable the Services layer and commit to Git. OpenShift GitOps will then automatically deploy the Services.
 
    ```yaml
    resources:
@@ -359,7 +359,7 @@ Within this asset we treat Managed Clusters as OpenShift GitOps Applications. Th
 
 ### Creating and Destroying Managed OpenShift Clusters
 
-Review the `Applications` layer [kustomization.yaml](0-bootstrap/3-apps/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
+Review the `Applications` layer [kustomization.yaml](0-bootstrap/single-cluster/3-apps/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
 
   ```yaml
   resources:
@@ -390,7 +390,7 @@ Review the `Applications` layer [kustomization.yaml](0-bootstrap/3-apps/kustomiz
 
   * An example of how you can perform the final steps of manually importing a cluster can be seen below. The use of OpenShift GitOps is used to firstly create all the resources needed by RHACM to perform an import, then once completed, you would follow the remaining steps. The aim in the future would be to automate these steps.
 
-  * Uncomment the clusters you wish to import from `Application` [kustomization.yaml](0-bootstrap/3-apps/kustomization.yaml) file and commit to Git.
+  * Uncomment the clusters you wish to import from `Application` [kustomization.yaml](0-bootstrap/single-cluster/3-apps/kustomization.yaml) file and commit to Git.
 
   ```yaml
   resources:
@@ -493,7 +493,7 @@ spec:
       name: aws-ireland
 ```
 
-Uncomment the CP4i Application within `Application` [kustomization.yaml](0-bootstrap/3-apps/kustomization.yaml) file and commit to Git.
+Uncomment the CP4i Application within `Application` [kustomization.yaml](0-bootstrap/single-cluster/3-apps/kustomization.yaml) file and commit to Git.
 
 ```yaml
 resources:

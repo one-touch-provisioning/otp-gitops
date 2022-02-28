@@ -1,14 +1,14 @@
 #!/bin/bash
 
 ## Script to request infrastructure and storage nodes
-## Script to install OCS
+## Script to install ODF
 ## Based on Cloud-Native-Toolkit gitops production reference
 
 ## Requirements:
 ##
-## - A working OpenShift 4.7 cluster on aws/azure/vsphere
+## - A working OpenShift >4.8 cluster on aws/azure/vsphere
 ## - The oc command client
-## - Run this script under the multi-tenancy-gitops git structure
+## - Run this script under the otp-gitops git structure
 ##
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -23,14 +23,14 @@ popd () {
 }
 
 set +e
-oc version --client | grep '4.8\|4.9'
+oc version --client | grep '4.8\|4.9\|4.10'
 OC_VERSION_CHECK=$?
 set -e
 if [[ ${OC_VERSION_CHECK} -ne 0 ]]; then
-    echo "Please use oc client version 4.8 or 4.9 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
+    echo "Please use oc client version >4.8 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
 fi
 
-# Check whether in GIT multi-tenancy-gitops
+# Check whether in GIT otp-gitops
 
 pushd ${SCRIPTDIR}/..
 

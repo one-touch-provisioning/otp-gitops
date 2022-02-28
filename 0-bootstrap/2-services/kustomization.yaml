@@ -71,6 +71,9 @@ resources:
 #  - argocd/instances/rhsso-integration-preprocessing-instance.yaml
 #  - argocd/instances/rhsso-integration-argocd-instance.yaml
 
+# Red Hat Advanced Cluster Management - Discovery Service
+# - argocd/instances/openshift-acm-discovery-service.yaml
+
 patches:
 - target:
     group: argoproj.io

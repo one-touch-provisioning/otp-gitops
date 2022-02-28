@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-cluster-rhacm-discovery-service
+  name: clusters-vsphere-swinneyio
   annotations:
-    argocd.argoproj.io/sync-wave: "350"
+    argocd.argoproj.io/sync-wave: "450"
   labels:
-    gitops.tier.layer: applications
+    gitops.tier.layer: clusters
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: openshift-rhacm-credentials
+    namespace: openshift-gitops
     server: https://kubernetes.default.svc
-  project: applications
+  project: clusters
   source:
-    path: clusters/rhacm-discovery-service/
+    path: clusters/import/managed-clusters/vsphere/ocp-swinney-io
   syncPolicy:
     automated:
       prune: true

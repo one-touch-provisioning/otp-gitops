@@ -20,12 +20,16 @@ GIT_GITOPS_SERVICES=${GIT_GITOPS_SERVICES:-otp-gitops-services.git}
 GIT_GITOPS_SERVICES_BRANCH=${GIT_GITOPS_SERVICES_BRANCH:-${GIT_BRANCH}}
 GIT_GITOPS_APPLICATIONS=${GIT_GITOPS_APPLICATIONS:-otp-gitops-apps.git}
 GIT_GITOPS_APPLICATIONS_BRANCH=${GIT_GITOPS_APPLICATIONS_BRANCH:-${GIT_BRANCH}}
+GIT_GITOPS_CLUSTERS=${GIT_GITOPS_CLUSTERS:-otp-gitops-clusters.git}
+GIT_GITOPS_CLUSTERS_BRANCH=${GIT_GITOPS_CLUSTERS_BRANCH:-${GIT_BRANCH}}
 HELM_REPOURL=${HELM_REPOURL:-https://charts.cloudnativetoolkit.dev}
 
 echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS} on branch ${GIT_GITOPS_BRANCH}"
 echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_INFRA} on branch ${GIT_GITOPS_INFRA_BRANCH}"
 echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_SERVICES} on branch ${GIT_GITOPS_SERVICES_BRANCH}"
 echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_APPLICATIONS} on branch ${GIT_GITOPS_APPLICATIONS_BRANCH}"
+echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CLUSTERS} on branch ${GIT_GITOPS_CLUSTERS_BRANCH}"
+
 
 find ${SCRIPTDIR}/../0-bootstrap -name '*.yaml' -print0 |
   while IFS= read -r -d '' File; do
@@ -39,6 +43,8 @@ find ${SCRIPTDIR}/../0-bootstrap -name '*.yaml' -print0 |
       sed -i'.bak' -e "s#\${GIT_GITOPS_SERVICES_BRANCH}#${GIT_GITOPS_SERVICES_BRANCH}#" $File
       sed -i'.bak' -e "s#\${GIT_BASEURL}/\${GIT_ORG}/\${GIT_GITOPS_APPLICATIONS}#${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_APPLICATIONS}#" $File
       sed -i'.bak' -e "s#\${GIT_GITOPS_APPLICATIONS_BRANCH}#${GIT_GITOPS_APPLICATIONS_BRANCH}#" $File
+      sed -i'.bak' -e "s#\${GIT_BASEURL}/\${GIT_ORG}/\${GIT_GITOPS_CLUSTERS}#${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CLUSTERS}#" $File
+      sed -i'.bak' -e "s#\${GIT_GITOPS_CLUSTERS_BRANCH}#${GIT_GITOPS_CLUSTERS_BRANCH}#" $File
       sed -i'.bak' -e "s#\${HELM_REPOURL}#${HELM_REPOURL}#" $File
       rm "${File}.bak"
     fi

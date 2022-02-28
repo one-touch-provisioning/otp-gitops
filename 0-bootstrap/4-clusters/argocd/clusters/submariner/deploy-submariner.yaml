@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps-cluster-deploy-submariner
+  annotations:
+    argocd.argoproj.io/sync-wave: "415"
+  labels:
+    gitops.tier.layer: applications
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: applications
+  source:
+    path: clusters/submariner/deploy-submariner/
+    helm:
+      values: |
+        clustersList: 
+          - aws0 
+          - aws1
+          - aws2
+          - azure0
+          - azure1
+        awsClusterList:
+         - aws0
+         - aws1
+         - aws2
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

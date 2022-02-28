@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-cluster-vsphere-eltham
+  name: apps-create-managed-clusterset
   annotations:
-    argocd.argoproj.io/sync-wave: "350"
+    argocd.argoproj.io/sync-wave: "400"
   labels:
     gitops.tier.layer: applications
   finalizers:
@@ -14,7 +14,10 @@ spec:
     server: https://kubernetes.default.svc
   project: applications
   source:
-    path: clusters/cluster-build/vsphere/vsphere-eltham/
+    path: clusters/submariner/create-managed-clusterset/
+    helm:
+      values: |
+        name: "submariner-clusterset-test"
   syncPolicy:
     automated:
       prune: true

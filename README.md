@@ -58,7 +58,7 @@ This respository is not intended to be a Step-by-Step Guide and some prior knowl
 
 - The asset will deploy an opionated OpenShift Hub cluster running OpenShift GitOps, OpenShift Pipelines, OpenShift Data Foundation, Ansible Automation Platform (Additional Subscription required), Red Hat Advanced Cluster Management, Red Hat Advanced Cluster Security, OpenShift Virtualisation, IBM Infrastructure Automation from the IBM Cloud Pak for AIOps 3.2, SealedSecrets, Instana, Turbonomics and RHACM Observability.
 
-- Deployment and management of Managed OpenShift Clusters via OpenShift GitOps (everything Infrastructure as Code) onto Amazon Web Services, Microsoft Azure, Google Cloud Platform, VMWare vSphere and Bare-metal environments, including Single Node OpenShift onto On Premise hosts. Treat Managed OpenShift Clusters as "cattle" not "pets' if desired.
+- Deployment and management of Managed OpenShift Clusters via OpenShift GitOps (everything Infrastructure as Code) onto Amazon Web Services, Microsoft Azure, IBM Cloud, Google Cloud Platform, VMWare vSphere and Bare-metal environments, including Single Node OpenShift onto On Premise hosts. Treat Managed OpenShift Clusters as "cattle" not "pets' if desired.
 
 - Deployed Managed OpenShift Clusters on AWS, Azure and GCP can be Hibernated when not in-use to reduce the amount of resources consumed on your provider, potentially lowering costs.
 
@@ -223,7 +223,7 @@ To get an entitlement key:
       ```bash
       oc apply -f setup/ocp/repo-secrets/
       rm -rf setup/ocp/repo-secrets
-      ``` 
+      ```
 
 4. Clone the repositories locally.
 

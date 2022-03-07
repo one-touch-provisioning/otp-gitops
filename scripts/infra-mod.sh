@@ -139,6 +139,8 @@ if [[ "$platform" == "aws" ]]; then
     storageClass=${defsc:-"managed-premium"}
     elif [[ "$platform" == "gcp" ]]; then
     storageClass=${defsc:-"standard"}
+    elif [[ "$platform" == "vsphere" ]]; then
+    storageClass=${defsc};
 fi
 
 echo " -  Updating storage"

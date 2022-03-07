@@ -13,5 +13,3 @@ spec:
     env:
     - name: DISABLE_DEFAULT_ARGOCD_INSTANCE
       value: 'TRUE'
-    # - name: DISABLE_DEX
-    #   value: 'FALSE'

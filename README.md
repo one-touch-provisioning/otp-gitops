@@ -163,7 +163,9 @@ To get an entitlement key:
 
     - Services GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-services](https://github.com/one-touch-provisioning/otp-gitops-services)): Contains the YAMLs for K8s resources which will be used by the `application` layer.  This could include `subscriptions` for Operators, YAMLs of custom resources provided, or Helm Charts for tools provided by a third party.  These resource would usually be managed by the Administrator(s) and/or a DevOps team supporting application developers.
 
-    - Apps GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-apps](https://github.com/one-touch-provisioning/otp-gitops-apps)): Contains the YAMLs for K8s resources to deploy `applications`. Within this asset, we treat Managed OpenShift clusters as `applications`.
+    - Apps GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-apps](https://github.com/one-touch-provisioning/otp-gitops-apps)): Contains the YAMLs for K8s resources to deploy `applications`.
+
+    - Clusters GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-clusters](https://github.com/one-touch-provisioning/otp-gitops-clusters)): Contains the YAMLs for K8s resources to deploy `OpenShift Clusters`.
 
 1. Create a new GitHub Organization using instructions from this [GitHub documentation](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch).
 
@@ -198,7 +200,8 @@ To get an entitlement key:
       - Create a secret that will reside within the `openshift-gitops` namespace.
 
         ```bash
-        $ cat <<EOF > setup/ocp/otp-gitops-repo-secret.yaml
+        $ mkdir repo-secrets
+        $ cat <<EOF > setup/ocp/repo-secrets/otp-gitops-repo-secret.yaml
         apiVersion: v1
         kind: Secret
         metadata:
@@ -213,7 +216,14 @@ To get an entitlement key:
         EOF
         ```
 
-      - Repeat the above steps for `otp-gitops-infra`, `otp-gitops-services` and `otp-gitops-apps` repositories.
+      - Repeat the above steps for `otp-gitops-infra`, `otp-gitops-services`, `otp-gitops-apps` and `otp-gitops-clusters` repositories.
+
+    - Apply Secrets to the OpenShift Cluster
+
+      ```bash
+      oc apply -f setup/ocp/repo-secrets/
+      rm -rf setup/ocp/repo-secrets
+      ``` 
 
 4. Clone the repositories locally.
 
@@ -229,6 +239,7 @@ To get an entitlement key:
     git clone git@github.com:$GIT_ORG/otp-gitops-infra.git
     git clone git@github.com:$GIT_ORG/otp-gitops-services.git
     git clone git@github.com:$GIT_ORG/otp-gitops-apps.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-clusters.git 
     ```
 
 5. Update the default Git URl and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
@@ -267,6 +278,10 @@ To get an entitlement key:
     ```bash
     scripts/patch-argocd-tls.sh
     ```
+
+## Install and configure HashiCorp Vault (If Required) - Single Instance [Demo Only]
+
+WHAT STEPS ARE NEEDED FOR HERE?!?!
 
 ### Configure manifests for Infrastructure
 
@@ -318,6 +333,7 @@ Once the Infrastructure layer has been deployed, update the `0-bootstrap/kustomi
    ## Must be done after all steps for 1-infra & 2-services
    ## have been completed.
    # - 3-apps/3-apps.yaml
+   # - 4-clusters/4-clusters.yaml
    ```
 
 ### Credentials
@@ -359,7 +375,7 @@ Within this asset we treat Managed Clusters as OpenShift GitOps Applications. Th
 
 ### Creating and Destroying Managed OpenShift Clusters
 
-Review the `Applications` layer [kustomization.yaml](0-bootstrap/3-apps/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
+Review the `Clusters` layer [kustomization.yaml](0-bootstrap/4-clusters/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
 
   ```yaml
   resources:
@@ -371,7 +387,7 @@ Review the `Applications` layer [kustomization.yaml](0-bootstrap/3-apps/kustomiz
   # - argocd/clusters/create/vsphere/vsphere.yaml
   ```
 
-  * We have have provided examples for deploying new clusters into AWS, Azure and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We utilise SealedSecrets Controller to encrypt your API Keys and have provided a handy script for each Cloud Provider within the `Application` repository, under `clusters/cluster-build/<cloud provider>` for your use.
+  * We have have provided examples for deploying new clusters into AWS, Azure and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We utilise SealedSecrets Controller to encrypt your API Keys and have provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/cluster-build/<cloud provider>` for your use.
 
 ### Auto-discovery and import of Managed OpenShift Clusters
 
@@ -390,7 +406,7 @@ Review the `Applications` layer [kustomization.yaml](0-bootstrap/3-apps/kustomiz
 
   * An example of how you can perform the final steps of manually importing a cluster can be seen below. The use of OpenShift GitOps is used to firstly create all the resources needed by RHACM to perform an import, then once completed, you would follow the remaining steps. The aim in the future would be to automate these steps.
 
-  * Uncomment the clusters you wish to import from `Application` [kustomization.yaml](0-bootstrap/3-apps/kustomization.yaml) file and commit to Git.
+  * Uncomment the clusters you wish to import from `Clusters` [kustomization.yaml](0-bootstrap/4-clusters/kustomization.yaml) file and commit to Git.
 
   ```yaml
   resources:
@@ -424,7 +440,7 @@ Review the `Applications` layer [kustomization.yaml](0-bootstrap/3-apps/kustomiz
 
 ### Hibernating Managed OpenShift Clusters
 
-  * You can Hibernate deployed Managed OpenShift Clusters running on AWS, Azure and GCP when not in use to reduce on running costs. This has to be done *AFTER* a cluster has been deployed. This is accomplished by modifying the `spec.powerState` from `Running` to `Hibernating` of the ClusterDeployment manifest (Located under `otp-gitops-apps repo/clusters/cluster-build/<aws|azure|gcp>/<cluster-name>/templates/clusterdeployment.yaml`) of the Managed OpenShift Cluster and committing to Git.
+  * You can Hibernate deployed Managed OpenShift Clusters running on AWS, Azure and GCP when not in use to reduce on running costs. This has to be done *AFTER* a cluster has been deployed. This is accomplished by modifying the `spec.powerState` from `Running` to `Hibernating` of the ClusterDeployment manifest (Located under `otp-gitops-clusters repo/clusters/cluster-build/<aws|azure|gcp>/<cluster-name>/templates/clusterdeployment.yaml`) of the Managed OpenShift Cluster and committing to Git.
 
   ```yaml
   spec:

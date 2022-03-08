@@ -285,7 +285,7 @@ WHAT STEPS ARE NEEDED FOR HERE?!?!
 
 ### Configure manifests for Infrastructure
 
-If you are running a managed OpenShift cluster on IBM Cloud, you can deploy OpenShift Data Foundation as an [add-on](https://cloud.ibm.com/docs/openshift?topic=openshift-ocs-storage-prep#odf-deploy-options). Otherwise, on AWS, Azure, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the Hub Cluster
+If you are running a managed OpenShift cluster on IBM Cloud, you can deploy OpenShift Data Foundation as an [add-on](https://cloud.ibm.com/docs/openshift?topic=openshift-ocs-storage-prep#odf-deploy-options). Otherwise, on AWS, Azure, IBM Cloud, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the Hub Cluster
 
    ```bash
    ./scripts/infra-mod.sh
@@ -332,8 +332,8 @@ Once the Infrastructure layer has been deployed, update the `0-bootstrap/kustomi
    ## Uncomment to deploy Clusters and Applications
    ## Must be done after all steps for 1-infra & 2-services
    ## have been completed.
-   # - 3-apps/3-apps.yaml
-   # - 4-clusters/4-clusters.yaml
+   # - 3-clusters/3-clusters.yaml
+   # - 4-apps/4-apps.yaml
    ```
 
 ### Credentials
@@ -375,19 +375,19 @@ Within this asset we treat Managed Clusters as OpenShift GitOps Applications. Th
 
 ### Creating and Destroying Managed OpenShift Clusters
 
-Review the `Clusters` layer [kustomization.yaml](0-bootstrap/4-clusters/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
+Review the `Clusters` layer [kustomization.yaml](0-bootstrap/3-clusters/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
 
   ```yaml
   resources:
-  ## Create Clusters
+  ## Deploy Clusters
   ## Include the Clusters you wish to create below
   ## Examples have been provided
-   - argocd/clusters/create/aws/aws-tokyo.yaml
-  # - argocd/clusters/create/azure/azure-aus.yaml
-  # - argocd/clusters/create/vsphere/vsphere.yaml
+   - argocd/clusters/deploy/aws/aws-tokyo.yaml
+  # - argocd/clusters/deploy/azure/azure-aus.yaml
+  # - argocd/clusters/deploy/vsphere/vsphere.yaml
   ```
 
-  * We have have provided examples for deploying new clusters into AWS, Azure and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We utilise SealedSecrets Controller to encrypt your API Keys and have provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/cluster-build/<cloud provider>` for your use.
+  * We have have provided examples for deploying new clusters into AWS, Azure, IBM Cloud and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We utilise SealedSecrets Controller to encrypt your API Keys and have provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/<cloud provider>` for your use.
 
 ### Auto-discovery and import of Managed OpenShift Clusters
 
@@ -406,7 +406,7 @@ Review the `Clusters` layer [kustomization.yaml](0-bootstrap/4-clusters/kustomiz
 
   * An example of how you can perform the final steps of manually importing a cluster can be seen below. The use of OpenShift GitOps is used to firstly create all the resources needed by RHACM to perform an import, then once completed, you would follow the remaining steps. The aim in the future would be to automate these steps.
 
-  * Uncomment the clusters you wish to import from `Clusters` [kustomization.yaml](0-bootstrap/4-clusters/kustomization.yaml) file and commit to Git.
+  * Uncomment the clusters you wish to import from `Clusters` [kustomization.yaml](0-bootstrap/3-clusters/kustomization.yaml) file and commit to Git.
 
   ```yaml
   resources:
@@ -440,7 +440,7 @@ Review the `Clusters` layer [kustomization.yaml](0-bootstrap/4-clusters/kustomiz
 
 ### Hibernating Managed OpenShift Clusters
 
-  * You can Hibernate deployed Managed OpenShift Clusters running on AWS, Azure and GCP when not in use to reduce on running costs. This has to be done *AFTER* a cluster has been deployed. This is accomplished by modifying the `spec.powerState` from `Running` to `Hibernating` of the ClusterDeployment manifest (Located under `otp-gitops-clusters repo/clusters/cluster-build/<aws|azure|gcp>/<cluster-name>/templates/clusterdeployment.yaml`) of the Managed OpenShift Cluster and committing to Git.
+  * You can Hibernate deployed Managed OpenShift Clusters running on AWS, Azure and GCP when not in use to reduce on running costs. This has to be done *AFTER* a cluster has been deployed. This is accomplished by modifying the `spec.powerState` from `Running` to `Hibernating` of the ClusterDeployment manifest (Located under `otp-gitops-clusters repo/clusters/deploy/<aws|azure|gcp>/<cluster-name>/templates/clusterdeployment.yaml`) of the Managed OpenShift Cluster and committing to Git.
 
   ```yaml
   spec:

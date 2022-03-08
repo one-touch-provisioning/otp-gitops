@@ -14,7 +14,7 @@ spec:
     server: https://kubernetes.default.svc
   project: applications
   source:
-    path: clusters/cluster-services/cert-manager/acm/
+    path: cluster-services/cert-manager/acm/
   syncPolicy:
     automated:
       prune: true

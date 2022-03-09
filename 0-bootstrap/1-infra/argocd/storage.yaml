@@ -18,7 +18,6 @@ spec:
     path: storage
     helm:
       values: |
-        odf-operator:
           channel: ${CHANNEL}
           sizeGiB: 512
           storageClass: ${STORCLASS}

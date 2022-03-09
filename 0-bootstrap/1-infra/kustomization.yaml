@@ -3,6 +3,7 @@ resources:
  #- argocd/namespace-ibm-common-services.yaml
  #- argocd/namespace-cloudpak.yaml
  #- argocd/namespace-openldap.yaml
+ - argocd/namespace-external-secrets.yaml
  - argocd/namespace-sealed-secrets.yaml
  - argocd/namespace-tools.yaml
 

@@ -1,14 +1,14 @@
 resources:
  # IBM Foundations / Common Services
-#  - argocd/operators/ibm-foundations.yaml
-#  - argocd/instances/ibm-foundational-services-instance.yaml
- # - argocd/operators/ibm-automation-foundation-core-operator.yaml
- # - argocd/operators/ibm-automation-foundation-operator.yaml
- # - argocd/operators/ibm-common-services-mcm.yaml
- # - argocd/instances/ibm-common-services-mcm-instance.yaml
+ #- argocd/operators/ibm-foundations.yaml
+ #- argocd/instances/ibm-foundational-services-instance.yaml
+ #- argocd/operators/ibm-automation-foundation-core-operator.yaml
+ #- argocd/operators/ibm-automation-foundation-operator.yaml
+ #- argocd/operators/ibm-common-services-mcm.yaml
+ #- argocd/instances/ibm-common-services-mcm-instance.yaml
 
  # IBM Catalogs
-#  - argocd/operators/ibm-catalogs.yaml
+ #- argocd/operators/ibm-catalogs.yaml
 
  # Required for IBM MQ
  #- argocd/instances/openldap.yaml
@@ -40,10 +40,12 @@ resources:
  - argocd/operators/openshift-acm.yaml
  - argocd/instances/openshift-acm-instance.yaml
  - argocd/instances/openshift-acm-observability-instance.yaml
+ # Red Hat Advanced Cluster Management - Discovery Service
+ #- argocd/instances/openshift-acm-discovery-service.yaml
  #- argocd/operators/ibm-cp4mcm-operator.yaml
  #- argocd/instances/ibm-cp4mcm-instance.yaml
-#  - argocd/operators/ibm-infra-automation-operator.yaml
-#  - argocd/instances/ibm-infra-automation-instance.yaml
+ #- argocd/operators/ibm-infra-automation-operator.yaml
+ #- argocd/instances/ibm-infra-automation-instance.yaml
 
  # Ansible Automation Platform
  - argocd/operators/ansible-automation-platform-operator.yaml
@@ -69,8 +71,10 @@ resources:
 #  - argocd/instances/rhsso-integration-preprocessing-instance.yaml
 #  - argocd/instances/rhsso-integration-argocd-instance.yaml
 
-# Red Hat Advanced Cluster Management - Discovery Service
-# - argocd/instances/openshift-acm-discovery-service.yaml
+# Red Hat Quay Registry
+# - argocd/operators/quay-registry.yaml
+# - argocd/operators/quay-container-security.yaml
+# - argocd/operators/quay-bridge-operator.yaml
 
 patches:
 - target:

@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quay-registry-operator
+  name: quay-bridge-operator
   annotations:
-    argocd.argoproj.io/sync-wave: "200"
+    argocd.argoproj.io/sync-wave: "215"
   labels:
     gitops.tier.group: quay
     gitops.tier.layer: services
@@ -15,7 +15,7 @@ spec:
     server: https://kubernetes.default.svc
   project: services
   source:
-    path: operators/quay-registry
+    path: operators/quay-bridge-operator
   syncPolicy:
     automated:
       prune: true

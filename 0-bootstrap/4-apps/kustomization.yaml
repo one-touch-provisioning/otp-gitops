@@ -14,7 +14,7 @@ resources:
  #- argocd/cluster-services/external-secrets/external-secrets.yaml
  
  ## Vault
- #- argocd/tenants/vault/vault.yaml
+ #- argocd/vault/vault.yaml
  
  ## AWS Cloud Watch
  #- argocd/cluster-services/amazon-cloudwatch/amazon-cloudwatch.yaml
@@ -22,7 +22,7 @@ resources:
  ## Deploy Applications to Managed Clusters
  ## Include the Applications you wish to deploy below
  ## An example has been provided
- #- argocd/tenants/cloudpaks/cp4i/cp4i.yaml
+ #- argocd/cloudpaks/cp4i/cp4i.yaml
 
 patches:
 - target:

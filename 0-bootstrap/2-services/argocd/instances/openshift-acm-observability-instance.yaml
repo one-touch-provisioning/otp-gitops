@@ -6,7 +6,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "260"
     argocd.argoproj.io/compare-options: IgnoreExtraneous
   labels:
-    gitops.tier.group: cntk
+    gitops.tier.group: rhacm
     gitops.tier.layer: services
 spec:
   destination:

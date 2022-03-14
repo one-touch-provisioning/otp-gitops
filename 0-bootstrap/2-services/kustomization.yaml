@@ -73,6 +73,7 @@ resources:
 
 # Red Hat Quay Registry
 # - argocd/operators/quay-registry.yaml
+# - argocd/instances/quay-registry-instance.yaml
 # - argocd/operators/quay-container-security.yaml
 # - argocd/operators/quay-bridge-operator.yaml
 

@@ -22,6 +22,8 @@ GIT_GITOPS_APPLICATIONS=${GIT_GITOPS_APPLICATIONS:-otp-gitops-apps.git}
 GIT_GITOPS_APPLICATIONS_BRANCH=${GIT_GITOPS_APPLICATIONS_BRANCH:-${GIT_BRANCH}}
 GIT_GITOPS_CLUSTERS=${GIT_GITOPS_CLUSTERS:-otp-gitops-clusters.git}
 GIT_GITOPS_CLUSTERS_BRANCH=${GIT_GITOPS_CLUSTERS_BRANCH:-${GIT_BRANCH}}
+GIT_GITOPS_POLICIES=${GIT_GITOPS_POLICIES:-otp-gitops-policies.git}
+GIT_GITOPS_POLICIES_BRANCH=${GIT_GITOPS_POLICIES_BRANCH:-${GIT_BRANCH}}
 HELM_REPOURL=${HELM_REPOURL:-https://charts.cloudnativetoolkit.dev}
 
 echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS} on branch ${GIT_GITOPS_BRANCH}"
@@ -29,6 +31,7 @@ echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_IN
 echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_SERVICES} on branch ${GIT_GITOPS_SERVICES_BRANCH}"
 echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_APPLICATIONS} on branch ${GIT_GITOPS_APPLICATIONS_BRANCH}"
 echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CLUSTERS} on branch ${GIT_GITOPS_CLUSTERS_BRANCH}"
+echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_POLICIES} on branch ${GIT_GITOPS_POLICIES_BRANCH}"
 
 
 find ${SCRIPTDIR}/../0-bootstrap -name '*.yaml' -print0 |
@@ -45,6 +48,8 @@ find ${SCRIPTDIR}/../0-bootstrap -name '*.yaml' -print0 |
       sed -i'.bak' -e "s#\${GIT_GITOPS_APPLICATIONS_BRANCH}#${GIT_GITOPS_APPLICATIONS_BRANCH}#" $File
       sed -i'.bak' -e "s#\${GIT_BASEURL}/\${GIT_ORG}/\${GIT_GITOPS_CLUSTERS}#${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CLUSTERS}#" $File
       sed -i'.bak' -e "s#\${GIT_GITOPS_CLUSTERS_BRANCH}#${GIT_GITOPS_CLUSTERS_BRANCH}#" $File
+      sed -i'.bak' -e "s#\${GIT_BASEURL}/\${GIT_ORG}/\${GIT_GITOPS_POLICIES}#${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_POLICIES}#" $File
+      sed -i'.bak' -e "s#\${GIT_GITOPS_POLICIES_BRANCH}#${GIT_GITOPS_POLICIES_BRANCH}#" $File
       sed -i'.bak' -e "s#\${HELM_REPOURL}#${HELM_REPOURL}#" $File
       rm "${File}.bak"
     fi

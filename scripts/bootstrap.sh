@@ -58,6 +58,8 @@ GIT_GITOPS_APPLICATIONS=${GIT_GITOPS_APPLICATIONS:-otp-gitops-apps.git}
 GIT_GITOPS_APPLICATIONS_BRANCH=${GIT_GITOPS_APPLICATIONS_BRANCH:-${GIT_BRANCH}}
 GIT_GITOPS_CLUSTERS=${GIT_GITOPS_CLUSTERS:-otp-gitops-clusters.git}
 GIT_GITOPS_CLUSTERS_BRANCH=${GIT_GITOPS_CLUSTERS_BRANCH:-${GIT_BRANCH}}
+GIT_GITOPS_POLICIES=${GIT_GITOPS_POLICIES:-otp-gitops-policies.git}
+GIT_GITOPS_POLICIES_BRANCH=${GIT_GITOPS_POLICIES_BRANCH:-${GIT_BRANCH}}
 
 IBM_CP_IMAGE_REGISTRY=${IBM_CP_IMAGE_REGISTRY:-cp.icr.io}
 IBM_CP_IMAGE_REGISTRY_USER=${IBM_CP_IMAGE_REGISTRY_USER:-cp}
@@ -132,6 +134,19 @@ fork_repos () {
     git checkout ${GIT_GITOPS_CLUSTERS_BRANCH} || git checkout --track origin/${GIT_GITOPS_CLUSTERS_BRANCH}
     cd ..
 
+    GHREPONAME=$(gh api /repos/${GIT_ORG}/otp-gitops-policies -q .name || true)
+    if [[ ! ${GHREPONAME} = "otp-gitops-policies" ]]; then
+      echo "Fork not found, creating fork and cloning"
+      gh repo fork one-touch-provisioning/otp-gitops-policies --clone --org ${GIT_ORG} --remote
+    elif [[ ! -d otp-gitops-policies ]]; then
+      echo "Fork found, repo not cloned, cloning repo"
+      gh repo clone ${GIT_ORG}/otp-gitops-policies otp-gitops-policies
+    fi
+    cd otp-gitops-policies
+    git remote set-url --push upstream no_push
+    git checkout ${GIT_GITOPS_POLICIES_BRANCH} || git checkout --track origin/${GIT_GITOPS_POLICIES_BRANCH}
+    cd ..
+
     popd
 
 }
@@ -189,6 +204,9 @@ data:
     - upstreamRepoURL: \${GIT_BASEURL}/\${GIT_ORG}/\${GIT_GITOPS_CLUSTERS}
       originRepoUrL: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CLUSTERS}
       originBranch: ${GIT_GITOPS_CLUSTERS_BRANCH}
+    - upstreamRepoURL: \${GIT_BASEURL}/\${GIT_ORG}/\${GIT_GITOPS_POLICIES}
+      originRepoUrL: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_POLICIES}
+      originBranch: ${GIT_GITOPS_POLICIES_BRANCH} 
 EOF
 
 popd

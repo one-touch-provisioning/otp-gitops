@@ -167,6 +167,8 @@ To get an entitlement key:
 
     - Clusters GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-clusters](https://github.com/one-touch-provisioning/otp-gitops-clusters)): Contains the YAMLs for K8s resources to deploy `OpenShift Clusters`.
 
+    - Policies GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-policies](https://github.com/one-touch-provisioning/otp-gitops-policies)): Contains the YAMLs for K8s resources to deploy `Policies` to clusters.
+
 1. Create a new GitHub Organization using instructions from this [GitHub documentation](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch).
 
 2. From each template repository, click the `Use this template` button and create a copy of the repository in your new GitHub Organization.
@@ -216,7 +218,7 @@ To get an entitlement key:
         EOF
         ```
 
-      - Repeat the above steps for `otp-gitops-infra`, `otp-gitops-services`, `otp-gitops-apps` and `otp-gitops-clusters` repositories.
+      - Repeat the above steps for `otp-gitops-infra`, `otp-gitops-services`, `otp-gitops-apps`, `otp-gitops-clusters` and `otp-gitops-policies` repositories.
 
     - Apply Secrets to the OpenShift Cluster
 
@@ -239,7 +241,8 @@ To get an entitlement key:
     git clone git@github.com:$GIT_ORG/otp-gitops-infra.git
     git clone git@github.com:$GIT_ORG/otp-gitops-services.git
     git clone git@github.com:$GIT_ORG/otp-gitops-apps.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-clusters.git 
+    git clone git@github.com:$GIT_ORG/otp-gitops-clusters.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-policies.git
     ```
 
 5. Update the default Git URl and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
@@ -254,7 +257,7 @@ To get an entitlement key:
 
 ## Install and configure OpenShift GitOps
 
-- [Red Hat OpenShift GitOps](https://docs.openshift.com/container-platform/4.8/cicd/gitops/understanding-openshift-gitops.html) uses [Argo CD](https://argoproj.github.io/argo-cd/), an open-source declarative tool, to maintain and reconcile cluster resources.
+- [Red Hat OpenShift GitOps](https://docs.openshift.com/container-platform/4.10/cicd/gitops/understanding-openshift-gitops.html) uses [Argo CD](https://argoproj.github.io/argo-cd/), an open-source declarative tool, to maintain and reconcile cluster resources.
 
 1. Install the OpenShift GitOps Operator and create a `ClusterRole` and `ClusterRoleBinding`.  
 
@@ -334,6 +337,7 @@ Once the Infrastructure layer has been deployed, update the `0-bootstrap/kustomi
    ## have been completed.
    # - 3-clusters/3-clusters.yaml
    # - 4-apps/4-apps.yaml
+   # - 5-policies/5-policies.yaml
    ```
 
 ### Credentials
@@ -380,11 +384,20 @@ Review the `Clusters` layer [kustomization.yaml](0-bootstrap/3-clusters/kustomiz
   ```yaml
   resources:
   ## Deploy Clusters
-  ## Include the Clusters you wish to create below
+  ## Include the Clusters you wish to deploy below
   ## Examples have been provided
-   - argocd/clusters/deploy/aws/aws-tokyo.yaml
-  # - argocd/clusters/deploy/azure/azure-aus.yaml
-  # - argocd/clusters/deploy/vsphere/vsphere.yaml
+
+  ### AWS
+  #- argocd/clusters/deploy/aws/aws0.yaml
+  #- argocd/clusters/deploy/aws/aws1.yaml
+  #- argocd/clusters/deploy/aws/aws2.yaml
+
+  ### Azure
+  #- argocd/clusters/deploy/azure/azure0.yaml
+  #- argocd/clusters/deploy/azure/azure1.yaml 
+ 
+  ### vSphere
+  #- argocd/clusters/deploy/vsphere/vsphere-eltham.yaml
   ```
 
   * We have have provided examples for deploying new clusters into AWS, Azure, IBM Cloud and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We utilise SealedSecrets Controller to encrypt your API Keys and have provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/<cloud provider>` for your use.

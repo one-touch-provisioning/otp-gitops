@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: policy-managed-openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "500"
+  labels:
+    gitops.tier.layer: policies
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: policies
+  source:
+    path: otp-policies/managed-openshift-gitops
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

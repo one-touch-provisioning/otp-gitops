@@ -1,0 +1,16 @@
+resources:
+ ## Enable RHACM to install OpenShift GitOps on Managed Clusters for "Last Mile" Configuration
+ # - argocd/otp-policies/managed-openshift-gitops/managed-openshift-gitops.yaml
+
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=policies"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_POLICIES}
+    - op: add
+      path: /spec/source/targetRevision
+      value: ${GIT_GITOPS_BRANCH}

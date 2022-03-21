@@ -427,6 +427,12 @@ rules:
       - quay.redhat.com
     resources:
       - quayregistries
+  - verbs:
+      - '*'
+    apiGroups:
+      - agent-install.openshift.io
+    resources:
+      - agentserviceconfigs
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole

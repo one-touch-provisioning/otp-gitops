@@ -84,7 +84,7 @@ This respository is not intended to be a Step-by-Step Guide and some prior knowl
 
 Minimum OpenShift v4.8+ is required.
 
-Firstly, build a "bare-bones" Red Hat OpenShift cluster using either IPI (Installer Provisioned Infrastructure), UPI (User Provisioned Infrastructure) methods or a Managed OpenShift offering like IBM Cloud - ROKS.
+Firstly, build a "bare-bones" Red Hat OpenShift cluster using either IPI (Installer Provisioned Infrastructure), UPI (User Provisioned Infrastructure) methods or a Managed OpenShift offering like AWS ROSA, Azure ARO, IBM Cloud - ROKS.
 
 #### IPI Methods
 

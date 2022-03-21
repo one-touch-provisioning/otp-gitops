@@ -106,6 +106,8 @@ spec:
     kind: objectbucketclaims
   - group: "automationcontroller.ansible.com" 
     kind: automationcontrollers
+  - group: "agent-install.openshift.io"
+    kind: AgentServiceConfig
   roles:
   # A role which provides read-only access to all applications in the project
   - name: read-only

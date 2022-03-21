@@ -40,8 +40,11 @@ resources:
  - argocd/operators/openshift-acm.yaml
  - argocd/instances/openshift-acm-instance.yaml
  - argocd/instances/openshift-acm-observability-instance.yaml
+ # Red Hat Advanced Cluster Management - Central Infrastructure Management
+ - argocd/instances/openshift-acm-cim.yaml
  # Red Hat Advanced Cluster Management - Discovery Service
  #- argocd/instances/openshift-acm-discovery-service.yaml
+
  #- argocd/operators/ibm-cp4mcm-operator.yaml
  #- argocd/instances/ibm-cp4mcm-instance.yaml
  #- argocd/operators/ibm-infra-automation-operator.yaml

@@ -16,6 +16,8 @@ resources:
  - argocd/namespace-openshift-acm-observability.yaml
  - argocd/namespace-openshift-rhacm-credentials.yaml
  - argocd/namespace-policies.yaml
+ # RHACM Metal Provisioner (Not required if Hub is running on Bare-Metal)
+ #- argocd/namespace-metal-provisioner.yaml
  
  # Ansible Automation Platform
  - argocd/namespace-ansible-automation-platform.yaml

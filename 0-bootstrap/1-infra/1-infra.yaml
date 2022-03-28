@@ -74,6 +74,8 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: quay-registry
     server: https://kubernetes.default.svc  
+  - namespace: metal-provisioner
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ""
     kind: Namespace

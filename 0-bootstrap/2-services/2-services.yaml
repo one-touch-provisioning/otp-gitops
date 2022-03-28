@@ -8,6 +8,8 @@ metadata:
 spec:
   sourceRepos: [] # Populated by kustomize patches in 2-services/kustomization.yaml
   destinations:
+  - namespace: kube-system
+    server: https://kubernetes.default.svc 
   - namespace: tools
     server: https://kubernetes.default.svc
   - namespace: ibm-common-services
@@ -108,6 +110,16 @@ spec:
     kind: automationcontrollers
   - group: "agent-install.openshift.io"
     kind: AgentServiceConfig
+  - group: "admissionregistration.k8s.io"
+    kind: MutatingWebhookConfiguration
+  - group: "admissionregistration.k8s.io"   
+    kind: ValidatingWebhookConfiguration
+  - group: "cert-manager.io"
+    kind: ClusterIssuer
+  - group: "cert-manager.io"
+    kind: Issuer 
+  - group: "cert-manager.io"
+    kind: Certificate
   roles:
   # A role which provides read-only access to all applications in the project
   - name: read-only

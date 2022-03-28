@@ -23,9 +23,9 @@ resources:
  - argocd/namespace-ansible-automation-platform.yaml
  
  # OpenShift Virtualization (Can be used to host Instana Instance)
- #- argocd/namespace-openshift-virtualization.yaml
- #- argocd/namespace-openshift-virtualization-os-images.yaml
- #- argocd/namespace-openshift-virtualization-virtual-machines.yaml
+ - argocd/namespace-openshift-virtualization.yaml
+ - argocd/namespace-openshift-virtualization-os-images.yaml
+ - argocd/namespace-openshift-virtualization-virtual-machines.yaml
  
  # Openshift Advanced Cluster Security
  - argocd/namespace-openshift-acs.yaml
@@ -43,7 +43,7 @@ resources:
  #- argocd/namespace-ibm-cp4mcm.yaml
 
  # Quay Registry
- #- argocd/namespace-quay-registry.yaml
+ - argocd/namespace-quay-registry.yaml
  
  # OpenShift Data Foundation aka OpenShift Container Storage
  #- unneeded for IBM Cloud ROKS with ODF add-on configured

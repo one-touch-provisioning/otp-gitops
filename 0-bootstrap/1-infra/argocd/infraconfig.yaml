@@ -18,7 +18,6 @@ spec:
     path: infraconfig
     helm:
       values: |
-        refarch-infraconfig:
           cloudProvider:
             name: "${PLATFORM}" # set to aws or vsphere,
             managed: ${MANAGED} # set to true for ARO or ROSA
@@ -29,7 +28,7 @@ spec:
             storageClassName: ocs-storagecluster-cephfs
             replicas: 2
           ingress:
-            replicas: 2
+            replicas: 3
           image-registry-hook-job:
             name: infraconfig-postsync
             namespace: tools

@@ -3,6 +3,7 @@ resources:
  #- argocd/namespace-ibm-common-services.yaml
  #- argocd/namespace-cloudpak.yaml
  #- argocd/namespace-openldap.yaml
+ - argocd/namespace-external-secrets.yaml
  - argocd/namespace-sealed-secrets.yaml
  - argocd/namespace-tools.yaml
 
@@ -15,6 +16,8 @@ resources:
  - argocd/namespace-openshift-acm-observability.yaml
  - argocd/namespace-openshift-rhacm-credentials.yaml
  - argocd/namespace-policies.yaml
+ # RHACM Metal Provisioner (Not required if Hub is running on Bare-Metal)
+ #- argocd/namespace-metal-provisioner.yaml
  
  # Ansible Automation Platform
  - argocd/namespace-ansible-automation-platform.yaml
@@ -38,6 +41,9 @@ resources:
  #- argocd/namespace-openshift-operators-redhat.yaml
  #- argocd/namespace-istio-system.yaml
  #- argocd/namespace-ibm-cp4mcm.yaml
+
+ # Quay Registry
+ #- argocd/namespace-quay-registry.yaml
  
  # OpenShift Data Foundation aka OpenShift Container Storage
  #- unneeded for IBM Cloud ROKS with ODF add-on configured

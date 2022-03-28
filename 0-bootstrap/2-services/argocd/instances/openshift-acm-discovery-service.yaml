@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-acm-discovery-service
+  annotations:
+    argocd.argoproj.io/sync-wave: "350"
+  labels:
+    gitops.tier.group: rhacm
+    gitops.tier.layer: services
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: openshift-rhacm-credentials
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: instances/openshift-acm-discovery-service
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quay-registery-operator
+  name: quay-registry-operator
   annotations:
     argocd.argoproj.io/sync-wave: "200"
   labels:
-    gitops.tier.group: cntk
+    gitops.tier.group: quay
     gitops.tier.layer: services
   finalizers:
     - resources-finalizer.argocd.argoproj.io

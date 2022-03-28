@@ -396,19 +396,19 @@ rules:
       - virtualmachineinstances
       - virtualmachine-validator
   - verbs:
-    - '*'
+      - '*'
     apiGroups:
       - platform.stackrox.io
     resources: 
       - '*'
   - verbs:
-    - '*'
+      - '*'
     apiGroups:
       - oauth.openshift.io
     resources: 
       - 'oauthclients'
   - verbs:
-    - '*'
+      - '*'
     apiGroups:
       - cert-manager.io
     resources: 
@@ -416,11 +416,23 @@ rules:
       - 'issuers'
       - 'clusterissuers'
   - verbs:
-    - '*'
+      - '*'
     apiGroups:
       - hive.openshift.io
     resources: 
       - 'selectorsyncsets'
+  - verbs:
+      - '*'
+    apiGroups:
+      - quay.redhat.com
+    resources:
+      - quayregistries
+  - verbs:
+      - '*'
+    apiGroups:
+      - agent-install.openshift.io
+    resources:
+      - agentserviceconfigs
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole

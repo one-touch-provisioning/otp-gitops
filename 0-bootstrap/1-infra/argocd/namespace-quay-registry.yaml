@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quay-registry-namespace
+  namespace: openshift-gitops
+  labels:
+    gitops.tier.layer: infra
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+spec:
+  destination:
+    namespace: quay-registry 
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    path: namespaces/quay-registry
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,7 +1,9 @@
 resources:
  - 1-infra/1-infra.yaml
  - 2-services/2-services.yaml
- - 3-apps/3-apps.yaml
+ - 3-clusters/3-clusters.yaml
+ - 4-apps/4-apps.yaml
+ - 5-policies/5-policies.yaml
 patches:
 - target:
     group: argoproj.io
@@ -54,3 +56,25 @@ patches:
     - op: add
       path: /spec/sourceRepos/-
       value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_APPLICATIONS}
+- target:
+    group: argoproj.io
+    kind: AppProject
+    labelSelector: "gitops.tier.layer=clusters"
+  patch: |-
+    - op: add
+      path: /spec/sourceRepos/-
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS}
+    - op: add
+      path: /spec/sourceRepos/-
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CLUSTERS}
+- target:
+    group: argoproj.io
+    kind: AppProject
+    labelSelector: "gitops.tier.layer=policies"
+  patch: |-
+    - op: add
+      path: /spec/sourceRepos/-
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS}
+    - op: add
+      path: /spec/sourceRepos/-
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_POLICIES}

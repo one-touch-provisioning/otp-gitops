@@ -1,14 +1,14 @@
 #!/bin/bash
 
 ## Script to request infrastructure and storage nodes
-## Script to install OCS
+## Script to install ODF
 ## Based on Cloud-Native-Toolkit gitops production reference
 
 ## Requirements:
 ##
-## - A working OpenShift 4.7 cluster on aws/azure/vsphere
+## - A working OpenShift >4.8 cluster on aws/azure/vsphere
 ## - The oc command client
-## - Run this script under the multi-tenancy-gitops git structure
+## - Run this script under the otp-gitops git structure
 ##
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -23,14 +23,15 @@ popd () {
 }
 
 set +e
-oc version --client | grep '4.8\|4.9'
+#oc version --client | grep '4.8\|4.9\|4.10'
+oc version --client | grep -E '4.[7-9].[0-9]|4.[1-9][0-9].[0-9]|4.[1-9][0-9][0-9].[0-9]'
 OC_VERSION_CHECK=$?
 set -e
 if [[ ${OC_VERSION_CHECK} -ne 0 ]]; then
-    echo "Please use oc client version 4.8 or 4.9 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
+    echo "Please use oc client version >4.8 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
 fi
 
-# Check whether in GIT multi-tenancy-gitops
+# Check whether in GIT otp-gitops
 
 pushd ${SCRIPTDIR}/..
 
@@ -95,6 +96,8 @@ else
         image=$(curl -k -s https://raw.githubusercontent.com/openshift/installer/release-${majorVer}/data/data/rhcos.json | grep -A3 "azure" | grep '"image"' | cut -d'"' -f4)
         elif [[ "$platform" == "gcp"  ]]; then
         image=$(curl -k -s https://raw.githubusercontent.com/openshift/installer/release-${majorVer}/data/data/rhcos.json | grep -A3 "gcp" | grep '"image"' | cut -d'"' -f4)
+        elif [[ "$platform" == "ibmcloud"  ]]; then
+        image=$(curl -k -s https://raw.githubusercontent.com/openshift/installer/release-${majorVer}/data/data/rhcos.json | grep -A3 "ibmcloud" | grep '"path"' | cut -d'"' -f4)
     fi
 fi
 # platform=$(oc get -o jsonpath='{.status.platform}' infrastructure cluster | tr [:upper:] [:lower:])
@@ -139,6 +142,10 @@ if [[ "$platform" == "aws" ]]; then
     storageClass=${defsc:-"managed-premium"}
     elif [[ "$platform" == "gcp" ]]; then
     storageClass=${defsc:-"standard"}
+    elif [[ "$platform" == "ibmcloud" ]]; then
+    storageClass=${defsc:-"ibmc-vpc-block-10iops-tier"}
+    elif [[ "$platform" == "vsphere" ]]; then
+    storageClass=${defsc};
 fi
 
 echo " -  Updating storage"

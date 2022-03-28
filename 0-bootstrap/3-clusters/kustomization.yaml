@@ -1,0 +1,47 @@
+resources:
+ ## Create RHACM Credentials
+ ## Include any Private or Public Cloud Providers you may have
+ ## Examples have been provided
+ #- argocd/infra/providers/rhacm/aws/aws.yaml
+ #- argocd/infra/providers/rhacm/azure/azure.yaml
+ #- argocd/infra/providers/rhacm/vsphere/vsphere.yaml
+ #- argocd/infra/providers/rhacm/rhocm/rhocm.yaml 
+
+ ## Include any Clusters you wish to manually import below
+ ## Examples have been provided
+ #- argocd/clusters/import/ibmcloud/ibmcloud-syd.yaml
+ #- argocd/clusters/import/vsphere/ocp-swinney-io.yaml
+
+ ## Deploy Clusters
+ ## Include the Clusters you wish to deploy below
+ ## Examples have been provided
+
+ ### AWS
+ #- argocd/clusters/deploy/aws/aws0.yaml
+ #- argocd/clusters/deploy/aws/aws1.yaml
+ #- argocd/clusters/deploy/aws/aws2.yaml
+
+ ### Azure
+ #- argocd/clusters/deploy/azure/azure0.yaml
+ #- argocd/clusters/deploy/azure/azure1.yaml 
+ 
+ ### vSphere
+ #- argocd/clusters/deploy/vsphere/vsphere-eltham.yaml
+
+ # Configure Submariner - Cross Cluster/Cloud communication
+ #- argocd/clusters/submariner/create-managed-clusterset.yaml
+ #- argocd/clusters/submariner/configure-azure.yaml
+ #- argocd/clusters/submariner/deploy-submariner.yaml
+ 
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=clusters"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CLUSTERS}
+    - op: add
+      path: /spec/source/targetRevision
+      value: ${GIT_GITOPS_BRANCH}

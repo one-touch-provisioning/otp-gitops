@@ -64,6 +64,10 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: cert-manager 
     server: https://kubernetes.default.svc
+  - namespace: external-secrets
+    server: https://kubernetes.default.svc
+  - namespace: quay-registry
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   # TODO: SCC needs to be moved to 1-infra, here for now for artifactory
   - group: "security.openshift.io"
@@ -102,6 +106,8 @@ spec:
     kind: objectbucketclaims
   - group: "automationcontroller.ansible.com" 
     kind: automationcontrollers
+  - group: "agent-install.openshift.io"
+    kind: AgentServiceConfig
   roles:
   # A role which provides read-only access to all applications in the project
   - name: read-only

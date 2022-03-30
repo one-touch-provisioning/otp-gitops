@@ -26,7 +26,7 @@ The reference architecture for this GitOps workflow can be found [here](https://
     - [Shout outs](#shout-outs)
   - [Table of contents](#table-of-contents)
   - [Note](#note)
-  - [Asset Capabilities](#asset-capabilities)
+  - [Pattern Capabilities](#pattern-capabilities)
   - [Pre-requisites](#pre-requisites)
     - [Note](#note)
     - [Red Hat OpenShift cluster](#red-hat-openshift-cluster)
@@ -35,6 +35,7 @@ The reference architecture for this GitOps workflow can be found [here](https://
       - [Managed OpenShift](#managed-openshift)
     - [CLI tools](#cli-tools)
     - [IBM Entitlement Key](#ibm-entitlement-key)
+  - [Overview of Git Repositories](#overview-of-git-repositories)
   - [Setup git repositories](#setup-git-repositories)
   - [Install and configure OpenShift GitOps](#install-and-configure-openshift-gitops)
     - [Configure manifests for Infrastructure](#configure-manifests-for-infrastructure)
@@ -54,11 +55,11 @@ It is assumed that you have already configured the compute, networks, storage, S
 
 This respository is not intended to be a Step-by-Step Guide and some prior knowledge in OpenShift/Kubernetes/VM Provisioning is expected.
 
-## Asset Capabilities 🚀
+## Pattern Capabilities 🚀
 
-- The asset will deploy an opionated OpenShift Hub cluster running OpenShift GitOps, OpenShift Pipelines, OpenShift Data Foundation, Ansible Automation Platform (Additional Subscription required), Red Hat Advanced Cluster Management, Red Hat Advanced Cluster Security, Quay Registry, Quay Container Security, OpenShift Virtualisation, IBM Infrastructure Automation from the IBM Cloud Pak for AIOps 3.2, SealedSecrets, Instana, Turbonomics and RHACM Observability.
+- The pattern will deploy an opionated OpenShift Advanced Cluster Management - Hub running OpenShift GitOps (ArgoCD), OpenShift Pipelines (Tekton), OpenShift Data Foundation (Rook.io), Ansible Automation Platform (Additional Subscription required), Red Hat Advanced Cluster Management (Open Cluster Management), Red Hat Advanced Cluster Security (Stackrox), Quay Registry, Quay Container Security, OpenShift Virtualisation (KubeVirt), IBM Infrastructure Automation from the IBM Cloud Pak for AIOps 3.2, SealedSecrets, Instana, Turbonomics and RHACM Observability.
 
-- Deployment and management of Managed OpenShift Clusters via OpenShift GitOps (everything Infrastructure as Code) onto Amazon Web Services, Microsoft Azure, IBM Cloud, Google Cloud Platform, VMWare vSphere and Bare-metal environments, including Single Node OpenShift onto On Premise hosts. Treat Managed OpenShift Clusters as "cattle" not "pets' if desired.
+- Deployment and management of Managed OpenShift Clusters via OpenShift GitOps (everything is Infrastructure as Code) onto Amazon Web Services, Microsoft Azure, IBM Cloud, Google Cloud Platform, VMWare vSphere and Bare-metal environments, including Single Node OpenShift onto On Premise hosts. Allowing Managed OpenShift Clusters to be treated as "Cattle" not "Pets".
 
 - Deployed Managed OpenShift Clusters on AWS, Azure and GCP can be Hibernated when not in-use to reduce the amount of resources consumed on your provider, potentially lowering costs.
 
@@ -152,6 +153,34 @@ To get an entitlement key:
     --docker-server=cp.icr.io \
     --docker-email=myemail@ibm.com
     ```
+
+## Overview of Git Repositories
+
+We leverage several repositories to make up the pattern. These may seem as overwhelming to begin with, but there is some method and thoughts behind them. We approached this pattern with scale in mind and running a single mono repository with all the manifests quickly showed that it does not lend itself to scale that well.
+
+We really want a method that allows a decentralised approach to scale. One where teams are working together across the entire pattern, with some guard-rails, to enable rapid deployment of OpenShift Clusters, Applications and Policies at scale.
+
+Taking the Kubernetes Ownership Model, we looked at which personas would typically contribute and have ownership over a repository and separated a single mono repository into several to reflect that. An example would be a Platform team that primarily contributes and has ownership over a repository that defines the [infrastructure-related](https://github.com/one-touch-provisioning/otp-gitops-infra) components of a Kubernetes Cluster, e.g. namespaces, machinesets, ingress-controllers, storage etc, they may also be best placed to contribute and own a repository that defines how OpenShift [Clusters](https://github.com/one-touch-provisioning/otp-gitops-clusters) are created on different Cloud Providers. Similar examples can be given for a set of Services which support Application developers, where we would separate these into their own repositories, again owned and primarily contributed by a Services team. A Risk/Security team owning and primarily contributing to a [Policies](https://github.com/one-touch-provisioning/otp-gitops-policies) repository is another example.
+
+We then look to enable all these repositories as centralised repositories, either at an organisational, business or product level, where each OpenShift Cluster, including the Hub Cluster, is deployed with OpenShift GitOps (aka ArgoCD) and bootstrapped via a single repository, within which hold ArgoCD Applications that point back to these centralised repositories.
+
+The advantages of this approach is a reduction of duplicated code and ensures that deployed OpenShift Clusters all meet or share the same configuration, where applicable. For example node sizes, autoscaling, networking etc or RBAC policies that are important for overall governance and security. As a result, the desired configurations are fully replicated across the Clusters, regardless of where they land, Public, Private, On-Prem etc.
+
+Manually identifying drift and maintaining conformance across different clusters within different Clouds as they scale is, of course, not a viable alternative, so this approach lends itself very well.
+
+By utilising a shared and decentralised approach, this has the added advantage of lowering the barrier to entry (e.g., a Developer needs to understand how we are deploying a cluster, they can read the Git Repository without needing to delay the Platform team), lowering the cost for change and Opening up Opportunities to Innovate.
+
+For our pattern, we've termed the above 1 + 5 + n Git Repositories.
+
+* 1 Repository being the Red Hat Advanced Cluster Management Hub Cluster
+
+* 5 Repositories (Infrastructure, Services, Applications, Clusters, Policies) being common / shared
+
+* n Repository being the repository that you will use to bootstrap your deployed managed OpenShift Cluster
+
+![1+5+n Repositories](doc/images/15n-repos.gif)
+
+By using a common set of repositories we can quickly scale out Cluster Deployments and reducing the risk of misconfiguration and drift.
 
 ## Setup git repositories
 

@@ -41,7 +41,7 @@ resources:
  - argocd/instances/openshift-acm-instance.yaml
  - argocd/instances/openshift-acm-observability-instance.yaml
  # Red Hat Advanced Cluster Management - Central Infrastructure Management
- - argocd/instances/openshift-acm-cim.yaml
+ #- argocd/instances/openshift-acm-cim.yaml
  # Red Hat Advanced Cluster Management - Discovery Service
  #- argocd/instances/openshift-acm-discovery-service.yaml
 
@@ -55,12 +55,12 @@ resources:
  - argocd/instances/ansible-automation-platform-instance.yaml
 
  # OpenShift Virtualization (Can be used to host instana instance)
- #- argocd/operators/openshift-virtualization.yaml
- #- argocd/instances/openshift-virtualization-instance.yaml
+ - argocd/operators/openshift-virtualization.yaml
+ - argocd/instances/openshift-virtualization-instance.yaml
 
  # OpenShift Advanced Cluster Security (aka Stackrox)
- - argocd/operators/openshift-acs-operator.yaml
- - argocd/instances/openshift-acs-instance.yaml
+ #- argocd/operators/openshift-acs-operator.yaml
+ #- argocd/instances/openshift-acs-instance.yaml
 
  # Observability
  #- argocd/operators/turbonomic.yaml
@@ -74,11 +74,11 @@ resources:
 #  - argocd/instances/rhsso-integration-preprocessing-instance.yaml
 #  - argocd/instances/rhsso-integration-argocd-instance.yaml
 
-# Red Hat Quay Registry
-# - argocd/operators/quay-registry.yaml
-# - argocd/instances/quay-registry-instance.yaml
-# - argocd/operators/quay-container-security.yaml
-# - argocd/operators/quay-bridge-operator.yaml
+ # Red Hat Quay Registry
+ - argocd/operators/quay-registry.yaml
+ - argocd/instances/quay-registry-instance.yaml
+ - argocd/operators/quay-container-security.yaml
+ - argocd/operators/quay-bridge-operator.yaml
 
 patches:
 - target:

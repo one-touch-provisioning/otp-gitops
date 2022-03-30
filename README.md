@@ -35,6 +35,7 @@ The reference architecture for this GitOps workflow can be found [here](https://
       - [Managed OpenShift](#managed-openshift)
     - [CLI tools](#cli-tools)
     - [IBM Entitlement Key](#ibm-entitlement-key)
+  - [Overview of Git Repositories](#overview-of-git-repositories)
   - [Setup git repositories](#setup-git-repositories)
   - [Install and configure OpenShift GitOps](#install-and-configure-openshift-gitops)
     - [Configure manifests for Infrastructure](#configure-manifests-for-infrastructure)

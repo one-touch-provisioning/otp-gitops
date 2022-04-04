@@ -4,6 +4,7 @@ metadata:
   name: namespace-openshift-virtualization
   labels:
     gitops.tier.layer: infra
+    gitops.tier.group: kubevirt
   annotations:
     argocd.argoproj.io/sync-wave: "100"
 spec:

@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rbac-openshift-virtualization
+  labels:
+    gitops.tier.layer: infra
+    gitops.tier.group: kubevirt
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    path: rbac/openshift-virtualization
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

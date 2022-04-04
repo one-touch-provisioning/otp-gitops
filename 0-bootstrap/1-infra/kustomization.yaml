@@ -15,7 +15,7 @@ resources:
  #- argocd/namespaces/namespace-instana-agent.yaml
  
  # Red Hat Advanced Cluster Management
- - argocd/rbac/rhacm.yaml
+ - argocd/rbac/rbac-rhacm.yaml
  - argocd/namespaces/namespace-openshift-acm.yaml
  - argocd/namespaces/namespace-openshift-acm-observability.yaml
  - argocd/namespaces/namespace-openshift-rhacm-credentials.yaml
@@ -27,6 +27,7 @@ resources:
  - argocd/namespaces/namespace-ansible-automation-platform.yaml
  
  # OpenShift Virtualization (Can be used to host Instana Instance)
+ #- argocd/rbac/rbac-openshift-virtualization.yaml
  #- argocd/namespaces/namespace-openshift-virtualization.yaml
  #- argocd/namespaces/namespace-openshift-virtualization-os-images.yaml
  #- argocd/namespaces/namespace-openshift-virtualization-virtual-machines.yaml

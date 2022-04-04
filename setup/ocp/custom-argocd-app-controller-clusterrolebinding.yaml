@@ -27,19 +27,6 @@ roleRef:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: openshift-gitops-cntk-argocd-application-controller-kubevirt
-subjects:
-  - kind: ServiceAccount
-    name: openshift-gitops-cntk-argocd-application-controller
-    namespace: openshift-gitops
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: kubevirt.io:admin
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
   name: openshift-gitops-cntk-argocd-default-sa
 subjects:
   - kind: ServiceAccount
@@ -62,16 +49,3 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: custom-argocd-cluster-argocd-application-controller
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: open-cluster-management:subscription-admin
-subjects:
-  - kind: ServiceAccount
-    name: openshift-gitops-cntk-argocd-application-controller
-    namespace: openshift-gitops
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: open-cluster-management:subscription-admin

@@ -16,8 +16,8 @@ resources:
  #- argocd/instances/cert-manager-instance.yaml
  
  # Certificate Management
- - argocd/operators/cert-manager.yaml
- - argocd/instances/cert-manager.yaml
+ #- argocd/operators/cert-manager.yaml
+ #- argocd/instances/cert-manager.yaml
 
  # Secrets Managment
  - argocd/instances/sealed-secrets.yaml
@@ -55,8 +55,8 @@ resources:
  - argocd/instances/ansible-automation-platform-instance.yaml
 
  # OpenShift Virtualization (Can be used to host instana instance)
- - argocd/operators/openshift-virtualization.yaml
- - argocd/instances/openshift-virtualization-instance.yaml
+ #- argocd/operators/openshift-virtualization.yaml
+ #- argocd/instances/openshift-virtualization-instance.yaml
 
  # OpenShift Advanced Cluster Security (aka Stackrox)
  #- argocd/operators/openshift-acs-operator.yaml
@@ -66,13 +66,13 @@ resources:
  #- argocd/operators/turbonomic.yaml
  #- argocd/instances/instana-agent.yaml
 
-#  # RHSSO
-#  - argocd/operators/rhsso-operator.yaml
-#  - argocd/instances/rhsso-instance.yaml
+ # RHSSO
+ #- argocd/operators/rhsso-operator.yaml
+ #- argocd/instances/rhsso-instance.yaml
 
-#  # RHSSO instance - configs
-#  - argocd/instances/rhsso-integration-preprocessing-instance.yaml
-#  - argocd/instances/rhsso-integration-argocd-instance.yaml
+ # RHSSO instance - configs
+ #- argocd/instances/rhsso-integration-preprocessing-instance.yaml
+ #- argocd/instances/rhsso-integration-argocd-instance.yaml
 
  # Red Hat Quay Registry
  - argocd/operators/quay-registry.yaml

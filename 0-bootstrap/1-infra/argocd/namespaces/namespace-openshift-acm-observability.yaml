@@ -5,6 +5,7 @@ metadata:
   namespace: openshift-gitops
   labels:
     gitops.tier.layer: infra
+    gitops.tier.group: rhacm
   annotations:
     argocd.argoproj.io/sync-wave: "100"
 spec:

@@ -1,19 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: openshift-acm-namespace
-  namespace: openshift-gitops
+  name: rbac-rhacm
   labels:
     gitops.tier.layer: infra
+    gitops.tier.group: rhacm
   annotations:
     argocd.argoproj.io/sync-wave: "100"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: open-cluster-management
+    namespace: openshift-gitops
     server: https://kubernetes.default.svc
   project: infra
   source:
-    path: namespaces/openshift-acm
+    path: rbac/rhacm
   syncPolicy:
     automated:
       prune: true

@@ -421,6 +421,7 @@ spec:
       ignoreDifferences: |
         jsonPointers:
         - /metadata/annotations/olm.providedAPIs
+        - /status/lastUpdated
     operators.coreos.com/InstallPlan:
       health.lua: |
         hs = {}

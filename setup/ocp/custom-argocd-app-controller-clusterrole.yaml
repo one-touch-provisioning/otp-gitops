@@ -247,6 +247,12 @@ rules:
   - verbs:
       - '*'
     apiGroups:
+      - odf.openshift.io
+    resources:
+      - storagesystems
+  - verbs:
+      - '*'
+    apiGroups:
       - imageregistry.operator.openshift.io
     resources:
       - configs
@@ -277,33 +283,9 @@ rules:
   - verbs:
       - '*'
     apiGroups:
-      - operator.open-cluster-management.io
-    resources:
-      - multiclusterhubs
-  - verbs:
-      - '*'
-    apiGroups:
-      - internal.open-cluster-management.io
-    resources:
-      - managedclusterinfos
-  - verbs:
-      - '*'
-    apiGroups:
-      - cluster.open-cluster-management.io
-    resources:
-      - '*'
-  - verbs:
-      - '*'
-    apiGroups:
       - project.openshift.io
     resources:
       - projects
-  - verbs:
-      - '*'
-    apiGroups:
-      - agent.open-cluster-management.io
-    resources:
-      - klusterletaddonconfigs
   - verbs:
       - '*'
     apiGroups:
@@ -312,54 +294,11 @@ rules:
       - validatingwebhookconfigurations
       - mutatingwebhookconfigurations
   - verbs:
-      - '*' 
-    apiGroups:
-      - cluster.open-cluster-management.io
-    resources:
-      - '*'
-  - verbs:
-      - '*'
-    apiGroups:
-      - clusterview.open-cluster-management.io
-    resources:
-      - '*'
-  - verbs:
       - '*'
     apiGroups:
       - charts.helm.k8s.io
     resources:
       - xls
-  - verbs:
-      - '*'
-    apiGroups:
-      - objectbucket.io
-    resources:
-      - '*'  
-  - verbs:
-      - get
-      - list
-      - watch
-      - create
-      - update
-      - patch
-      - delete
-    apiGroups:
-      - policy.open-cluster-management.io
-    resources:
-      - policies
-      - placementbindings
-  - verbs:
-      - get 
-      - list
-      - watch
-      - create
-      - update
-      - patch
-      - delete
-    apiGroups:
-      - apps.open-cluster-management.io
-    resources:
-      - placementrules
   - verbs:
       - '*'
     apiGroups:
@@ -418,44 +357,6 @@ rules:
   - verbs:
       - '*'
     apiGroups:
-      - hive.openshift.io
-    resources: 
-      - 'selectorsyncsets'
-  - verbs:
-      - '*'
-    apiGroups:
       - quay.redhat.com
     resources:
       - quayregistries
-  - verbs:
-      - '*'
-    apiGroups:
-      - agent-install.openshift.io
-    resources:
-      - agentserviceconfigs
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: open-cluster-management:subscription-admin
-rules:
-  - apiGroups:
-    - app.k8s.io
-    resources:
-    - applications
-    verbs:
-    - '*'
-  - apiGroups:
-    - apps.open-cluster-management.io
-    resources:
-    - '*'
-    verbs:
-    - '*'
-  - apiGroups:
-    - ""
-    resources:
-    - configmaps
-    - secrets
-    - namespaces
-    verbs:
-    - '*'

@@ -17,16 +17,16 @@ resources:
  ## Examples have been provided
 
  ### AWS
- #- argocd/clusters/deploy/aws/aws0.yaml
- #- argocd/clusters/deploy/aws/aws1.yaml
- #- argocd/clusters/deploy/aws/aws2.yaml
+ #- argocd/clusters/aws/aws0.yaml
+ #- argocd/clusters/aws/aws1.yaml
+ #- argocd/clusters/aws/aws2.yaml
 
  ### Azure
- #- argocd/clusters/deploy/azure/azure0.yaml
- #- argocd/clusters/deploy/azure/azure1.yaml 
+ #- argocd/clusters/azure/azure0.yaml
+ #- argocd/clusters/azure/azure1.yaml 
  
  ### vSphere
- #- argocd/clusters/deploy/vsphere/vsphere-eltham.yaml
+ #- argocd/clusters/vsphere/vsphere-eltham.yaml
 
  # Configure Submariner - Cross Cluster/Cloud communication
  #- argocd/clusters/submariner/create-managed-clusterset.yaml

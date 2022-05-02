@@ -330,4 +330,16 @@ rules:
     apiGroups:
       - quay.redhat.com
     resources:
-      - quayregistries
+      - 'quayregistries'
+  - verbs:
+      - '*'
+    apiGroups:
+      - external-secrets.io
+    resources:
+      - 'clustersecretstores'
+  - verbs:
+      - '*'
+    apiGroups:
+      - operator.external-secrets.io
+    resources:
+      - 'operatorconfigs'

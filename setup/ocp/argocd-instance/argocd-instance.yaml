@@ -86,7 +86,7 @@ spec:
         if obj.status ~= nil then
           if obj.status.conditions ~= nil then
             for i, condition in ipairs(obj.status.conditions) do
-              if condition.type == "Hibernating" and condition.status == "False" then
+              if condition.type == "Hibernating" and condition.status == "True" then
                 hs.status = "Healthy"
                 hs.message = condition.message
                 return hs
@@ -421,6 +421,7 @@ spec:
       ignoreDifferences: |
         jsonPointers:
         - /metadata/annotations/olm.providedAPIs
+        - /status/lastUpdated
     operators.coreos.com/InstallPlan:
       health.lua: |
         hs = {}
@@ -507,7 +508,7 @@ spec:
   #   scopes: '[groups]'
   repo:
     image: quay.io/benswinneyau/openshift-gitops-repo-server
-    version: v1.4.5
+    version: v1.5.0
     resources:
       limits:
         cpu: '1'
@@ -531,7 +532,7 @@ spec:
       requests:
         cpu: 250m
         memory: 128Mi
-    # openShiftOAuth: true
+    openShiftOAuth: true
   ha:
     enabled: false
     resources:

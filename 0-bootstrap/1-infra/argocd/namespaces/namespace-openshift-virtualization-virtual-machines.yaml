@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: openshift-acm-namespace
-  namespace: openshift-gitops
+  name: namespace-openshift-virtualization-virtual-machines
   labels:
     gitops.tier.layer: infra
+    gitops.tier.group: kubevirt
   annotations:
     argocd.argoproj.io/sync-wave: "100"
 spec:
   destination:
-    namespace: open-cluster-management
+    namespace: openshift-virtualization-virtual-machines
     server: https://kubernetes.default.svc
   project: infra
   source:
-    path: namespaces/openshift-acm
+    path: namespaces/openshift-virtualization-virtual-machines
   syncPolicy:
     automated:
       prune: true

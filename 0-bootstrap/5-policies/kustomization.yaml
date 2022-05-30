@@ -1,6 +1,6 @@
 resources:
- ## Enable RHACM to install OpenShift GitOps on Managed Clusters for "Last Mile" Configuration
- # - argocd/otp-policies/managed-openshift-gitops/managed-openshift-gitops.yaml
+ ## Policy to install OpenShift GitOps on Managed Clusters for "Last Mile" Configuration
+ # - argocd/otp-policies/openshift-gitops/openshift-gitops.yaml
 
 patches:
 - target:

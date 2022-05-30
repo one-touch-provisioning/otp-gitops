@@ -247,6 +247,12 @@ rules:
   - verbs:
       - '*'
     apiGroups:
+      - odf.openshift.io
+    resources:
+      - storagesystems
+  - verbs:
+      - '*'
+    apiGroups:
       - imageregistry.operator.openshift.io
     resources:
       - configs
@@ -277,33 +283,9 @@ rules:
   - verbs:
       - '*'
     apiGroups:
-      - operator.open-cluster-management.io
-    resources:
-      - multiclusterhubs
-  - verbs:
-      - '*'
-    apiGroups:
-      - internal.open-cluster-management.io
-    resources:
-      - managedclusterinfos
-  - verbs:
-      - '*'
-    apiGroups:
-      - cluster.open-cluster-management.io
-    resources:
-      - '*'
-  - verbs:
-      - '*'
-    apiGroups:
       - project.openshift.io
     resources:
       - projects
-  - verbs:
-      - '*'
-    apiGroups:
-      - agent.open-cluster-management.io
-    resources:
-      - klusterletaddonconfigs
   - verbs:
       - '*'
     apiGroups:
@@ -311,18 +293,6 @@ rules:
     resources:
       - validatingwebhookconfigurations
       - mutatingwebhookconfigurations
-  - verbs:
-      - '*' 
-    apiGroups:
-      - cluster.open-cluster-management.io
-    resources:
-      - '*'
-  - verbs:
-      - '*'
-    apiGroups:
-      - clusterview.open-cluster-management.io
-    resources:
-      - '*'
   - verbs:
       - '*'
     apiGroups:
@@ -332,69 +302,9 @@ rules:
   - verbs:
       - '*'
     apiGroups:
-      - objectbucket.io
-    resources:
-      - '*'  
-  - verbs:
-      - get
-      - list
-      - watch
-      - create
-      - update
-      - patch
-      - delete
-    apiGroups:
-      - policy.open-cluster-management.io
-    resources:
-      - policies
-      - placementbindings
-  - verbs:
-      - get 
-      - list
-      - watch
-      - create
-      - update
-      - patch
-      - delete
-    apiGroups:
-      - apps.open-cluster-management.io
-    resources:
-      - placementrules
-  - verbs:
-      - '*'
-    apiGroups:
       - automationcontroller.ansible.com
     resources: 
       - '*'
-  - verbs:
-      - create
-      - update
-      - patch
-      - delete
-    apiGroups:
-      - hco.kubevirt.io
-    resources: 
-      - hyperconvergeds
-  - verbs:
-      - create
-      - update
-      - patch
-      - delete
-    apiGroups:
-      - cdi.kubevirt.io
-    resources: 
-      - datavolumes
-  - verbs:
-      - create
-      - update
-      - patch
-      - delete
-    apiGroups:
-      - kubevirt.io
-    resources: 
-      - virtualmachines
-      - virtualmachineinstances
-      - virtualmachine-validator
   - verbs:
       - '*'
     apiGroups:
@@ -418,44 +328,18 @@ rules:
   - verbs:
       - '*'
     apiGroups:
-      - hive.openshift.io
-    resources: 
-      - 'selectorsyncsets'
-  - verbs:
-      - '*'
-    apiGroups:
       - quay.redhat.com
     resources:
-      - quayregistries
+      - 'quayregistries'
   - verbs:
       - '*'
     apiGroups:
-      - agent-install.openshift.io
+      - external-secrets.io
     resources:
-      - agentserviceconfigs
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: open-cluster-management:subscription-admin
-rules:
-  - apiGroups:
-    - app.k8s.io
+      - 'clustersecretstores'
+  - verbs:
+      - '*'
+    apiGroups:
+      - operator.external-secrets.io
     resources:
-    - applications
-    verbs:
-    - '*'
-  - apiGroups:
-    - apps.open-cluster-management.io
-    resources:
-    - '*'
-    verbs:
-    - '*'
-  - apiGroups:
-    - ""
-    resources:
-    - configmaps
-    - secrets
-    - namespaces
-    verbs:
-    - '*'
+      - 'operatorconfigs'

@@ -1,7 +1,4 @@
 resources:
- ## Enable RHACM to install OpenShift GitOps on Managed Clusters for "Last Mile" Configuration
- # - argocd/cluster-services/managed-openshift-gitops/managed-openshift-gitops.yaml
-
  ## WAIOps Infrastructure Automation Pipelines
  #- argocd/pipelines/tekton-mcm-gitops.yaml
  #- argocd/pipelines/tekton-mcm-providers.yaml

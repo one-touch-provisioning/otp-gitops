@@ -120,6 +120,10 @@ spec:
     kind: Issuer 
   - group: "cert-manager.io"
     kind: Certificate
+  - group: "cluster.open-cluster-management.io"
+    kind: ManagedClusterSet
+  - group: "external-secrets.io"
+    kind: ClusterSecretStore
   roles:
   # A role which provides read-only access to all applications in the project
   - name: read-only

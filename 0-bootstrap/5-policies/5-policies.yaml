@@ -29,12 +29,12 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "500"
   labels:
-    gitops.tier.layer: gitops
+    gitops.tier.layer: policies
 spec:
   destination:
     namespace: openshift-gitops
     server: https://kubernetes.default.svc
-  project: applications
+  project: policies
   source: # repoURL  and targetRevision populated by kustomize patches in 5-policies/kustomization.yaml
     path: 0-bootstrap/5-policies
   syncPolicy:

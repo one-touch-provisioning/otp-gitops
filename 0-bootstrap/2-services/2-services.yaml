@@ -54,7 +54,7 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: openshift-cnv
     server: https://kubernetes.default.svc
-  - namespace: stackrox
+  - namespace: rhacs-operator
     server: https://kubernetes.default.svc
   - namespace: openshift-operators-redhat
     server: https://kubernetes.default.svc

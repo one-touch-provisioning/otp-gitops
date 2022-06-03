@@ -17,9 +17,10 @@ resources:
  ## Examples have been provided
 
  ### AWS
- #- argocd/clusters/aws/aws0.yaml
- #- argocd/clusters/aws/aws1.yaml
- #- argocd/clusters/aws/aws2.yaml
+ #- argocd/clusters/aws/aws0/aws0.yaml
+ #- argocd/clusters/aws/aws0/1-infra/machinepools.yaml
+ #- argocd/clusters/aws/aws1/aws1.yaml
+ #- argocd/clusters/aws/aws2/aws2.yaml
 
  ### Azure
  #- argocd/clusters/azure/azure0.yaml

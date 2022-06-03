@@ -91,6 +91,11 @@ spec:
                 hs.message = condition.message
                 return hs
               end
+              if condition.type == "Hibernating" and condition.status == "False" and condition.reason == "Running" then
+                hs.status = "Healthy"
+                hs.message = condition.message
+                return hs
+              end
             end
           end
         end
@@ -508,7 +513,7 @@ spec:
   #   scopes: '[groups]'
   repo:
     image: quay.io/benswinneyau/openshift-gitops-repo-server
-    version: v1.5.1
+    version: v1.5.2
     resources:
       limits:
         cpu: '1'

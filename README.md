@@ -113,7 +113,7 @@ Leveraging the work undertaken by the Cloud Native Toolkit team, you can utilise
 
 ### CLI tools 💻
 
-- Install the OpenShift CLI oc (version 4.8+) .  The binary can be downloaded from the Help menu from the OpenShift Console.
+- Install the OpenShift CLI oc (version 4.9+) .  The binary can be downloaded from the Help menu from the OpenShift Console.
 
     <details>
     <summary>Download oc cli</summary>
@@ -181,6 +181,8 @@ For our pattern, we've termed the above 1 + 5 + n Git Repositories.
 ![1+5+n Repositories](doc/images/15n-repos.gif)
 
 By using a common set of repositories we can quickly scale out Cluster Deployments and reducing the risk of misconfiguration and drift.
+
+It should be noted that this is just one method to manage your environments, and we encourage you to choose a method that works for you.
 
 ## Setup git repositories
 
@@ -431,9 +433,9 @@ Review the `Clusters` layer [kustomization.yaml](0-bootstrap/3-clusters/kustomiz
 
   * We have have provided examples for deploying new clusters into AWS, Azure, IBM Cloud and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We utilise SealedSecrets Controller to encrypt your API Keys and have provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/<cloud provider>` for your use.
 
-### Auto-discovery and import of Managed OpenShift Clusters
+### Auto-discovery and import of existing OpenShift Clusters
 
-  * Red Hat Advanced Cluster Management 2.4 makes the use of the Discovery Service, that will auto-discover and import OpenShift Clusters configured within your RHOCM account. You can still perform this action outside of the Discovery Service, but this does mean that manual steps are required. We have provided the ability to utilise ArgoCD for part of the process, but the final steps remain to be manual.
+  * Red Hat Advanced Cluster Management 2.5 makes the use of the Discovery Service, that will auto-discover and import OpenShift Clusters configured within your RHOCM account. You can still perform this action outside of the Discovery Service, but this does mean that manual steps are required. We have provided the ability to utilise ArgoCD for part of the process, but the final steps remain to be manual.
 
   ```yaml
   resources:

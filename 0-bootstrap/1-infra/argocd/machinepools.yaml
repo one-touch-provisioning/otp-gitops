@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: machinepools
+  namespace: openshift-gitops
+  labels:
+    gitops.tier.layer: infra
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    path: machinepools
+    helm:
+      values: |
+          # cloudProvider.name set to aws, azure or vsphere
+          cloudProvider:
+            name: "${PLATFORM}"
+            managed: ${MANAGED}
+          # only for "aws" or "azure" maybe "gcp"
+          cloud:
+            clusterName: ${CLUSTERNAME}
+          # only for "vsphere" - ignored for other
+          vsphere:
+            clusterName: ${CLUSTERNAME}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+

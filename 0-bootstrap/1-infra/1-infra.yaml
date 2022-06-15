@@ -60,7 +60,7 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: openshift-virtualization-virtual-machines
     server: https://kubernetes.default.svc 
-  - namespace: stackrox
+  - namespace: rhacs-operator
     server: https://kubernetes.default.svc
   - namespace: sso
     server: https://kubernetes.default.svc

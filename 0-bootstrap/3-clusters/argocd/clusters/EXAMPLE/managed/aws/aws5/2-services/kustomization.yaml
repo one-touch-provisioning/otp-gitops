@@ -1,0 +1,23 @@
+resources:
+ # OpenShift Compliance
+ - argocd/operators/openshift-compliance-operator.yaml
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=services"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: https://github.com/one-touch-provisioning/otp-gitops-services.git
+    - op: add
+      path: /spec/source/targetRevision
+      value: master
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=services,gitops.tier.source=helm"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: https://charts.cloudnativetoolkit.dev

@@ -29,6 +29,10 @@ resources:
  ### vSphere
  #- argocd/clusters/vsphere/vsphere-eltham.yaml
 
+ ### EXAMPLE Cluster deployment for "managed" cluster
+ #- argocd/clusters/EXAMPLE/managed/aws/aws5/aws5.yaml
+ #- argocd/clusters/EXAMPLE/managed/aws/aws5/rhacm-appsub-bootstrap.yaml
+
  # Configure Submariner - Cross Cluster/Cloud communication
  #- argocd/clusters/submariner/create-managed-clusterset.yaml
  #- argocd/clusters/submariner/configure-azure.yaml

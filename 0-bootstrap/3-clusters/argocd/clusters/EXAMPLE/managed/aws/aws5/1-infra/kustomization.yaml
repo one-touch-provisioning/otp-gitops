@@ -1,0 +1,17 @@
+resources:
+ - argocd/namespaces/namespace-sealed-secrets.yaml
+ - argocd/namespaces/namespace-openshift-storage.yaml
+ - argocd/namespaces/namespace-openshift-compliance.yaml
+
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=infra"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: https://github.com/one-touch-provisioning/otp-gitops-infra.git
+    - op: add
+      path: /spec/source/targetRevision
+      value: master

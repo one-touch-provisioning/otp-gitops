@@ -182,7 +182,17 @@ For our pattern, we've termed the above 1 + 5 + n Git Repositories.
 
 By using a common set of repositories we can quickly scale out Cluster Deployments and reducing the risk of misconfiguration and drift.
 
-It should be noted that this is just one method to manage your environments, and we encourage you to choose a method that works for you.
+### Use-cases for different Git Repository organisation
+
+As we mature this method/pattern, we have seen different use-cases where the need for a different Git Repository organisation has been required.
+
+Our view by leveraging the 1 + 5 + n Git Repositories it allows more flexability to what is deployed into cluster and works better at scale. The Line of Business, Product team, end-users etc can have full control via their own ArgoCD instance which is configured against a Git repository they control. We'll term this a "self-managed Cluster". This may suit a team which has experience in OpenShift, clearly understand their requirements, and are comfortable managing the environment themselves.
+
+However there are occassions where there maybe a requirement for a Cluster to be provisioned and the end-users wish for a more "managed cluster". They understand their applications, and prefer to just focus on those aspects. They are happy to commit to a Git Repository that they do not own and prefer that management of the Cluster is owned by another team. In this scenario, it would make sense to manage the cluster and its applications via the Hub Repository alone. To demostrate this we've left example folder structures for the `managed` use-case above. This can be found in `0-bootstrap/3-clusters/argocd/clusters/EXAMPLE/managed/aws/aws5`.
+
+### Note
+
+It should be noted that these are just a few methods to manage your environments, and we encourage you to choose a method that works for you.
 
 ## Setup git repositories
 

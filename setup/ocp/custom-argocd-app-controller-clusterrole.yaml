@@ -6,13 +6,6 @@ rules:
   - verbs:
       - '*'
     apiGroups:
-      - 'clusterview.open-cluster-management.io'
-    resources: 
-      - managedclusters
-      - managedclustersets
-  - verbs:
-      - '*'
-    apiGroups:
       - ''
     resources:
       - pods
@@ -331,15 +324,3 @@ rules:
       - quay.redhat.com
     resources:
       - 'quayregistries'
-  - verbs:
-      - '*'
-    apiGroups:
-      - external-secrets.io
-    resources:
-      - 'clustersecretstores'
-  - verbs:
-      - '*'
-    apiGroups:
-      - operator.external-secrets.io
-    resources:
-      - 'operatorconfigs'

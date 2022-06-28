@@ -1,0 +1,139 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infra
+  labels:
+    gitops.tier.layer: infra
+spec:
+  sourceRepos: [] # Populated by kustomize patches in 1-infra/kustomization.yaml
+  destinations:
+  - namespace: ci
+    server: https://kubernetes.default.svc
+  - namespace: dev
+    server: https://kubernetes.default.svc
+  - namespace: staging
+    server: https://kubernetes.default.svc
+  - namespace: prod
+    server: https://kubernetes.default.svc
+  - namespace: sealed-secrets
+    server: https://kubernetes.default.svc
+  - namespace: tools
+    server: https://kubernetes.default.svc
+  - namespace: ibm-common-services
+    server: https://kubernetes.default.svc
+  - namespace: cloudpak
+    server: https://kubernetes.default.svc
+  - namespace: istio-system
+    server: https://kubernetes.default.svc
+  - namespace: openldap
+    server: https://kubernetes.default.svc
+  - namespace: instana-agent
+    server: https://kubernetes.default.svc
+  - namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  - namespace: openshift-machine-api
+    server: https://kubernetes.default.svc
+  - namespace: openshift-storage
+    server: https://kubernetes.default.svc
+  - namespace: openshift-monitoring
+    server: https://kubernetes.default.svc
+  - namespace: openshift-cluster-node-tuning-operator
+    server: https://kubernetes.default.svc
+  - namespace: open-cluster-management
+    server: https://kubernetes.default.svc
+  - namespace: ibm-infra-automation
+    server: https://kubernetes.default.svc
+  - namespace: policies
+    server: https://kubernetes.default.svc
+  - namespace: turbonomic
+    server: https://kubernetes.default.svc
+  - namespace: rhacm-credentials
+    server: https://kubernetes.default.svc
+  - namespace: open-cluster-management-observability
+    server: https://kubernetes.default.svc
+  - namespace: ansible-automation-platform
+    server: https://kubernetes.default.svc
+  - namespace: openshift-cnv
+    server: https://kubernetes.default.svc
+  - namespace: openshift-virtualization-os-images
+    server: https://kubernetes.default.svc
+  - namespace: openshift-virtualization-virtual-machines
+    server: https://kubernetes.default.svc 
+  - namespace: rhacs-operator
+    server: https://kubernetes.default.svc
+  - namespace: sso
+    server: https://kubernetes.default.svc
+  - namespace: sso-integration
+    server: https://kubernetes.default.svc
+  - namespace: openshift-operators-redhat
+    server: https://kubernetes.default.svc
+  - namespace: istio-system
+    server: https://kubernetes.default.svc
+  - namespace: external-secrets
+    server: https://kubernetes.default.svc
+  - namespace: quay-registry
+    server: https://kubernetes.default.svc  
+  - namespace: metal-provisioner
+    server: https://kubernetes.default.svc
+  - namespace: cert-manager
+    server: https://kubernetes.default.svc
+  - namespace: rhacm-clusterpools
+    server: https://kubernetes.default.svc
+  - namespace: rhacm-clusterclaims
+    server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+  - group: ""
+    kind: Namespace
+  - group: ""
+    kind: RoleBinding
+  - group: "security.openshift.io"
+    kind: SecurityContextConstraints
+  - group: "console.openshift.io"
+    kind: ConsoleNotification
+  - group: "console.openshift.io"
+    kind: ConsoleLink
+  - group: "console.openshift.io"
+    kind: ConsolePlugin
+  - group: "machine.openshift.io"
+    kind: MachineSet
+  - group: "machineconfiguration.openshift.io"
+    kind: MachineConfigPool
+  - group: "machineconfiguration.openshift.io"
+    kind: ContainerRuntimeConfig
+  - group: "tuned.openshift.io"
+    kind: Tuned
+  - group: "batch"
+    kind: Job
+  - group: "rbac.authorization.k8s.io"
+    kind: ClusterRoleBinding
+  - group: "rbac.authorization.k8s.io"
+    kind: ClusterRole
+  roles:
+  # A role which provides read-only access to all applications in the project
+  - name: read-only
+    description: Read-only privileges to my-project
+    policies:
+    - p, proj:my-project:read-only, applications, get, my-project/*, allow
+    groups:
+    - argocd-admins
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: infra
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+  labels:
+    gitops.tier.layer: gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: infra
+  source: # repoURL  and targetRevision populated by kustomize patches in 1-infra/kustomization.yaml
+    path: 0-bootstrap/hub/1-infra
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -34,7 +34,7 @@ echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CL
 echo "Setting kustomization patches to ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_POLICIES} on branch ${GIT_GITOPS_POLICIES_BRANCH}"
 
 
-find ${SCRIPTDIR}/../0-bootstrap -name '*.yaml' -print0 |
+find ${SCRIPTDIR}/../0-bootstrap/hub -name '*.yaml' -print0 |
   while IFS= read -r -d '' File; do
     if grep -q "kind: Application\|kind: AppProject" "$File"; then
       #echo "$File"

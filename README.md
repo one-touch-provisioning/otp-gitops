@@ -79,6 +79,58 @@ This respository is not intended to be a Step-by-Step Guide and some prior knowl
 
 - Zero Touch Provisioning of Managed OpenShift Clusters to Bare-metal nodes (think Edge deployments)
 
+## Red Hat Advanced Cluster Management Hub and Spoke Clusters Concept
+
+We leverage two Open Source technologies to underpin the functionality within this pattern. One is ArgoCD (aka OpenShift Gitops) and the other is Open Cluster Management (aka Red Hat Advanced Cluster Management or RHACM).
+
+To fully appreciate the terminology used within RHACM and more so within the pattern, we will spend a few moments helping provide some context.
+
+RHACM is built around a Hub and Spoke architecture. With the Hub Cluster, running RHACM, providing cluster and application lifecycle along with other aspects such as Governance and Observability of any Spoke Clusters under it's management.
+
+The diagram below shows a typical Hub and Spoke deployment over various clouds.
+
+![Hub and Spoke](doc/images/hubandspoke.png)
+
+## Overview of Git Repositories
+
+We leverage several repositories to make up the pattern. These may seem as overwhelming to begin with, but there is some method and thoughts behind them. We approached this pattern with scale in mind and running a single mono repository with all the manifests quickly showed that it does not lend itself to scale that well.
+
+We really want a method that allows a decentralised approach to scale. One where teams are working together across the entire pattern, with some guard-rails, to enable rapid deployment of OpenShift Clusters, Applications and Policies at scale.
+
+Taking the Kubernetes Ownership Model, we looked at which personas would typically contribute and have ownership over a repository and separated a single mono repository into several to reflect that. An example would be a Platform team that primarily contributes and has ownership over a repository that defines the [infrastructure-related](https://github.com/one-touch-provisioning/otp-gitops-infra) components of a Kubernetes Cluster, e.g. namespaces, machinesets, ingress-controllers, storage etc, they may also be best placed to contribute and own a repository that defines how OpenShift [Clusters](https://github.com/one-touch-provisioning/otp-gitops-clusters) are created on different Cloud Providers. Similar examples can be given for a set of Services which support Application developers, where we would separate these into their own repositories, again owned and primarily contributed by a Services team. A Risk/Security team owning and primarily contributing to a [Policies](https://github.com/one-touch-provisioning/otp-gitops-policies) repository is another example.
+
+We then look to enable all these repositories as centralised repositories, either at an organisational, business or product level, where each OpenShift Cluster, including the Hub Cluster, is deployed with OpenShift GitOps (aka ArgoCD) and bootstrapped via a single repository, within which hold ArgoCD Applications that point back to these centralised repositories.
+
+The advantages of this approach is a reduction of duplicated code and ensures that deployed OpenShift Clusters all meet or share the same configuration, where applicable. For example node sizes, autoscaling, networking etc or RBAC policies that are important for overall governance and security. As a result, the desired configurations are fully replicated across the Clusters, regardless of where they land, Public, Private, On-Prem etc.
+
+Manually identifying drift and maintaining conformance across different clusters within different Clouds as they scale is, of course, not a viable alternative, so this approach lends itself very well.
+
+By utilising a shared and decentralised approach, this has the added advantage of lowering the barrier to entry (e.g., a Developer needs to understand how we are deploying a cluster, they can read the Git Repository without needing to delay the Platform team), lowering the cost for change and Opening up Opportunities to Innovate.
+
+For our pattern, we've termed the above 1 + 5 + n Git Repositories.
+
+* 1 Repository being the Red Hat Advanced Cluster Management Hub Cluster
+
+* 5 Repositories (Infrastructure, Services, Applications, Clusters, Policies) being common / shared
+
+* n Repository being the repository that you will use to bootstrap your deployed managed OpenShift Cluster
+
+![1+5+n Repositories](doc/images/15n-repos.gif)
+
+By using a common set of repositories we can quickly scale out Cluster Deployments and reducing the risk of misconfiguration and drift.
+
+### Use-cases for different Git Repository organisation
+
+As we mature this method/pattern, we have seen different use-cases where the need for a different Git Repository organisation has been required.
+
+Our view by leveraging the 1 + 5 + n Git Repositories it allows more flexability to what is deployed into cluster and works better at scale. The Line of Business, Product team, end-users etc can have full control via their own ArgoCD instance which is configured against a Git repository they control. This works for privacy and security as they control who can and cannot see the objects within their repository. We'll term this a `self-managed Cluster`. This may suit a team which has experience in OpenShift, clearly understand their requirements, and are comfortable managing the environment themselves.
+
+However there are occassions where there maybe a requirement for a Cluster to be provisioned and the end-users wish for a more `managed cluster`. They understand their applications, and prefer to just focus on those aspects. They are happy to commit to a Git Repository that they do not own and prefer that management of the Cluster is owned by another team. In this scenario, it would make sense to manage the cluster and its applications via the Hub Repository alone. Think of this as a `shared-multi-tenancy` operational model. Everyone with access to the Git repository can see all objects within. To demo this model, we've left example folder structures for the `managed` use-case. This can be found in `0-bootstrap/spokeclusters/`.
+
+### Note
+
+It should be noted that these are just a few methods to manage your environments, and we encourage you to choose a method that works for you.
+
 ## Pre-requisites ⬅️
 
 ### Red Hat OpenShift cluster ⭕
@@ -133,7 +185,7 @@ Leveraging the work undertaken by the Cloud Native Toolkit team, you can utilise
     oc login --token=<token> --server=<server>
     ```
 
-### IBM Entitlement Key 🔑
+### IBM Entitlement Key for IBM Cloud Paks 🔑
 
 - An `IBM Entitlement Key` is required to pull IBM Cloud Pak specific container images from the IBM Entitled Registry.
 
@@ -153,46 +205,6 @@ To get an entitlement key:
     --docker-server=cp.icr.io \
     --docker-email=myemail@ibm.com
     ```
-
-## Overview of Git Repositories
-
-We leverage several repositories to make up the pattern. These may seem as overwhelming to begin with, but there is some method and thoughts behind them. We approached this pattern with scale in mind and running a single mono repository with all the manifests quickly showed that it does not lend itself to scale that well.
-
-We really want a method that allows a decentralised approach to scale. One where teams are working together across the entire pattern, with some guard-rails, to enable rapid deployment of OpenShift Clusters, Applications and Policies at scale.
-
-Taking the Kubernetes Ownership Model, we looked at which personas would typically contribute and have ownership over a repository and separated a single mono repository into several to reflect that. An example would be a Platform team that primarily contributes and has ownership over a repository that defines the [infrastructure-related](https://github.com/one-touch-provisioning/otp-gitops-infra) components of a Kubernetes Cluster, e.g. namespaces, machinesets, ingress-controllers, storage etc, they may also be best placed to contribute and own a repository that defines how OpenShift [Clusters](https://github.com/one-touch-provisioning/otp-gitops-clusters) are created on different Cloud Providers. Similar examples can be given for a set of Services which support Application developers, where we would separate these into their own repositories, again owned and primarily contributed by a Services team. A Risk/Security team owning and primarily contributing to a [Policies](https://github.com/one-touch-provisioning/otp-gitops-policies) repository is another example.
-
-We then look to enable all these repositories as centralised repositories, either at an organisational, business or product level, where each OpenShift Cluster, including the Hub Cluster, is deployed with OpenShift GitOps (aka ArgoCD) and bootstrapped via a single repository, within which hold ArgoCD Applications that point back to these centralised repositories.
-
-The advantages of this approach is a reduction of duplicated code and ensures that deployed OpenShift Clusters all meet or share the same configuration, where applicable. For example node sizes, autoscaling, networking etc or RBAC policies that are important for overall governance and security. As a result, the desired configurations are fully replicated across the Clusters, regardless of where they land, Public, Private, On-Prem etc.
-
-Manually identifying drift and maintaining conformance across different clusters within different Clouds as they scale is, of course, not a viable alternative, so this approach lends itself very well.
-
-By utilising a shared and decentralised approach, this has the added advantage of lowering the barrier to entry (e.g., a Developer needs to understand how we are deploying a cluster, they can read the Git Repository without needing to delay the Platform team), lowering the cost for change and Opening up Opportunities to Innovate.
-
-For our pattern, we've termed the above 1 + 5 + n Git Repositories.
-
-* 1 Repository being the Red Hat Advanced Cluster Management Hub Cluster
-
-* 5 Repositories (Infrastructure, Services, Applications, Clusters, Policies) being common / shared
-
-* n Repository being the repository that you will use to bootstrap your deployed managed OpenShift Cluster
-
-![1+5+n Repositories](doc/images/15n-repos.gif)
-
-By using a common set of repositories we can quickly scale out Cluster Deployments and reducing the risk of misconfiguration and drift.
-
-### Use-cases for different Git Repository organisation
-
-As we mature this method/pattern, we have seen different use-cases where the need for a different Git Repository organisation has been required.
-
-Our view by leveraging the 1 + 5 + n Git Repositories it allows more flexability to what is deployed into cluster and works better at scale. The Line of Business, Product team, end-users etc can have full control via their own ArgoCD instance which is configured against a Git repository they control. We'll term this a "self-managed Cluster". This may suit a team which has experience in OpenShift, clearly understand their requirements, and are comfortable managing the environment themselves.
-
-However there are occassions where there maybe a requirement for a Cluster to be provisioned and the end-users wish for a more "managed cluster". They understand their applications, and prefer to just focus on those aspects. They are happy to commit to a Git Repository that they do not own and prefer that management of the Cluster is owned by another team. In this scenario, it would make sense to manage the cluster and its applications via the Hub Repository alone. To demostrate this we've left example folder structures for the `managed` use-case above. This can be found in `0-bootstrap/3-clusters/argocd/clusters/EXAMPLE/managed/aws/aws5`.
-
-### Note
-
-It should be noted that these are just a few methods to manage your environments, and we encourage you to choose a method that works for you.
 
 ## Setup git repositories
 
@@ -317,7 +329,7 @@ It should be noted that these are just a few methods to manage your environments
 
     *Note:* We use a custom openshift-gitops-repo-server image to enable the use of Plugins within OpenShift Gitops. This is required to allow RHACM to utilise the Policy Generator plugin. The Dockerfile can be found here: [https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server](https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server).
 
-3. If using IBM Cloud ROKS as a Hub Cluster, configure TLS.
+3. If using IBM Cloud ROKS as a Hub Cluster, you will need to configure TLS.
 
     ```bash
     scripts/patch-argocd-tls.sh
@@ -351,8 +363,8 @@ If you are running a managed OpenShift cluster on IBM Cloud, you can deploy Open
 2. The resources required to be deployed for this asset have been pre-selected, and you should just need to clone the `otp-gitops` repository in your Git Organization if you have not already done so. However, you can review and modify the resources deployed by editing the following.
 
      ```
-     0-bootstrap/1-infra/kustomization.yaml
-     0-bootstrap/2-services/kustomization.yaml
+     0-bootstrap/hub/1-infra/kustomization.yaml
+     0-bootstrap/hub/2-services/kustomization.yaml
      ```
 
   If you choose to disable any Infrastructure or Services resources before the Initial Bootstrap, you will need to re-commit those changes back to your Git repository, otherwise they will not be picked up by OpenShift GitOps.
@@ -360,12 +372,12 @@ If you are running a managed OpenShift cluster on IBM Cloud, you can deploy Open
 3. Deploy the OpenShift GitOps Bootstrap Application.
 
     ```bash
-    oc apply -f 0-bootstrap/bootstrap.yaml
+    oc apply -f 0-bootstrap/hub/bootstrap.yaml
     ```
 
 4. Its recommended to deploy the Infrastructure components, then the Service Componenets once complete. ArgoCD Sync waves are used to managed the order of manifest deployments, but we have seen occassions where applying both the Infrastructure and Services layers at the same time can fail. YMMV.
 
-Once the Infrastructure layer has been deployed, update the `0-bootstrap/kustomization.yaml` manifest to enable the Services layer and commit to Git. OpenShift GitOps will then automatically deploy the Services.
+Once the Infrastructure layer has been deployed, update the `0-bootstrap/hub/kustomization.yaml` manifest to enable the Services layer and commit to Git. OpenShift GitOps will then automatically deploy the Services.
 
    ```yaml
    resources:
@@ -420,77 +432,63 @@ Within this asset we treat Managed Clusters as OpenShift GitOps Applications. Th
 
 ### Creating and Destroying Managed OpenShift Clusters
 
-Review the `Clusters` layer [kustomization.yaml](0-bootstrap/3-clusters/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
+We've now simplied the life-cycling of OpenShift Clusters on AWS, Google Cloud and Azure via the use of [Cluster Pools](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.5/html/clusters/managing-your-clusters#managing-cluster-pools) and [ClusterClaims](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.5/html/clusters/managing-your-clusters#clusterclaims).
+
+Cluster Pools allows you pre-set a common cluster configuration and RHACM will take that configuration and apply it to each Cluster it deploys from that Cluster Pool. An example could be that a Production Cluster may consume specific Compute resources, exist in a multi-zone configuration and requires a particular version of OpenShift to be deployed and RHACM will deploy a cluster to meet those requirements.
+
+Once a Cluster Pool has been created, you can submit ClusterClaims to deploy a cluster from that pool.
+
+We have retained the ability to deploy clusters outside of Cluster Pools and updated these methods to support External Secrets Operator.
+
+Review the `Clusters` layer [kustomization.yaml](0-bootstrap/hub/3-clusters/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
 
   ```yaml
   resources:
+  ## ClusterPools - Seperated by Env and Cloud
+  - argocd/clusterpools/cicd/aws/aws-cicd-pool/aws-cicd-pool.yaml
+  - argocd/clusterpools/cicd/azure/azure-cicd-pool/azure-cicd-pool.yaml
+ 
+  #- argocd/clusterpools/dev/aws/aws-dev-pool/aws-dev-pool.yaml
+ 
+  #- argocd/clusterpools/test/aws/aws-test-pool/aws-test-pool.yaml
+ 
+  #- argocd/clusterpools/prod/aws/aws-prod-pool/aws-prod-pool.yaml 
+
   ## Deploy Clusters
-  ## Include the Clusters you wish to deploy below
-  ## Examples have been provided
+
+  ## ClusterClaims - Seperated by Env and Cloud
+  - argocd/clusterclaims/dev/aws/project-simple.yaml
+  #- argocd/clusterclaims/prod/aws/project-simple.yaml
+  #- argocd/clusterclaims/cicd/aws/project-cicd.yaml
+  #- argocd/clusterclaims/test/aws/project-easy.yaml
+
+  ## ClusterDeployments - Seperated by Env and Cloud
 
   ### AWS
-  #- argocd/clusters/deploy/aws/aws0.yaml
-  #- argocd/clusters/deploy/aws/aws1.yaml
-  #- argocd/clusters/deploy/aws/aws2.yaml
-
-  ### Azure
-  #- argocd/clusters/deploy/azure/azure0.yaml
-  #- argocd/clusters/deploy/azure/azure1.yaml 
+  #- argocd/clusters/cicd/aws/aws-cicd/aws-cicd.yaml
+  #- argocd/clusters/dev/aws/aws-dev/aws-dev.yaml
+  - argocd/clusters/prod/aws/aws-prod/aws-prod.yaml
  
-  ### vSphere
-  #- argocd/clusters/deploy/vsphere/vsphere-eltham.yaml
+  ### Azure
+  #- argocd/clusters/cicd/azure/azure-cicd/azure-cicd.yaml
+  - argocd/clusters/prod/azure/azure-prod/azure-prod.yaml 
   ```
 
-  * We have have provided examples for deploying new clusters into AWS, Azure, IBM Cloud and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We utilise SealedSecrets Controller to encrypt your API Keys and have provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/<cloud provider>` for your use.
+  * We have have provided examples for deploying new clusters into AWS, Azure, IBM Cloud and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We originally utilised the SealedSecrets Controller to encrypt your API Keys and provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/sealed-secrets/<cloud provider>` for your use.
+
+  * More recently we have updated the pattern to allow the use of an external keystore, e.g. Vault and leveraged the use of the External Secrets Operator to pull in the Cloud Providers API keys automatically. This has allowed us to simplify the creation of new clusters and reduce the values needed. The new method is stored within the `Clusters` repository, under `clusters/deploy/external-secrets/<cloud provider>`
+
+
 
 ### Auto-discovery and import of existing OpenShift Clusters
 
-  * Red Hat Advanced Cluster Management 2.5 makes the use of the Discovery Service, that will auto-discover and import OpenShift Clusters configured within your RHOCM account. You can still perform this action outside of the Discovery Service, but this does mean that manual steps are required. We have provided the ability to utilise ArgoCD for part of the process, but the final steps remain to be manual.
+  * Red Hat Advanced Cluster Management 2.5 makes the use of the Discovery Service, that will auto-discover and import OpenShift Clusters configured within your RHOCM account. You can still perform this action outside of the Discovery Service, but this does mean that manual steps are required.
 
   ```yaml
   resources:
   ## Discover & Import Existing Clusters
    - argocd/clusters/discover/discover-openshift.yaml
-  #
-  ## Include any Clusters you wish to manually import below
-  ## Examples have been provided
-  # - argocd/clusters/import/ibmcloud/ibmcloud-syd.yaml
-  # - argocd/clusters/import/vsphere/ocp-swinney-io.yaml
   ```
-
-  * An example of how you can perform the final steps of manually importing a cluster can be seen below. The use of OpenShift GitOps is used to firstly create all the resources needed by RHACM to perform an import, then once completed, you would follow the remaining steps. The aim in the future would be to automate these steps.
-
-  * Uncomment the clusters you wish to import from `Clusters` [kustomization.yaml](0-bootstrap/3-clusters/kustomization.yaml) file and commit to Git.
-
-  ```yaml
-  resources:
-  ## Include any Clusters you wish to manually import below
-  ## Examples have been provided
-    - argocd/clusters/import/ibmcloud/ibmcloud-syd.yaml
-  # - argocd/clusters/import/vsphere/ocp-swinney-io.yaml
-  ```
-
-  * OpenShift GitOps will then begin the Import routine, and once synced, complete the remaining steps listed below.
-
-  ```bash
-  export OCP-VSPHERE="ocp-swinney-io"
-
-  # Log into OCP Production Hub Cluster
-    
-  # Klusterlet-crd
-  oc get secret ${OCP-VSPHERE}-import -n ${OCP-VSPHERE} -o jsonpath={.data.crds\\.yaml} | base64 --decode > ${OCP-VSPHERE}-klusterlet-crd.yaml
-    
-  # managed-cluster-import
-  oc get secret ${OCP-VSPHERE}-import -n ${OCP-VSPHERE} -o jsonpath={.data.import\\.yaml} | base64 --decode > ${OCP-VSPHERE}-managed-cluster-import.yaml
-    
-  # Log into vSphere Managed OCP Cluster
-  oc apply -f ${OCP-VSPHERE}-klusterlet-crd.yaml
-  oc apply -f ${OCP-VSPHERE}-managed-cluster-import.yaml
-  ```
-
-  * Within a few minutes your Imported Clusters will show within RHACM.
-
-    ![importedclusterexample](doc/images/importedclusterfinished.png)
 
 ### Hibernating Managed OpenShift Clusters
 

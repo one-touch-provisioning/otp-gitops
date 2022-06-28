@@ -1,0 +1,83 @@
+resources:
+ # Console Banner
+ - argocd/consolenotification.yaml
+ 
+ #- argocd/namespaces/namespace-ibm-common-services.yaml
+ #- argocd/namespaces/namespace-cloudpak.yaml
+ #- argocd/namespaces/namespace-openldap.yaml
+ #- argocd/namespaces/namespace-cert-manager.yaml
+ 
+ # External Secrets
+ - argocd/rbac/rbac-external-secrets.yaml
+ - argocd/namespaces/namespace-external-secrets.yaml
+ 
+ - argocd/namespaces/namespace-sealed-secrets.yaml
+ - argocd/namespaces/namespace-tools.yaml
+
+ # Observability
+ #- argocd/namespaces/namespace-turbonomic.yaml
+ #- argocd/namespaces/namespace-instana-agent.yaml
+
+ # Red Hat Advanced Cluster Management
+ - argocd/rbac/rbac-rhacm.yaml
+ - argocd/namespaces/namespace-openshift-acm.yaml
+ - argocd/namespaces/namespace-openshift-acm-observability.yaml
+ - argocd/namespaces/namespace-rhacm-credentials.yaml
+ - argocd/namespaces/namespace-policies.yaml
+ - argocd/namespaces/namespace-rhacm-clusterpools.yaml
+ - argocd/namespaces/namespace-rhacm-clusterclaims.yaml
+ # RHACM Metal Provisioner (Not required if Hub is running on Bare-Metal)
+ #- argocd/namespaces/namespace-metal-provisioner.yaml
+ 
+ # Ansible Automation Platform
+ - argocd/namespaces/namespace-ansible-automation-platform.yaml
+ 
+ # OpenShift Virtualization (Can be used to host Instana Instance)
+ #- argocd/rbac/rbac-openshift-virtualization.yaml
+ #- argocd/namespaces/namespace-openshift-virtualization.yaml
+ #- argocd/namespaces/namespace-openshift-virtualization-os-images.yaml
+ #- argocd/namespaces/namespace-openshift-virtualization-virtual-machines.yaml
+ 
+ # Openshift Advanced Cluster Security
+ #- argocd/namespaces/namespace-openshift-acs.yaml
+ 
+ # IBM Infrastruture Automation aka MCM
+ #- argocd/namespaces/namespace-ibm-infra-automation.yaml
+ 
+ # RHSSO
+ #- argocd/namespaces/namespace-sso.yaml
+ #- argocd/namespaces/namespace-sso-integration.yaml
+ 
+ # OpenShift Service Mesh
+ #- argocd/namespaces/namespace-openshift-operators-redhat.yaml
+ #- argocd/namespaces/namespace-istio-system.yaml
+ #- argocd/namespaces/namespace-ibm-cp4mcm.yaml
+
+ # Quay Registry
+ - argocd/namespaces/namespace-quay-registry.yaml
+ 
+ # OpenShift Data Foundation aka OpenShift Container Storage
+ #- unneeded for IBM Cloud ROKS with ODF add-on configured
+ - argocd/namespaces/namespace-openshift-storage.yaml
+ - argocd/storage.yaml
+ 
+ # MachineSets and Infra Nodes
+ #- unneeded for IBM Cloud ROKS with ODF add-on configured
+ - argocd/machinesets.yaml
+ - argocd/infraconfig.yaml
+ 
+ # Console link
+ - argocd/consolelink.yaml
+
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=infra"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_INFRA}
+    - op: add
+      path: /spec/source/targetRevision
+      value: ${GIT_GITOPS_BRANCH}

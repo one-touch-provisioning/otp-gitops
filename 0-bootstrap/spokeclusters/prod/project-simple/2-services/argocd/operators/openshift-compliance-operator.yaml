@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-compliance-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "200"
+  labels:
+    gitops.tier.group: compliance
+    gitops.tier.layer: services
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: openshift-compliance
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: operators/openshift-compliance-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

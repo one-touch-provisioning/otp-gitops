@@ -28,7 +28,7 @@ HELM_REPOURL=${HELM_REPOURL:-https://charts.cloudnativetoolkit.dev}
 
 echo "Reseting variables to its template default"
 
-find ${SCRIPTDIR}/../0-bootstrap -name '*.yaml' -print0 |
+find ${SCRIPTDIR}/../0-bootstrap/hub -name '*.yaml' -print0 |
   while IFS= read -r -d '' File; do
     if grep -q "kind: Application\|kind: AppProject" "$File"; then
       #echo "$File"

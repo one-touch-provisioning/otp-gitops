@@ -1,0 +1,16 @@
+resources:
+ ## Deploy Applications to Managed Clusters
+ #- argocd/cloudpaks/cp4i/cp4i.yaml
+
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=applications"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: https://github.com/one-touch-provisioning/otp-gitops-apps.git
+    - op: add
+      path: /spec/source/targetRevision
+      value: master

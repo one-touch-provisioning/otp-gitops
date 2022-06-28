@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: clusters-clusterclaim-aws-prod-project-simple
+  annotations:
+    argocd.argoproj.io/sync-wave: "360"
+  labels:
+    gitops.tier.layer: clusters
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: clusters
+  source:
+    path: clusterclaims
+    helm:
+      values: |
+        clusterClaimName: aws-prod-project-simple
+
+        clusterPoolName: aws-prod-pool
+
+        managedCluster: 
+          status: "enabled"
+          managedRepo: https://github.com/testing-gitops/otp-gitops.git
+          environment: prod  
+          projectName: project-simple

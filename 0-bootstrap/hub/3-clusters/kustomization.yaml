@@ -1,0 +1,61 @@
+resources:
+ ## Create RHACM Credentials
+ ## Include any Private or Public Cloud Providers you may have
+ ## Examples have been provided for both SealedSecrets and leveraging an external Key Store via ExternalSecrets Operator
+ #- argocd/infra/providers/rhacm/aws/sealed-secrets/aws.yaml
+ #- argocd/infra/providers/rhacm/aws/external-secrets/aws.yaml 
+ #- argocd/infra/providers/rhacm/azure/sealed-secrets/azure.yaml
+ #- argocd/infra/providers/rhacm/azure/external-secrets/azure.yaml
+ #- argocd/infra/providers/rhacm/vsphere/sealed-secrets/vsphere.yaml
+ #- argocd/infra/providers/rhacm/rhocm/sealed-secrets/rhocm.yaml 
+
+ ## ClusterPools - Seperated by Env and Cloud
+ #- argocd/clusterpools/cicd/aws/aws-cicd-pool/aws-cicd-pool.yaml
+ #- argocd/clusterpools/cicd/azure/azure-cicd-pool/azure-cicd-pool.yaml
+ 
+ #- argocd/clusterpools/dev/aws/aws-dev-pool/aws-dev-pool.yaml
+ 
+ #- argocd/clusterpools/test/aws/aws-test-pool/aws-test-pool.yaml
+ 
+ #- argocd/clusterpools/prod/aws/aws-prod-pool/aws-prod-pool.yaml 
+
+ ## Deploy Clusters
+
+ ## ClusterClaims - Seperated by Env and Cloud
+ #- argocd/clusterclaims/dev/aws/project-simple.yaml
+ #- argocd/clusterclaims/prod/aws/project-simple.yaml
+ #- argocd/clusterclaims/cicd/aws/project-cicd.yaml
+ #- argocd/clusterclaims/test/aws/project-easy.yaml
+
+ ## ClusterDeployments - Seperated by Env and Cloud
+
+ ### AWS
+ #- argocd/clusters/cicd/aws/aws-cicd/aws-cicd.yaml
+ #- argocd/clusters/dev/aws/aws-dev/aws-dev.yaml
+ #- argocd/clusters/prod/aws/aws-prod/aws-prod.yaml
+ 
+ ### Azure
+ #- argocd/clusters/cicd/azure/azure-cicd/azure-cicd.yaml
+ #- argocd/clusters/prod/azure/azure-prod/azure-prod.yaml 
+ 
+ ### vSphere
+ #- argocd/clusters/test/vsphere/vsphere-test.yaml
+ #- argocd/clusters/prod/vsphere/vsphere-prod.yaml 
+
+ # Configure Submariner - Cross Cluster/Cloud communication
+ #- argocd/submariner/add-existing-clusters.yaml
+ #- argocd/submariner/configure-azure.yaml
+ #- argocd/submariner/deploy-submariner.yaml
+ 
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=clusters"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CLUSTERS}
+    - op: add
+      path: /spec/source/targetRevision
+      value: ${GIT_GITOPS_BRANCH}

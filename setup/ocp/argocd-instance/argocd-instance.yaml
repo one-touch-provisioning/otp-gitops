@@ -1,7 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
 metadata:
-  name: openshift-gitops-cntk
+  name: otp-gitops
+  namespace: openshift-gitops
 spec:
   server:
     autoscale:
@@ -21,7 +22,7 @@ spec:
     route:
       enabled: true
     service:
-      type: ''
+      type: ""
   grafana:
     enabled: false
     ingress:
@@ -515,11 +516,11 @@ spec:
         end
         hs.status = "Progressing"
         hs.message = "Unknown"
-        return hs                  
+        return hs
   applicationSet:
     resources:
       limits:
-        cpu: '2'
+        cpu: "2"
         memory: 1Gi
       requests:
         cpu: 250m
@@ -535,7 +536,7 @@ spec:
     version: v1.5.3
     resources:
       limits:
-        cpu: '1'
+        cpu: "1"
         memory: 512Mi
       requests:
         cpu: 250m
@@ -566,7 +567,7 @@ spec:
       requests:
         cpu: 250m
         memory: 128Mi
-  kustomizeBuildOptions: '--enable-alpha-plugins'
+  kustomizeBuildOptions: "--enable-alpha-plugins"
   tls:
     ca: {}
   redis:
@@ -581,7 +582,7 @@ spec:
     processors: {}
     resources:
       limits:
-        cpu: '2'
+        cpu: "2"
         memory: 4Gi
       requests:
         cpu: 250m

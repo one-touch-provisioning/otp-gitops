@@ -18,26 +18,26 @@ spec:
     path: infraconfig
     helm:
       values: |
-          cloudProvider:
-            name: "${PLATFORM}" # set to aws or vsphere,
-            managed: ${MANAGED} # set to true for ARO or ROSA
-          argo:
-            namespace: openshift-gitops
-            serviceAccount: openshift-gitops-cntk-argocd-application-controller
-          registry:
-            storageClassName: ocs-storagecluster-cephfs
-            replicas: 2
-          ingress:
-            replicas: 3
-          image-registry-hook-job:
-            name: infraconfig-postsync
-            namespace: tools
-            hook:
-              enabled: true
-              hooktype: infraconfig-postsync
-            hookdeletepolicy:
-              enabled: true
-              hookdeletepolicytype: HookSucceeded
+        cloudProvider:
+          name: "${PLATFORM}" # set to aws or vsphere,
+          managed: ${MANAGED} # set to true for ARO or ROSA
+        argo:
+          namespace: openshift-gitops
+          serviceAccount: otp-gitops-argocd-application-controller
+        registry:
+          storageClassName: ocs-storagecluster-cephfs
+          replicas: 2
+        ingress:
+          replicas: 3
+        image-registry-hook-job:
+          name: infraconfig-postsync
+          namespace: tools
+          hook:
+            enabled: true
+            hooktype: infraconfig-postsync
+          hookdeletepolicy:
+            enabled: true
+            hookdeletepolicytype: HookSucceeded
   syncPolicy:
     automated:
       prune: true

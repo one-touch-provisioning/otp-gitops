@@ -2,12 +2,12 @@
 
 ## Elevator Pitch
 
-This method/pattern is our opinionated implementation of the GitOps principles, using the latest and greatest tooling available, to enable the hitting of one big red button (figuratively) to start provisioning a platform that provides Cluster and Virtual Machine Provisioning capabilities, Governance and policy management, observability of Clusters and workloads and finally deployment of applications, such as IBM Cloud Paks, all within a single command*.
+This method/pattern is our opinionated implementation of the GitOps principles, using the latest and greatest tooling available, to enable the hitting of one big red button (figuratively) to start provisioning a platform that provides Cluster and Virtual Machine Provisioning capabilities, Governance and policy management, observability of Clusters and workloads and finally deployment of applications, such as IBM Cloud Paks, all within a single command\*.
 
 - Codified, Repeatable and Auditable.
 
 ![OTP](doc/images/ztp.png)
-*Disclaimer, may actually be more than just one command to type. 😉
+\*Disclaimer, may actually be more than just one command to type. 😉
 
 The method/pattern is not intended to be used straight into Production, and a lot of assumptions have been made when putting this together. It's main intention is to show the `Art of the Possible`, but it can be used as base to roll your own.
 
@@ -17,7 +17,7 @@ Whilst all efforts have been made to provide a complete `One Touch Provisioning`
 
 This asset has been built on the shoulders of giants and leverages the great work and effort undertaken by the [Cloud Native Toolkit - GitOps Production Deployment Guide](https://github.com/cloud-native-toolkit/multi-tenancy-gitops), [IBM Garage TSA](https://github.com/ibm-garage-tsa/cp4mcm-installer) and [Red Hat Communities of Practice](https://github.com/redhat-cop) teams. Without these efforts, then this asset would have struggled to get off the ground.
 
-The reference architecture for this GitOps workflow can be found [here](https://cloudnativetoolkit.dev/adopting/use-cases/gitops/gitops-ibm-cloud-paks/).  
+The reference architecture for this GitOps workflow can be found [here](https://cloudnativetoolkit.dev/adopting/use-cases/gitops/gitops-ibm-cloud-paks/).
 
 ## Table of contents
 
@@ -42,11 +42,11 @@ The reference architecture for this GitOps workflow can be found [here](https://
   - [Bootstrap the OpenShift cluster](#bootstrap-the-openshift-cluster)
     - [Credentials](#credentials)
     - [Infrastructure Automation](#infrastructure-automation)
-    - [Red Hat Advanced Cluster Management](#red-hat-advanced-cluster-management) 
+    - [Red Hat Advanced Cluster Management](#red-hat-advanced-cluster-management)
   - [Managing OpenShift Clusters via OpenShift GitOps](#managing-openShift-clusters-via-openShift-gitOps)
   - [Managing IaaS Providers within IBM Infrastructure Automation](#managing-iaas-providers-within-ibm-infrastructure-automation)
   - [Deployment of Cloud Paks through OpenShift GitOps](#deployment-of-cloud-paks-through-openShift-gitOps)
-  
+
 ## Note ✋
 
 This repository provides an opinionated point of view on how tooling and principles such as `Terraform`, `Ansible` and `GitOps` can be used to manage the infrastructure, services and application layers of OpenShift/Kubernetes based systems. It takes into account the various personas interacting with the system and accounts for separation of duties.
@@ -109,11 +109,11 @@ By utilising a shared and decentralised approach, this has the added advantage o
 
 For our pattern, we've termed the above 1 + 5 + n Git Repositories.
 
-* 1 Repository being the Red Hat Advanced Cluster Management Hub Cluster
+- 1 Repository being the Red Hat Advanced Cluster Management Hub Cluster
 
-* 5 Repositories (Infrastructure, Services, Applications, Clusters, Policies) being common / shared
+- 5 Repositories (Infrastructure, Services, Applications, Clusters, Policies) being common / shared
 
-* n Repository being the repository that you will use to bootstrap your deployed managed OpenShift Cluster
+- n Repository being the repository that you will use to bootstrap your deployed managed OpenShift Cluster
 
 ![1+5+n Repositories](doc/images/15n-repos.gif)
 
@@ -165,25 +165,25 @@ Leveraging the work undertaken by the Cloud Native Toolkit team, you can utilise
 
 ### CLI tools 💻
 
-- Install the OpenShift CLI oc (version 4.9+) .  The binary can be downloaded from the Help menu from the OpenShift Console.
+- Install the OpenShift CLI oc (version 4.9+) . The binary can be downloaded from the Help menu from the OpenShift Console.
 
     <details>
     <summary>Download oc cli</summary>
 
-    ![oc cli](doc/images/oc-cli.png)
+  ![oc cli](doc/images/oc-cli.png)
     </details>
 
 - Install helm and kubeseal from brew.sh
 
-   ```bash
-   brew install kubeseal && brew install helm
-   ```
+  ```bash
+  brew install kubeseal && brew install helm
+  ```
 
 - Log in from a terminal window.
 
-    ```bash
-    oc login --token=<token> --server=<server>
-    ```
+  ```bash
+  oc login --token=<token> --server=<server>
+  ```
 
 ### IBM Entitlement Key for IBM Cloud Paks 🔑
 
@@ -191,149 +191,151 @@ Leveraging the work undertaken by the Cloud Native Toolkit team, you can utilise
 
 To get an entitlement key:
 
-1. Log in to [MyIBM Container Software Library](https://myibm.ibm.com/products-services/containerlibrary) with an IBMid and password associated with the entitled software.  
+1. Log in to [MyIBM Container Software Library](https://myibm.ibm.com/products-services/containerlibrary) with an IBMid and password associated with the entitled software.
 2. Select the **View library** option to verify your entitlement(s).
 3. Select the **Get entitlement key** to retrieve the key.
 
 - Create a **Secret** containing the entitlement key within the `ibm-infra-automation` namespace.
 
-    ```bash
-    oc new-project ibm-infra-automation || true
-    oc create secret docker-registry ibm-entitlement-key -n ibm-infra-automation \
-    --docker-username=cp \
-    --docker-password="<entitlement_key>" \
-    --docker-server=cp.icr.io \
-    --docker-email=myemail@ibm.com
-    ```
+  ```bash
+  oc new-project ibm-infra-automation || true
+  oc create secret docker-registry ibm-entitlement-key -n ibm-infra-automation \
+  --docker-username=cp \
+  --docker-password="<entitlement_key>" \
+  --docker-server=cp.icr.io \
+  --docker-email=myemail@ibm.com
+  ```
 
 ## Setup git repositories
 
-- The following set of Git repositories will be used for our GitOps workflow.  
+- The following set of Git repositories will be used for our GitOps workflow.
 
-    - Main GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops](https://github.com/one-touch-provisioning/otp-gitops)): This repository contains all the ArgoCD Applications for  the `infrastructure`, `services` and `application` layers.  Each ArgoCD Application will reference a specific K8s resource (yaml resides in a separate git repository), contain the configuration of the K8s resource, and determine where it will be deployed into the cluster.  
+  - Main GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops](https://github.com/one-touch-provisioning/otp-gitops)): This repository contains all the ArgoCD Applications for the `infrastructure`, `services` and `application` layers. Each ArgoCD Application will reference a specific K8s resource (yaml resides in a separate git repository), contain the configuration of the K8s resource, and determine where it will be deployed into the cluster.
 
-    - Infrastructure GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-infra](https://github.com/one-touch-provisioning/otp-gitops-infra)): Contains the YAMLs for cluster-wide and/or infrastructure related K8s resources managed by a cluster administrator.  This would include `namespaces`, `clusterroles`, `clusterrolebindings`, `machinesets` to name a few.
+  - Infrastructure GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-infra](https://github.com/one-touch-provisioning/otp-gitops-infra)): Contains the YAMLs for cluster-wide and/or infrastructure related K8s resources managed by a cluster administrator. This would include `namespaces`, `clusterroles`, `clusterrolebindings`, `machinesets` to name a few.
 
-    - Services GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-services](https://github.com/one-touch-provisioning/otp-gitops-services)): Contains the YAMLs for K8s resources which will be used by the `application` layer.  This could include `subscriptions` for Operators, YAMLs of custom resources provided, or Helm Charts for tools provided by a third party.  These resource would usually be managed by the Administrator(s) and/or a DevOps team supporting application developers.
+  - Services GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-services](https://github.com/one-touch-provisioning/otp-gitops-services)): Contains the YAMLs for K8s resources which will be used by the `application` layer. This could include `subscriptions` for Operators, YAMLs of custom resources provided, or Helm Charts for tools provided by a third party. These resource would usually be managed by the Administrator(s) and/or a DevOps team supporting application developers.
 
-    - Apps GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-apps](https://github.com/one-touch-provisioning/otp-gitops-apps)): Contains the YAMLs for K8s resources to deploy `applications`.
+  - Apps GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-apps](https://github.com/one-touch-provisioning/otp-gitops-apps)): Contains the YAMLs for K8s resources to deploy `applications`.
 
-    - Clusters GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-clusters](https://github.com/one-touch-provisioning/otp-gitops-clusters)): Contains the YAMLs for K8s resources to deploy `OpenShift Clusters`.
+  - Clusters GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-clusters](https://github.com/one-touch-provisioning/otp-gitops-clusters)): Contains the YAMLs for K8s resources to deploy `OpenShift Clusters`.
 
-    - Policies GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-policies](https://github.com/one-touch-provisioning/otp-gitops-policies)): Contains the YAMLs for K8s resources to deploy `Policies` to clusters.
+  - Policies GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-policies](https://github.com/one-touch-provisioning/otp-gitops-policies)): Contains the YAMLs for K8s resources to deploy `Policies` to clusters.
 
 1. Create a new GitHub Organization using instructions from this [GitHub documentation](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch).
 
 2. From each template repository, click the `Use this template` button and create a copy of the repository in your new GitHub Organization.
    Note: Make sure the repositories are public so that ArgoCD can access them.
 
-    ![Create repository from a template](doc/images/git-repo-template-button.png)
+   ![Create repository from a template](doc/images/git-repo-template-button.png)
 
 3. (Optional) OpenShift GitOps can leverage GitHub tokens. Many users may wish to use private Git repositories on GitHub to store their manifests, rather than leaving them publically readable. The following steps will need to repeated for each repository.
 
-    - Generate GitHub Token
-      - Visit [https://github.com/settings/tokens](https://github.com/settings/tokens) and select "Generate new token". Give your token a name, an expiration date and select the scope. The token will need to have repo access.
+   - Generate GitHub Token
 
-        ![Create a GitHub Secret](doc/images/github-token-scope.png)
+     - Visit [https://github.com/settings/tokens](https://github.com/settings/tokens) and select "Generate new token". Give your token a name, an expiration date and select the scope. The token will need to have repo access.
 
-      - Click on "Generate token" and copy your token! You will not get another chance to copy your token and you will need to regenerate if you missed to opportunity.
+       ![Create a GitHub Secret](doc/images/github-token-scope.png)
 
-    - Generate OpenShift GitOps Namespace
+     - Click on "Generate token" and copy your token! You will not get another chance to copy your token and you will need to regenerate if you missed to opportunity.
+
+   - Generate OpenShift GitOps Namespace
+
+     ```bash
+     oc apply -f setup/ocp/openshift-gitops-namespace.yaml
+     ```
+
+   - Generate Secret
+
+     - export the GitHub token you copied earlier.
 
        ```bash
-       oc apply -f setup/ocp/openshift-gitops-namespace.yaml
+       $ export GITHUB_TOKEN=<insert github token>
+       $ export GIT_ORG=<git organisation>
        ```
 
-    - Generate Secret
-      - export the GitHub token you copied earlier.
+     - Create a secret that will reside within the `openshift-gitops` namespace.
 
-        ```bash
-        $ export GITHUB_TOKEN=<insert github token>
-        $ export GIT_ORG=<git organisation>
-        ```
+       ```bash
+       $ mkdir repo-secrets
+       $ cat <<EOF > setup/ocp/repo-secrets/otp-gitops-repo-secret.yaml
+       apiVersion: v1
+       kind: Secret
+       metadata:
+         name: otp-gitops-repo-secret
+         namespace: openshift-gitops
+         labels:
+           argocd.argoproj.io/secret-type: repository
+       stringData:
+         url: https://github.com/${GIT_ORG}/otp-gitops
+         password: ${GITHUB_TOKEN}
+         username: not-used
+       EOF
+       ```
 
-      - Create a secret that will reside within the `openshift-gitops` namespace.
+     - Repeat the above steps for `otp-gitops-infra`, `otp-gitops-services`, `otp-gitops-apps`, `otp-gitops-clusters` and `otp-gitops-policies` repositories.
 
-        ```bash
-        $ mkdir repo-secrets
-        $ cat <<EOF > setup/ocp/repo-secrets/otp-gitops-repo-secret.yaml
-        apiVersion: v1
-        kind: Secret
-        metadata:
-          name: otp-gitops-repo-secret
-          namespace: openshift-gitops
-          labels:
-            argocd.argoproj.io/secret-type: repository
-        stringData:
-          url: https://github.com/${GIT_ORG}/otp-gitops
-          password: ${GITHUB_TOKEN}
-          username: not-used
-        EOF
-        ```
+   - Apply Secrets to the OpenShift Cluster
 
-      - Repeat the above steps for `otp-gitops-infra`, `otp-gitops-services`, `otp-gitops-apps`, `otp-gitops-clusters` and `otp-gitops-policies` repositories.
-
-    - Apply Secrets to the OpenShift Cluster
-
-      ```bash
-      oc apply -f setup/ocp/repo-secrets/
-      rm -rf setup/ocp/repo-secrets
-      ```
+     ```bash
+     oc apply -f setup/ocp/repo-secrets/
+     rm -rf setup/ocp/repo-secrets
+     ```
 
 4. Clone the repositories locally.
 
-    ```bash
-    mkdir -p <gitops-repos>
-    cd <gitops-repos>
-    
-    # Example: set default Git org for clone commands below
-    GIT_ORG=one-touch-provisioning
+   ```bash
+   mkdir -p <gitops-repos>
+   cd <gitops-repos>
 
-    # Clone using SSH
-    git clone git@github.com:$GIT_ORG/otp-gitops.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-infra.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-services.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-apps.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-clusters.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-policies.git
-    ```
+   # Example: set default Git org for clone commands below
+   GIT_ORG=one-touch-provisioning
+
+   # Clone using SSH
+   git clone git@github.com:$GIT_ORG/otp-gitops.git
+   git clone git@github.com:$GIT_ORG/otp-gitops-infra.git
+   git clone git@github.com:$GIT_ORG/otp-gitops-services.git
+   git clone git@github.com:$GIT_ORG/otp-gitops-apps.git
+   git clone git@github.com:$GIT_ORG/otp-gitops-clusters.git
+   git clone git@github.com:$GIT_ORG/otp-gitops-policies.git
+   ```
 
 5. Update the default Git URl and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
 
-    ```bash
-    cd otp-gitops
-    GIT_ORG=<GIT_ORG> GIT_BRANCH=master ./scripts/set-git-source.sh
-    git add .
-    git commit -m "Update Git URl and branch references"
-    git push origin master
-    ```
+   ```bash
+   cd otp-gitops
+   GIT_ORG=<GIT_ORG> GIT_BRANCH=master ./scripts/set-git-source.sh
+   git add .
+   git commit -m "Update Git URl and branch references"
+   git push origin master
+   ```
 
 ## Install and configure OpenShift GitOps
 
 - [Red Hat OpenShift GitOps](https://docs.openshift.com/container-platform/4.10/cicd/gitops/understanding-openshift-gitops.html) uses [Argo CD](https://argoproj.github.io/argo-cd/), an open-source declarative tool, to maintain and reconcile cluster resources.
 
-1. Install the OpenShift GitOps Operator and create a `ClusterRole` and `ClusterRoleBinding`.  
+1. Install the OpenShift GitOps Operator and create a `ClusterRole` and `ClusterRoleBinding`.
 
-    ```bash
-    oc apply -f setup/ocp/
-    while ! oc wait crd applications.argoproj.io --timeout=-1s --for=condition=Established  2>/dev/null; do sleep 30; done
-    while ! oc wait pod --timeout=-1s --for=condition=Ready -l '!job-name' -n openshift-gitops > /dev/null; do sleep 30; done
-    ```
+   ```bash
+   oc apply -f setup/ocp/
+   while ! oc wait crd applications.argoproj.io --timeout=-1s --for=condition=Established  2>/dev/null; do sleep 30; done
+   while ! oc wait pod --timeout=-1s --for=condition=Ready -l '!job-name' -n openshift-gitops > /dev/null; do sleep 30; done
+   ```
 
 2. Create a custom ArgoCD instance with custom checks
 
-    ```bash
-    oc apply -f setup/ocp/argocd-instance/ -n openshift-gitops
-    while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-cntk-server -n openshift-gitops > /dev/null; do sleep 30; done
-    ```
+   ```bash
+   oc apply -f setup/ocp/argocd-instance/ -n openshift-gitops
+   while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=otp-gitops-server -n openshift-gitops > /dev/null; do sleep 30; done
+   ```
 
-    *Note:* We use a custom openshift-gitops-repo-server image to enable the use of Plugins within OpenShift Gitops. This is required to allow RHACM to utilise the Policy Generator plugin. The Dockerfile can be found here: [https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server](https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server).
+   _Note:_ We use a custom openshift-gitops-repo-server image to enable the use of Plugins within OpenShift Gitops. This is required to allow RHACM to utilise the Policy Generator plugin. The Dockerfile can be found here: [https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server](https://github.com/one-touch-provisioning/otp-custom-argocd-repo-server).
 
 3. If using IBM Cloud ROKS as a Hub Cluster, you will need to configure TLS.
 
-    ```bash
-    scripts/patch-argocd-tls.sh
-    ```
+   ```bash
+   scripts/patch-argocd-tls.sh
+   ```
 
 ## Install and configure HashiCorp Vault (If Required) - Single Instance [Demo Only]
 
@@ -343,55 +345,55 @@ WHAT STEPS ARE NEEDED FOR HERE?!?!
 
 If you are running a managed OpenShift cluster on IBM Cloud, you can deploy OpenShift Data Foundation as an [add-on](https://cloud.ibm.com/docs/openshift?topic=openshift-ocs-storage-prep#odf-deploy-options). Otherwise, on AWS, Azure, IBM Cloud, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the Hub Cluster
 
-   ```bash
-   ./scripts/infra-mod.sh
-   ```
+```bash
+./scripts/infra-mod.sh
+```
 
 ## Bootstrap the OpenShift cluster 🥾
 
-- The bootstrap YAML follows the [app of apps pattern](https://argoproj.github.io/argo-cd/operator-manual/cluster-bootstrapping/#app-of-apps-pattern). 
+- The bootstrap YAML follows the [app of apps pattern](https://argoproj.github.io/argo-cd/operator-manual/cluster-bootstrapping/#app-of-apps-pattern).
 
 1. Retrieve the ArgoCD/GitOps URL and admin password and log into the UI
 
-    ```bash
-    oc get route -n openshift-gitops openshift-gitops-cntk-server -o template --template='https://{{.spec.host}}'
-    
-    # Passsword is not needed if Log In via OpenShift is used (default)
-    oc extract secrets/openshift-gitops-cntk-cluster --keys=admin.password -n openshift-gitops --to=-
-    ```
+   ```bash
+   oc get route -n openshift-gitops otp-gitops-server -o template --template='https://{{.spec.host}}'
+
+   # Passsword is not needed if Log In via OpenShift is used (default)
+   oc extract secrets/otp-gitops-cluster --keys=admin.password -n openshift-gitops --to=-
+   ```
 
 2. The resources required to be deployed for this asset have been pre-selected, and you should just need to clone the `otp-gitops` repository in your Git Organization if you have not already done so. However, you can review and modify the resources deployed by editing the following.
 
-     ```
-     0-bootstrap/hub/1-infra/kustomization.yaml
-     0-bootstrap/hub/2-services/kustomization.yaml
-     ```
+   ```
+   0-bootstrap/hub/1-infra/kustomization.yaml
+   0-bootstrap/hub/2-services/kustomization.yaml
+   ```
 
-  If you choose to disable any Infrastructure or Services resources before the Initial Bootstrap, you will need to re-commit those changes back to your Git repository, otherwise they will not be picked up by OpenShift GitOps.
+If you choose to disable any Infrastructure or Services resources before the Initial Bootstrap, you will need to re-commit those changes back to your Git repository, otherwise they will not be picked up by OpenShift GitOps.
 
 3. Deploy the OpenShift GitOps Bootstrap Application.
 
-    ```bash
-    oc apply -f 0-bootstrap/hub/bootstrap.yaml
-    ```
+   ```bash
+   oc apply -f 0-bootstrap/hub/bootstrap.yaml
+   ```
 
 4. Its recommended to deploy the Infrastructure components, then the Service Componenets once complete. ArgoCD Sync waves are used to managed the order of manifest deployments, but we have seen occassions where applying both the Infrastructure and Services layers at the same time can fail. YMMV.
 
 Once the Infrastructure layer has been deployed, update the `0-bootstrap/hub/kustomization.yaml` manifest to enable the Services layer and commit to Git. OpenShift GitOps will then automatically deploy the Services.
 
-   ```yaml
-   resources:
-   - 1-infra/1-infra.yaml
-   ## Uncomment 2-services/2-services.yaml once
-   ## 1-infra/1-infra.yaml has been completed
-   - 2-services/2-services.yaml
-   ## Uncomment to deploy Clusters and Applications
-   ## Must be done after all steps for 1-infra & 2-services
-   ## have been completed.
-   # - 3-clusters/3-clusters.yaml
-   # - 4-apps/4-apps.yaml
-   # - 5-policies/5-policies.yaml
-   ```
+```yaml
+resources:
+  - 1-infra/1-infra.yaml
+  ## Uncomment 2-services/2-services.yaml once
+  ## 1-infra/1-infra.yaml has been completed
+  - 2-services/2-services.yaml
+## Uncomment to deploy Clusters and Applications
+## Must be done after all steps for 1-infra & 2-services
+## have been completed.
+# - 3-clusters/3-clusters.yaml
+# - 4-apps/4-apps.yaml
+# - 5-policies/5-policies.yaml
+```
 
 ### Credentials
 
@@ -442,17 +444,17 @@ We have retained the ability to deploy clusters outside of Cluster Pools and upd
 
 Review the `Clusters` layer [kustomization.yaml](0-bootstrap/hub/3-clusters/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
 
-  ```yaml
-  resources:
+```yaml
+resources:
   ## ClusterPools - Seperated by Env and Cloud
   - argocd/clusterpools/cicd/aws/aws-cicd-pool/aws-cicd-pool.yaml
   - argocd/clusterpools/cicd/azure/azure-cicd-pool/azure-cicd-pool.yaml
- 
+
   #- argocd/clusterpools/dev/aws/aws-dev-pool/aws-dev-pool.yaml
- 
+
   #- argocd/clusterpools/test/aws/aws-test-pool/aws-test-pool.yaml
- 
-  #- argocd/clusterpools/prod/aws/aws-prod-pool/aws-prod-pool.yaml 
+
+  #- argocd/clusterpools/prod/aws/aws-prod-pool/aws-prod-pool.yaml
 
   ## Deploy Clusters
 
@@ -468,42 +470,40 @@ Review the `Clusters` layer [kustomization.yaml](0-bootstrap/hub/3-clusters/kust
   #- argocd/clusters/cicd/aws/aws-cicd/aws-cicd.yaml
   #- argocd/clusters/dev/aws/aws-dev/aws-dev.yaml
   - argocd/clusters/prod/aws/aws-prod/aws-prod.yaml
- 
+
   ### Azure
   #- argocd/clusters/cicd/azure/azure-cicd/azure-cicd.yaml
-  - argocd/clusters/prod/azure/azure-prod/azure-prod.yaml 
-  ```
+  - argocd/clusters/prod/azure/azure-prod/azure-prod.yaml
+```
 
-  * We have have provided examples for deploying new clusters into AWS, Azure, IBM Cloud and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We originally utilised the SealedSecrets Controller to encrypt your API Keys and provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/sealed-secrets/<cloud provider>` for your use.
+- We have have provided examples for deploying new clusters into AWS, Azure, IBM Cloud and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We originally utilised the SealedSecrets Controller to encrypt your API Keys and provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/sealed-secrets/<cloud provider>` for your use.
 
-  * More recently we have updated the pattern to allow the use of an external keystore, e.g. Vault and leveraged the use of the External Secrets Operator to pull in the Cloud Providers API keys automatically. This has allowed us to simplify the creation of new clusters and reduce the values needed. The new method is stored within the `Clusters` repository, under `clusters/deploy/external-secrets/<cloud provider>`
-
-
+- More recently we have updated the pattern to allow the use of an external keystore, e.g. Vault and leveraged the use of the External Secrets Operator to pull in the Cloud Providers API keys automatically. This has allowed us to simplify the creation of new clusters and reduce the values needed. The new method is stored within the `Clusters` repository, under `clusters/deploy/external-secrets/<cloud provider>`
 
 ### Auto-discovery and import of existing OpenShift Clusters
 
-  * Red Hat Advanced Cluster Management 2.5 makes the use of the Discovery Service, that will auto-discover and import OpenShift Clusters configured within your RHOCM account. You can still perform this action outside of the Discovery Service, but this does mean that manual steps are required.
+- Red Hat Advanced Cluster Management 2.5 makes the use of the Discovery Service, that will auto-discover and import OpenShift Clusters configured within your RHOCM account. You can still perform this action outside of the Discovery Service, but this does mean that manual steps are required.
 
-  ```yaml
-  resources:
+```yaml
+resources:
   ## Discover & Import Existing Clusters
-   - argocd/clusters/discover/discover-openshift.yaml
-  ```
+  - argocd/clusters/discover/discover-openshift.yaml
+```
 
 ### Hibernating Managed OpenShift Clusters
 
-  * You can Hibernate deployed Managed OpenShift Clusters running on AWS, Azure and GCP when not in use to reduce on running costs. This has to be done *AFTER* a cluster has been deployed. This is accomplished by modifying the `spec.powerState` from `Running` to `Hibernating` of the ClusterDeployment manifest (Located under `otp-gitops-clusters repo/clusters/deploy/<aws|azure|gcp>/<cluster-name>/templates/clusterdeployment.yaml`) of the Managed OpenShift Cluster and committing to Git.
+- You can Hibernate deployed Managed OpenShift Clusters running on AWS, Azure and GCP when not in use to reduce on running costs. This has to be done _AFTER_ a cluster has been deployed. This is accomplished by modifying the `spec.powerState` from `Running` to `Hibernating` of the ClusterDeployment manifest (Located under `otp-gitops-clusters repo/clusters/deploy/<aws|azure|gcp>/<cluster-name>/templates/clusterdeployment.yaml`) of the Managed OpenShift Cluster and committing to Git.
 
-  ```yaml
-  spec:
-    powerState: Hibernating
-  ```
+```yaml
+spec:
+  powerState: Hibernating
+```
 
-  * To resume a hibernating Managed OpenShift Cluster, you modify the `spec.powerState` value from `Hibernating` to `Running` and commit to Git.
+- To resume a hibernating Managed OpenShift Cluster, you modify the `spec.powerState` value from `Hibernating` to `Running` and commit to Git.
 
 ## Managing IaaS Providers within IBM Infrastructure Automation
-  
-* Details to follow.
+
+- Details to follow.
 
 ## Deployment of Cloud Paks through OpenShift GitOps
 
@@ -515,7 +515,7 @@ We will use the [Cloud Native Toolkit - GitOps Production Deployment Guide](http
 
 ```bash
 # Log into Managed Cluster that the CP4i will be deployed too via oc login
-oc login --token=<token> --server=<server> 
+oc login --token=<token> --server=<server>
 
 # Clone the multi-tenancy-gitops repository you configured via the Cloud Native Toolkit - GitOps Production Deployment Guide
 git clone git@github.com:cp4i-cloudpak/multi-tenancy-gitops.git
@@ -525,10 +525,10 @@ cd multi-tenancy-gitops
 ./scripts/infra-mod.sh
 
 # Create an IBM Entitlement Secret within the tools namespace
-   
+
 ## To get an entitlement key:
-## 1. Log in to https://myibm.ibm.com/products-services/containerlibrary with an IBMid and password associated with the entitled software.  
-## 2. Select the **View library** option to verify your entitlement(s). 
+## 1. Log in to https://myibm.ibm.com/products-services/containerlibrary with an IBMid and password associated with the entitled software.
+## 2. Select the **View library** option to verify your entitlement(s).
 ## 3. Select the **Get entitlement key** to retrieve the key.
 
 oc new-project tools || true
@@ -538,7 +538,7 @@ oc create secret docker-registry ibm-entitlement-key -n tools \
 --docker-server=cp.icr.io
 ```
 
-*Note:* Our aim is to reduce these steps in future releases of the asset.
+_Note:_ Our aim is to reduce these steps in future releases of the asset.
 
 You will need to update the `tenents/cloudpaks/cp4i/cp4i-placement-rule.yaml` file within the `otp-gitops-apps` repository to match the cluster you wish to deploy the Cloud Pak to and commit to Git.
 
@@ -552,8 +552,8 @@ metadata:
     app: ibm-cp4i-argocd
 spec:
   clusterConditions:
-  - status: "True"
-    type: ManagedClusterConditionAvailable
+    - status: "True"
+      type: ManagedClusterConditionAvailable
   clusterSelector:
     matchExpressions: []
     matchLabels:
@@ -565,10 +565,10 @@ Uncomment the CP4i Application within `Application` [kustomization.yaml](0-boots
 
 ```yaml
 resources:
-# Deploy Applications to Managed Clusters
-## Include the Applications you wish to deploy below
-## An example has been provided
- - argocd/cloudpaks/cp4i/cp4i.yaml
+  # Deploy Applications to Managed Clusters
+  ## Include the Applications you wish to deploy below
+  ## An example has been provided
+  - argocd/cloudpaks/cp4i/cp4i.yaml
 ```
 
 OpenShift GitOps will create a RHACM Application that subscribes to the `multi-tenancy-gitops` repository you configured and apply the manifests to the Managed Cluster's OpenShift-GitOps controller.

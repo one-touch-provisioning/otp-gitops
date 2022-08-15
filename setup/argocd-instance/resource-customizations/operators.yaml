@@ -1,0 +1,25 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+data:
+  resource.customizations.health.operators.coreos.com_InstallPlan: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Complete" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.ignoreDifferences.operators.coreos.com_OperatorGroup: |
+    jsonPointers:
+    - /metadata/annotations/olm.providedAPIs

@@ -1,0 +1,49 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+data:
+  resource.customizations.health.Job: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.active ~= nil then
+        if obj.status.active == "1" then
+          hs.status = "Progressing"
+          hs.message = obj.status.active .. " active job(s)."
+          return hs
+        end
+      end
+      if obj.status.succeeded ~= nil then
+        if obj.status.succeeded == 1 then
+          hs.status = "Healthy"
+          hs.message = "Job completed successfully."
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for Job to complete."
+    return hs
+  resource.customizations.health.PersistentVolumeClaim: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        if obj.status.phase == "Pending" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+        if obj.status.phase == "Bound" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for certificate"
+    return hs
+  resource.customizations.ignoreDifferences.ServiceAccount: |
+    jsonPointers:
+    - /imagePullSecrets

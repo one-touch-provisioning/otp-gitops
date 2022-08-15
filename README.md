@@ -241,7 +241,7 @@ To get an entitlement key:
     - Generate OpenShift GitOps Namespace
 
        ```bash
-       oc apply -f setup/ocp/openshift-gitops-namespace.yaml
+       oc apply -f setup/setup/0_openshift-gitops-namespace.yaml
        ```
 
     - Generate Secret
@@ -315,15 +315,16 @@ To get an entitlement key:
 1. Install the OpenShift GitOps Operator and create a `ClusterRole` and `ClusterRoleBinding`.  
 
     ```bash
-    oc apply -f setup/ocp/
+    cd setup
+    oc apply -f setup
     while ! oc wait crd applications.argoproj.io --timeout=-1s --for=condition=Established  2>/dev/null; do sleep 30; done
     while ! oc wait pod --timeout=-1s --for=condition=Ready -l '!job-name' -n openshift-gitops > /dev/null; do sleep 30; done
     ```
 
-2. Create a custom ArgoCD instance with custom checks
+2. Create a custom ArgoCD instance with custom checks. To customise which health checks, comment out those you don't need in `setup/argocd-instance/kustomization.yaml`.
 
     ```bash
-    oc apply -f setup/ocp/argocd-instance/ -n openshift-gitops
+    oc apply -k argocd-instance
     while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-cntk-server -n openshift-gitops > /dev/null; do sleep 30; done
     ```
 
@@ -335,13 +336,20 @@ To get an entitlement key:
     scripts/patch-argocd-tls.sh
     ```
 
-## Install and configure HashiCorp Vault (If Required) - Single Instance [Demo Only]
+4. (Optional) Create a console link to OpenShift GitOps
 
-WHAT STEPS ARE NEEDED FOR HERE?!?!
+   ```bash
+   export ROUTE_NAME=openshift-gitops-cntk-server
+   export ROUTE_NAMESPACE=openshift-gitops
+   export CONSOLE_LINK_URL="https://$(oc get route $ROUTE_NAME -o=jsonpath='{.spec.host}' -n $ROUTE_NAMESPACE)"
+   envsubst < <(cat setup/4_consolelink.yaml.envsubst) | oc apply -f -
+   ```
 
 ### Configure manifests for Infrastructure
 
-If you are running a managed OpenShift cluster on IBM Cloud, you can deploy OpenShift Data Foundation as an [add-on](https://cloud.ibm.com/docs/openshift?topic=openshift-ocs-storage-prep#odf-deploy-options). Otherwise, on AWS, Azure, IBM Cloud, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the Hub Cluster
+If you are running a managed OpenShift cluster on IBM Cloud, you can deploy OpenShift Data Foundation as an [add-on](https://cloud.ibm.com/docs/openshift?topic=openshift-ocs-storage-prep#odf-deploy-options). 
+
+On AWS, Azure, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the Hub Cluster
 
    ```bash
    ./scripts/infra-mod.sh

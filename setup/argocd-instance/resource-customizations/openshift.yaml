@@ -1,0 +1,45 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+data:
+  resource.customizations.health.machine.openshift.io_MachineSet: |
+    hs = {}
+    if obj.status ~= nil then
+      hs.message = "Not Ready"
+      if obj.status.replicas == 0 then
+        hs.status = "Healthy"
+        return hs
+      end
+      if obj.status.replicas == obj.status.availableReplicas then
+        hs.status = "Healthy"
+      else
+        hs.status = "Progressing"
+      end
+      return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.machine.openshift.io_Machine: |
+    hs = {}
+    if obj.status ~= nil then
+      hs.message = "Not Ready"
+      if obj.status.replicas == 0 then
+        hs.status = "Healthy"
+        return hs
+      end
+      if obj.status.phase == "Running" then
+        hs.status = "Healthy"
+      else
+        hs.status = "Progressing"
+      end
+      return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.ignoreDifferences.build.openshift.io_BuildConfig: |
+    jsonPointers:
+    - /status/lastVersion

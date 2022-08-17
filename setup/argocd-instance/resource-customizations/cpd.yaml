@@ -1,0 +1,98 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+data:
+  resource.customizations.health.operator.ibm.com_OperandRequest: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase == "Running" then
+        hs.status = "Healthy"
+        hs.message = "Operand request is ready"
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for operand request to be ready"
+    return hs
+  resource.customizations.health.knowledgestudio.watson.ibm.com_KnowledgeStudio: |
+    hs = {}
+    if obj.status ~= nil and obj.status.conditions ~= nil then
+      for i, condition in ipairs(obj.status.conditions) do  
+        if condition.type == "Deployed" and condition.status == "True" then
+          hs.status = "Healthy"
+          hs.message = "Watson Knowledge Studio is deployed"
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for managed cluster to be deploy."
+    return hs 
+  resource.customizations.health.discovery.watson.ibm.com_WatsonDiscovery: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.watsonDiscoveryStatus == "Completed" then
+        hs.status = "Healthy"
+        hs.message = "Watson Discovery is ready"
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for Watson Discovery to be ready"
+    return hs
+  resource.customizations.health.cpd.ibm.com_Ibmcpd: |
+    hs = {}
+    if obj.status ~= nil and obj.status.controlPlaneStatus ~= nil then
+      if obj.status.controlPlaneStatus == "InProgress" then
+        hs.status = "Progressing"
+        hs.message = "Waiting for CPD control plane to be ready"
+      end
+      if obj.status.controlPlaneStatus == "Failed" then
+        hs.status = "Degraded"
+        hs.message = "Contact IBM support."
+      end
+      if obj.status.controlPlaneStatus == "Completed" then
+        hs.status = "Healthy"
+      end
+      return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.zen.cpd.ibm.com_ZenService: |
+    hs = {}
+    if obj.status ~= nil and obj.status.zenStatus ~= nil then
+      if obj.status.zenStatus == "InProgress" then
+        hs.status = "Progressing"
+        hs.message = "Waiting for ZenService to be ready"
+      end
+      if obj.status.zenStatus == "Failed" then
+        hs.status = "Degraded"
+        hs.message = "Contact IBM support."
+      end
+      if obj.status.zenStatus == "Completed" then
+        hs.status = "Healthy"
+      end
+      return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.appconnect.ibm.com_Dashboard: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Ready" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs

@@ -2,7 +2,7 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: openshift-gitops-operator
-  namespace: openshift-operators
+  namespace: openshift-operators # Deploy to openshift-operators to make OpenShift GitOps available cluster-wide
 spec:
   channel: stable
   installPlanApproval: Automatic

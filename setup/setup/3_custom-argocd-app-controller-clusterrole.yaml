@@ -296,25 +296,25 @@ rules:
       - '*'
     apiGroups:
       - automationcontroller.ansible.com
-    resources: 
+    resources:
       - '*'
   - verbs:
       - '*'
     apiGroups:
       - platform.stackrox.io
-    resources: 
+    resources:
       - '*'
   - verbs:
       - '*'
     apiGroups:
       - oauth.openshift.io
-    resources: 
+    resources:
       - 'oauthclients'
   - verbs:
       - '*'
     apiGroups:
       - cert-manager.io
-    resources: 
+    resources:
       - 'certificates'
       - 'issuers'
       - 'clusterissuers'

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  # Enables application status badge feature
+  statusbadge.enabled: "true"
+
+  # Configuration to completely ignore entire classes of resource group/kinds (optional).
+  # Excluding high-volume resources improves performance and memory usage, and reduces load and
+  # bandwidth to the Kubernetes API server.
+  # These are globs, so a "*" will match all values.
+  # If you omit groups/kinds/clusters then they will match all groups/kind/clusters.
+  # NOTE: events.k8s.io and metrics.k8s.io are excluded by default
+  resource.exclusions: |
+    - apiGroups:
+      - tekton.dev
+      clusters:
+      - '*'
+      kinds:
+      - TaskRun
+      - PipelineRun

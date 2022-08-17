@@ -1,0 +1,87 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+data:
+  resource.customizations.health.mq.ibm.com_QueueManager: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Running" then
+          hs.status = "Healthy"
+        elseif obj.status.phase == "Failed" then
+          hs.status = "Degraded"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.operator.ibm.com_CommonService: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Succeeded" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.integration.ibm.com_PlatformNavigator: |
+    hs = {}
+    generation = obj.metadata.generation
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for i, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Ready" and condition.status == "True" then
+            hs.status = "Healthy"
+            hs.message = condition.message
+            return hs
+          end
+        end
+      end
+    end
+    hs.status = "Progressing"
+    return hs
+  resource.customizations.health.appconnect.ibm.com_Dashboard: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Ready" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.integration.ibm.com_AssetRepository: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Ready" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs

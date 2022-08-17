@@ -1,0 +1,480 @@
+apiVersion: v1
+data:
+  resource.customizations.health.Job: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.active ~= nil then
+        if obj.status.active == "1" then
+          hs.status = "Progressing"
+          hs.message = obj.status.active .. " active job(s)."
+          return hs
+        end
+      end
+      if obj.status.succeeded ~= nil then
+        if obj.status.succeeded == 1 then
+          hs.status = "Healthy"
+          hs.message = "Job completed successfully."
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for Job to complete."
+    return hs
+  resource.customizations.health.PersistentVolumeClaim: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        if obj.status.phase == "Pending" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+        if obj.status.phase == "Bound" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for certificate"
+    return hs
+  resource.customizations.health.appconnect.ibm.com_Dashboard: |-
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Ready" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.argoproj.io_Application: |
+    hs = {}
+    hs.status = "Progressing"
+    hs.message = ""
+    if obj.status ~= nil then
+      if obj.status.health ~= nil then
+        hs.status = obj.status.health.status
+        if obj.status.health.message ~= nil then
+          hs.message = obj.status.health.message
+        end
+      end
+    end
+    return hs
+  resource.customizations.health.cpd.ibm.com_Ibmcpd: |
+    hs = {}
+    if obj.status ~= nil and obj.status.controlPlaneStatus ~= nil then
+      if obj.status.controlPlaneStatus == "InProgress" then
+        hs.status = "Progressing"
+        hs.message = "Waiting for CPD control plane to be ready"
+      end
+      if obj.status.controlPlaneStatus == "Failed" then
+        hs.status = "Degraded"
+        hs.message = "Contact IBM support."
+      end
+      if obj.status.controlPlaneStatus == "Completed" then
+        hs.status = "Healthy"
+      end
+      return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.discovery.watson.ibm.com_WatsonDiscovery: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.watsonDiscoveryStatus == "Completed" then
+        hs.status = "Healthy"
+        hs.message = "Watson Discovery is ready"
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for Watson Discovery to be ready"
+    return hs
+  resource.customizations.health.hco.kubevirt.io_HyperConverged: "hs = { status=\"Progressing\",
+    message=\"No status available\"}\nif obj.status ~= nil then\n  if obj.status.conditions
+    ~= nil then\n    for i, condition in ipairs(obj.status.conditions) do\n      if
+    condition.type == \"Available\" and condition.status == \"True\" then\n        hs.status
+    = \"Healthy\"\n        hs.message = \"Status is Available\"\n      elseif condition.type
+    == \"Degraded\" and condition.status == \"True\" then\n        hs.status = \"Degraded\"\n
+    \       hs.message = condition.reason\n      elseif condition.type == \"Progressing\"
+    and condition.status == \"True\" then\n        hs.message = condition.reason\n
+    \     end\n    end\n  end\n  if obj.status.phase ~= nil then\n    hs.message =
+    obj.status.phase\n  end\nend\nreturn hs    "
+  resource.customizations.health.hive.openshift.io_ClusterDeployment: |
+    hs = {}
+    generation = obj.metadata.generation
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for i, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Hibernating" and condition.status == "False" then
+            hs.status = "Healthy"
+            hs.message = condition.message
+            return hs
+          end
+        end
+      end
+    end
+    hs.status = "Progressing"
+    return hs
+  resource.customizations.health.integration.ibm.com_AssetRepository: |-
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Ready" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.integration.ibm.com_PlatformNavigator: |
+    hs = {}
+    generation = obj.metadata.generation
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for i, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Ready" and condition.status == "True" then
+            hs.status = "Healthy"
+            hs.message = condition.message
+            return hs
+          end
+        end
+      end
+    end
+    hs.status = "Progressing"
+    return hs
+  resource.customizations.health.internal.observability.open-cluster-management.io_MultiClusterObservabilit: "hs
+    = {}\nif obj.status ~= nil and obj.status.conditions ~= nil then\n  for i, condition
+    in ipairs(obj.status.conditions) do  \n    if condition.status == \"True\" and
+    condition.reason == \"Ready\" then\n      hs.status = \"Healthy\"\n      hs.message
+    = \"MultiClusterObservability is Ready\"\n      return hs\n    end\n  end\nend\nhs.status
+    = \"Progressing\"\nhs.message = \"Waiting for MultiClusterObservability to deploy.\"\nreturn
+    hs "
+  resource.customizations.health.internal.open-cluster-management.io_ManagedClusterInfo: "hs
+    = {}\nif obj.status ~= nil and obj.status.conditions ~= nil then\n  for i, condition
+    in ipairs(obj.status.conditions) do  \n    if condition.status == \"True\" and
+    condition.reason == \"ManagedClusterInfoSynced\" then\n      hs.status = \"Healthy\"\n
+    \     hs.message = \"Managed cluster is added to hub cluster\"\n      return hs\n
+    \   end\n    if condition.reason == \"ManagedClusterLeaseUpdateStopped\" and condition.status
+    == \"Unknown\" and condition.type == \"ManagedClusterConditionAvailable\" then\n
+    \     hs.status = \"Degraded\"\n      hs.message = \"Managed cluster failed to
+    deploy\"\n      return hs\n    end\n  end\nend\nhs.status = \"Progressing\"\nhs.message
+    = \"Waiting for managed cluster to be deploy.\"\nreturn hs\n"
+  resource.customizations.health.knowledgestudio.watson.ibm.com_KnowledgeStudio: "hs
+    = {}\nif obj.status ~= nil and obj.status.conditions ~= nil then\n  for i, condition
+    in ipairs(obj.status.conditions) do  \n    if condition.type == \"Deployed\" and
+    condition.status == \"True\" then\n      hs.status = \"Healthy\"\n      hs.message
+    = \"Watson Knowledge Studio is deployed\"\n      return hs\n    end\n  end\nend\nhs.status
+    = \"Progressing\"\nhs.message = \"Waiting for managed cluster to be deploy.\"\nreturn
+    hs \n"
+  resource.customizations.health.machine.openshift.io_obj.sta: |
+    hs = {}
+    if obj.status ~= nil then
+      hs.message = "Not Ready"
+      if obj.status.replicas == 0 then
+        hs.status = "Healthy"
+        return hs
+      end
+      if obj.status.replicas == obj.status.availableReplicas then
+        hs.status = "Healthy"
+      else
+        hs.status = "Progressing"
+      end
+      return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.mq.ibm.com_QueueManager: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Running" then
+          hs.status = "Healthy"
+        elseif obj.status.phase == "Failed" then
+          hs.status = "Degraded"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.ocs.openshift.io_StorageCluster: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Running" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.operator.coreos.com_Subscription: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.installedCSV ~= nil then
+        hs.status = "Healthy"
+        hs.message = "CSV Installed"
+        if obj.status.state ~= nil then
+          hs.message = obj.status.state
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    if obj.status.state ~= nil then
+      hs.message = obj.status.state
+    end
+    return hs
+  resource.customizations.health.operator.ibm.com_CommonService: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Succeeded" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.operator.ibm.com_OperandRequest: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase == "Running" then
+        hs.status = "Healthy"
+        hs.message = "Operand request is ready"
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for operand request to be ready"
+    return hs
+  resource.customizations.health.operator.open-cluster-management.io_MultiClusterHub: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Running" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.operators.coreos.com_InstallPlan: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        hs.message = obj.status.phase
+        if obj.status.phase == "Complete" then
+          hs.status = "Healthy"
+        else
+          hs.status = "Progressing"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.health.platform.stackrox.io_Central: "hs = {}\nif obj.status
+    ~= nil and obj.status.conditions ~= nil then\n  for i, condition in ipairs(obj.status.conditions)
+    do\n    if condition.status == \"True\" and (condition.reason == \"InstallSuccessful\"
+    or condition.reason ==\"UpgradeSuccessful\") then\n      hs.status = \"Healthy\"\n
+    \     hs.message = \"Install Successful\" \n      return hs\n    end\n  end\nend\nhs.status
+    = \"Progressing\"\nhs.message = \"Waiting for Central to deploy.\"\nreturn hs"
+  resource.customizations.health.zen.cpd.ibm.com_ZenService: |
+    hs = {}
+    if obj.status ~= nil and obj.status.zenStatus ~= nil then
+      if obj.status.zenStatus == "InProgress" then
+        hs.status = "Progressing"
+        hs.message = "Waiting for ZenService to be ready"
+      end
+      if obj.status.zenStatus == "Failed" then
+        hs.status = "Degraded"
+        hs.message = "Contact IBM support."
+      end
+      if obj.status.zenStatus == "Completed" then
+        hs.status = "Healthy"
+      end
+      return hs
+    end
+    hs.status = "Progressing"
+    hs.message = "Unknown"
+    return hs
+  resource.customizations.ignoreDifferences.ServiceAccount: |-
+    jsonPointers:
+    - /imagePullSecrets
+  resource.customizations.ignoreDifferences.argoproj.io_AppProject: "jsonPointers:\n-
+    /spec/sourceRepos    "
+  resource.customizations.ignoreDifferences.argoproj.io_Application: |
+    jsonPointers:
+    - /spec/source/targetRevision
+    - /spec/source/repoURL
+  resource.customizations.ignoreDifferences.build.openshift.io_BuildConfig: |-
+    jsonPointers:
+    - /status/lastVersion
+  resource.customizations.ignoreDifferences.operators.coreos.com_OperatorGroup: |-
+    jsonPointers:
+    - /metadata/annotations/olm.providedAPIs
+  resource.exclusions: |
+    - apiGroups:
+      - tekton.dev
+      clusters:
+      - '*'
+      kinds:
+      - TaskRun
+      - PipelineRun
+  statusbadge.enabled: "true"
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-cm
+  namespace: openshift-gitops
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  name: otp-gitops
+  namespace: openshift-gitops
+spec:
+  applicationSet:
+    resources:
+      limits:
+        cpu: "2"
+        memory: 1Gi
+      requests:
+        cpu: 250m
+        memory: 512Mi
+  controller:
+    processors: {}
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+      requests:
+        cpu: 250m
+        memory: 1Gi
+  dex:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 128Mi
+  grafana:
+    enabled: false
+    ingress:
+      enabled: false
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 128Mi
+    route:
+      enabled: false
+  ha:
+    enabled: false
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 128Mi
+  initialSSHKnownHosts: {}
+  kustomizeBuildOptions: --enable-alpha-plugins
+  prometheus:
+    enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: false
+  rbac: {}
+  redis:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 128Mi
+  repo:
+    image: quay.io/benswinneyau/openshift-gitops-repo-server
+    resources:
+      limits:
+        cpu: "1"
+        memory: 512Mi
+      requests:
+        cpu: 250m
+        memory: 256Mi
+    version: v1.4.5
+  resourceCustomizations: ""
+  resourceExclusions: |
+    - apiGroups:
+      - tekton.dev
+      clusters:
+      - '*'
+      kinds:
+      - TaskRun
+      - PipelineRun
+  server:
+    autoscale:
+      enabled: false
+    grpc:
+      ingress:
+        enabled: false
+    ingress:
+      enabled: false
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 125m
+        memory: 128Mi
+    route:
+      enabled: true
+    service:
+      type: ""
+  tls:
+    ca: {}

@@ -1,0 +1,99 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+data:
+  resource.customizations.health.operator.open-cluster-management.io_MultiClusterHub: |
+    hs = {}
+    generation = obj.metadata.generation
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for i, condition in ipairs(obj.status.conditions) do
+          if condition.reason == "ComponentsAvailable" and condition.type == "Complete" and condition.status == "True" then
+            hs.status = "Healthy"
+            hs.message = condition.message
+            return hs
+          end
+        end
+      end
+    end
+    hs.status = "Progressing"
+    return hs
+
+  resource.customizations.health.hive.openshift.io_ClusterDeployment: |
+    hs = {}
+    generation = obj.metadata.generation
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        for i, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Hibernating" and condition.status == "True" then
+            hs.status = "Healthy"
+            hs.message = condition.message
+            return hs
+          end
+          if condition.type == "Hibernating" and condition.status == "False" and condition.reason == "ResumingOrRunning" then
+            hs.status = "Healthy"
+            hs.message = condition.message
+            return hs
+          end
+        end
+      end
+    end
+    hs.status = "Progressing"
+    return hs
+
+  resource.customizations.health.internal.open-cluster-management.io_ManagedClusterInfo: |
+    hs = {}
+    if obj.status ~= nil and obj.status.conditions ~= nil then
+      for i, condition in ipairs(obj.status.conditions) do  
+        if condition.status == "True" and condition.reason == "ManagedClusterInfoSynced" then
+          hs.status = "Healthy"
+          hs.message = "Managed cluster is added to hub cluster"
+          return hs
+        end
+        if condition.reason == "ManagedClusterLeaseUpdateStopped" and condition.status == "Unknown" and condition.type == "ManagedClusterConditionAvailable" then
+          hs.status = "Degraded"
+          hs.message = "Managed cluster failed to deploy"
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for managed cluster to be deploy."
+    return hs 
+
+  resource.customizations.health.internal.observability.open-cluster-management.io_MultiClusterObservability: |
+    hs = {}
+    if obj.status ~= nil and obj.status.conditions ~= nil then
+      for i, condition in ipairs(obj.status.conditions) do  
+        if condition.status == "True" and condition.reason == "Ready" then
+          hs.status = "Healthy"
+          hs.message = "MultiClusterObservability is Ready"
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for MultiClusterObservability to deploy."
+    return hs
+
+  resource.customizations.health.hive.openshift.io_ClusterClaim: |
+    hs = {}
+    if obj.status ~= nil and obj.status.conditions ~= nil then
+      for i, condition in ipairs(obj.status.conditions) do  
+        if condition.status == "True" and condition.type == "Pending" then
+          hs.status = "Progressing"
+          hs.message = condition.message
+          return hs
+        end
+        if condition.status == "True" and condition.type == "ClusterRunning" then
+          hs.status = "Healthy"
+          hs.message = condition.message
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for cluster claim"
+    return hs 

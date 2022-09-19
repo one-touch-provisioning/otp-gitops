@@ -9,7 +9,7 @@ data:
     if obj.status ~= nil then
       if obj.status.phase ~= nil then
         hs.message = obj.status.phase
-        if obj.status.phase == "Running" then
+        if obj.status.phase == "Running" or obj.status.phase == "Ready" then
           hs.status = "Healthy"
         else
           hs.status = "Progressing"

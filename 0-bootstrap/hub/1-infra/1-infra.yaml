@@ -82,6 +82,8 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: rhacm-clusterclaims
     server: https://kubernetes.default.svc
+  - namespace: openshift-image-registry
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ""
     kind: Namespace

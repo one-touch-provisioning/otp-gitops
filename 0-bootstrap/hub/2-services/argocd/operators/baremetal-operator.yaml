@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: baremetal-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "200"
+  labels:
+    gitops.tier.group: rhacm
+    gitops.tier.layer: services
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: metal-provisioner 
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: operators/baremetal-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,20 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metal-provisioner-namespace
-  namespace: openshift-gitops
-  labels:
-    gitops.tier.layer: infra
-    gitops.tier.group: rhacm
+  name: ironic
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "210"
+  labels:
+    gitops.tier.group: rhacm
+    gitops.tier.layer: services
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: metal-provisioner
+    namespace: metal-provisioner 
     server: https://kubernetes.default.svc
-  project: infra
+  project: services
   source:
-    path: namespaces/metal-provisioner
+    path: operators/ironic
   syncPolicy:
     automated:
       prune: true

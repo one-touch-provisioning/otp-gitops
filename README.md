@@ -15,7 +15,7 @@ Whilst all efforts have been made to provide a complete `One Touch Provisioning`
 
 ## Shout outs 📣
 
-This asset has been built on the shoulders of giants and leverages the great work and effort undertaken by the [Cloud Native Toolkit - GitOps Production Deployment Guide](https://github.com/cloud-native-toolkit/multi-tenancy-gitops), [IBM Garage TSA](https://github.com/ibm-garage-tsa/cp4mcm-installer) and [Red Hat Communities of Practice](https://github.com/redhat-cop) teams. Without these efforts, then this asset would have struggled to get off the ground.
+This asset has been built on the shoulders of giants and leverages the great work and effort undertaken by the [Cloud Native Toolkit - GitOps Production Deployment Guide](https://github.com/cloud-native-toolkit/multi-tenancy-gitops), [IBM Garage TSA](https://github.com/ibm-garage-tsa/cp4mcm-installer) and [Red Hat Communities of Practice](https://github.com/redhat-cop) teams. Without these efforts, then this pattern would have struggled to get off the ground.
 
 The reference architecture for this GitOps workflow can be found [here](https://cloudnativetoolkit.dev/adopting/use-cases/gitops/gitops-ibm-cloud-paks/).  
 
@@ -75,9 +75,7 @@ This respository is not intended to be a Step-by-Step Guide and some prior knowl
 
 - Can be configured to automatically deploy applications to Managed Clusters via OpenShift GitOps. An example provided will deploy IBM Cloud Pak for Integration (utilising full GitOps Principles) to Managed Clusters.
 
-### Coming Soon
-
-- Zero Touch Provisioning of Managed OpenShift Clusters to Bare-metal nodes (think Edge deployments)
+- Zero Touch Provisioning of Managed OpenShift Clusters to Bare-metal nodes to support Near and Far Edge deployments
 
 ## Red Hat Advanced Cluster Management Hub and Spoke Clusters Concept
 

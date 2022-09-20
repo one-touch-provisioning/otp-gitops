@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ansible-automation-platform-instance
+  name: ansible-automation-platform-controller-instance
   annotations:
     argocd.argoproj.io/sync-wave: "250"
   labels:
@@ -13,7 +13,7 @@ spec:
     server: https://kubernetes.default.svc
   project: services
   source:
-    path: instances/ansible-automation-platform-instance
+    path: instances/ansible-automation-platform-controller-instance
   syncPolicy:
     automated:
       prune: true

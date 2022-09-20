@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ansible-automation-platform-hub-instance
+  annotations:
+    argocd.argoproj.io/sync-wave: "250"
+  labels:
+    gitops.tier.group: ansible
+    gitops.tier.layer: services
+spec:
+  destination:
+    namespace: ansible-automation-platform
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: instances/ansible-automation-platform-hub-instance
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

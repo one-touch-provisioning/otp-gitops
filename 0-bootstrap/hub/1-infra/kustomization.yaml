@@ -69,6 +69,10 @@ resources:
  # Console link
  - argocd/consolelink.yaml
 
+ # Machine Configuration Extensions
+ #- argocd/machine-configs/machine-configs-control-planes.yaml
+ #- argocd/machine-configs/machine-configs-workers.yaml
+
 patches:
 - target:
     group: argoproj.io

@@ -83,7 +83,6 @@ spec:
   - namespace: rhacm-clusterclaims
     server: https://kubernetes.default.svc
   - namespace: openshift-image-registry
-    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ""
     kind: Namespace
@@ -101,6 +100,8 @@ spec:
     kind: MachineSet
   - group: "machineconfiguration.openshift.io"
     kind: MachineConfigPool
+  - group: "machineconfiguration.openshift.io"
+    kind: MachineConfig 
   - group: "machineconfiguration.openshift.io"
     kind: ContainerRuntimeConfig
   - group: "tuned.openshift.io"

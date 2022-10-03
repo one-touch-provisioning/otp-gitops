@@ -213,6 +213,7 @@ rules:
     resources:
       - machineconfigpools
       - containerruntimeconfigs
+      - machineconfigs
   - verbs:
       - '*'
     apiGroups:

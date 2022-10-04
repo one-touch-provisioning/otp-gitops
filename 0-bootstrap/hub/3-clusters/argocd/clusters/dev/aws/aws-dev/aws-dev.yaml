@@ -28,10 +28,6 @@ spec:
           status: "enabled" # Valid values "enabled" or "disabled"
           managedRepo: https://github.com/one-touch-provisioning/otp-gitops.git # Repository that will be used to manage the Cluster resources
 
-        clusterSet:
-          name: "last-mile-gitops"
-          enabled: true
-
         powerState: Running
 
         provider:

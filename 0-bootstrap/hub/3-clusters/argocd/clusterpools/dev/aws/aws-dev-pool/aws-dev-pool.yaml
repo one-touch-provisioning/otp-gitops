@@ -24,10 +24,6 @@ spec:
         clusterpoolName: aws-dev-pool
         imageName: 4.10.18
 
-        clusterSet:
-          name: "last-mile-gitops"
-          enabled: true
-
         provider:
           region: ap-southeast-2
           baseDomain: mutihybridcloudkitchen.com

@@ -24,10 +24,6 @@ spec:
         clusterpoolName: azure-cicd-pool
         imageName: 4.10.18
 
-        clusterSet:
-          name: "last-mile-gitops"
-          enabled: true
-
         provider:
           region: eastus
           baseDomain: mutihybridcloudkitchen.com

@@ -54,11 +54,6 @@ spec:
           projectName:  # This could be a project, line of business, anything that makes sense to you. This references the folder name
                         # within the "environment" folder
 
-        # Add Cluster to Existing ClusterSet
-        clusterSet:
-          name: "last-mile-gitops"
-          enabled: disable 
-
         # Cloud Provider Configuration
         provider:
           baseDomain: home.swinney.io

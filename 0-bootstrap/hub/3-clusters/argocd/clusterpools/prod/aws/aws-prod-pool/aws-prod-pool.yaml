@@ -24,10 +24,6 @@ spec:
         clusterpoolName: aws-prod-pool
         imageName: 4.9.38
 
-        clusterSet:
-          name: "last-mile-gitops"
-          enabled: true
-
         provider:
           region: ap-southeast-1
           baseDomain: mutihybridcloudkitchen.com

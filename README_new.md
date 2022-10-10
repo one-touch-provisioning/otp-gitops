@@ -39,12 +39,15 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#pattern-capabilities">Pattern Capabilities</a></li>
       </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
+        <li><a href="#red-hat-advanced-cluster-management-hub-and-spoke-clusters-concepts">Red Hat Advanced Cluster Management Hub and Spoke Clusters Concepts</a></li>
+        <li><a href="#context-behind-the-git-repositories">Context behind the Git Repositories</a></li>
+        <li><a href="#use-cases-for-different-folder-organisation-of-git-repositories">Use-cases for different folder organisation of Git Repositories</a></li>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
@@ -57,6 +60,7 @@
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
+<br />
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project 🚀
@@ -97,14 +101,6 @@ The pattern leans very heavily on technologies such as Red Hat Advanced Cluster 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Built With
-
-* [![ArgoCD][ArgoCD]][argocd-url]
-* [![RHACM][RHACM]][rhacm-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -112,7 +108,7 @@ The pattern leans very heavily on technologies such as Red Hat Advanced Cluster 
 Before Getting Started with this pattern, it's important to understand some of the concepts and technologies used.
 
 <details>
-  <summary>Red Hat Advanced Cluster Management Hub and Spoke Clusters Concept</summary>
+  <summary>Red Hat Advanced Cluster Management Hub and Spoke Clusters Concepts</summary>
   
   We leverage two Open Source technologies to underpin the functionality within this pattern. One is ArgoCD (aka OpenShift Gitops) and the other is Open Cluster Management (aka Red Hat Advanced Cluster Management or RHACM).
 
@@ -126,7 +122,7 @@ Before Getting Started with this pattern, it's important to understand some of t
 </details>
 
 <details>
-  <summary>Overview of Git Repositories Used</summary>
+  <summary>Context behind the Git Repositories</summary>
 
   We leverage several repositories to make up the pattern. These may seem as overwhelming to begin with, but there is some method and thoughts behind them. We approached this pattern with scale in mind and running a single mono repository with all the manifests quickly showed that it does not lend itself to scale that well.
 
@@ -156,9 +152,9 @@ Before Getting Started with this pattern, it's important to understand some of t
 </details>
 
 <details>
-  <summary>Use-cases for different organisation of Git Repositories</summary>
+  <summary>Use-cases for different folder organisation of Git Repositories</summary>
   
-  As we mature this method/pattern, we have seen different use-cases where the need for a different Git Repository organisation has been required.
+  As we mature this method/pattern, we have seen different use-cases where the need for a different Git Repository folder organisation has been required.
 
   Our view by leveraging the 1 + 5 + n Git Repositories it allows more flexability to what is deployed into cluster and works better at scale. The Line of Business, Product team, end-users etc can have full control via their own ArgoCD instance which is configured against a Git repository they control. This works for privacy and security as they control who can and cannot see the objects within their repository. We'll term this a `self-managed Cluster`. This may suit a team which has experience in OpenShift, clearly understand their requirements, and are comfortable managing the environment themselves.
 
@@ -330,7 +326,3 @@ The reference architecture for this GitOps workflow can be found [here](https://
 [license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
 [license-url]: https://github.com/one-touch-provisioning/otp-gitops/blob/master/LICENSE
 [product-screenshot]: doc/images/ztp.png
-[ArgoCD]: https://img.shields.io/badge/-ArgoCD-orange?style=for-the-badge&logo=argoCD&logoColor=white
-[argocd-url]: https://argocd
-[RHACM]: https://img.shields.io/badge/-RHACM-orange?style=for-the-badge&logo=RHACM&logoColor=61DAFB
-[rhacm-url]: https://rhacm

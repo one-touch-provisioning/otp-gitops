@@ -65,7 +65,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project 🚀
 
-[![OTP][product-screenshot]](https://github.com/one-touch-provisioning)
+<div align="center">
+  <img src="doc/images/ztp.png" alt="One Touch Provisioning" width="850" height="500">
+</div>
 
 This method/pattern is our opinionated implementation of the GitOps principles, using the latest and greatest tooling available, to enable the hitting of one big red button (figuratively) to start provisioning a platform that provides Cluster and Virtual Machine Provisioning capabilities, Governance and policy management, observability of Clusters and workloads and finally deployment of applications, such as IBM Cloud Paks, all within a single command*.
 
@@ -118,7 +120,9 @@ Before Getting Started with this pattern, it's important to understand some of t
 
   The diagram below shows a typical Hub and Spoke deployment over various clouds.
 
-  ![Hub and Spoke](doc/images/hubandspoke.png)
+  <div align="center">
+    <img src="doc/images/hubandspoke.png" alt="Hub and Spoke" width="600" height="600">
+  </div>
 </details>
 
 <details>
@@ -146,7 +150,9 @@ Before Getting Started with this pattern, it's important to understand some of t
 
   * n Repository being the repository that you will use to bootstrap your deployed managed OpenShift Cluster
 
-  ![1+5+n Repositories](doc/images/15n-repos.gif)
+  <div align="center">
+    <img src="doc/images/15n-repos.gif" alt="1+5+n Repositories">
+  </div>
  
   By using a common set of repositories we can quickly scale out Cluster Deployments and reducing the risk of misconfiguration and drift.
 </details>

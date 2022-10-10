@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhacm-credentials-azure
+  annotations:
+    argocd.argoproj.io/sync-wave: "400"
+  labels:
+    gitops.tier.layer: clusters
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: rhacm-credentials
+    server: https://kubernetes.default.svc
+  project: clusters
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    path: rhacm/providers/external-secrets/
+    helm:
+      values: |
+        # RHACM Provider Name
+        rhacmProviderName: azure
+        
+        # Cloud (e.g. aws, azure, vsphere, rhocm)
+        cloudProvider:
+          name: "azure"
+
+        # Required Values
+        azureSecrets:
+          azureBaseDomainRef: 015b85fd-67cb-f70c-fa40-20b9b9d3b510
+          azureBaseDomainResourceGroupNameRef: 20061b87-02af-d55a-fdc0-db9477acbe2a
+          azureOsServicePrincipalRef: 4f5caf7a-174c-5890-84b2-d7cffc7a4be7
+          openshiftPullSecretRef: 115f3c37-cd7c-5704-173f-a8a3e1234b2d
+          openshiftSSHPrivateKeyRef: 9f9063e0-1525-2534-cf8e-9c85096c7b3d
+          openshiftSSHPublicKeyRef: 90a961eb-dfd6-dbbc-049f-a532560614f6
+  

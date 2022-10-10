@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: clusters-sno-prod-project-edge
+  annotations:
+    argocd.argoproj.io/sync-wave: "450"
+  labels:
+    gitops.tier.layer: clusters
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: clusters
+  source:
+    path: clusters/deploy/external-secrets/sno/
+    helm:
+      values: |
+        # Infrastructure Environment Name
+        infraEnv:
+          name: bens-infrastructure # Must Match cluster.name value
+          location: benswinney-house
+          networkType: dhcp # Valid Values are dhcp or static
+          ntpSources: 192.168.1.1
+
+        # Cluster Details
+        cluster:
+          name: bens-infrastructure # Must Match infraEnv.name value
+          imageName: 4.10.32
+          clusterNetwork: 10.128.0.0/14
+          serviceNetwork: 172.30.0.0/16
+          machineNetwork: 192.168.1.0/24
+
+        # Hosts Details
+        hosts:
+          name: host0
+          macAddress: 52:54:00:c6:fe:cc
+          bmcAddress: redfish-virtualmedia+http://ai-edge.swinney.io/redfish/v1/Systems/b6c92bbb-1e87-4972-b17a-12def3948890
+          networkCard: enp1s0
+          ipAddress: 192.168.1.20
+          gatewayAddress: 192.168.1.1
+          diskDeviceName: /dev/vda
+
+        # Manage Cluster from Hub Cluster Repository
+        managedCluster: 
+          status: "disabled" # Valid values "enabled" or "disabled"
+          managedRepo: https://github.com/one-touch-provisioning/otp-gitops.git # Repository that will be used to manage the Cluster resources
+          environment:  # Typically this would be dev, test, cicd, prod
+          projectName:  # This could be a project, line of business, anything that makes sense to you. This references the folder name
+                        # within the "environment" folder
+
+        # Cloud Provider Configuration
+        provider:
+          baseDomain: home.swinney.io
+          sshPublicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDHNPy2KYhFVrmE49K+stN0SNOzWZdn2pQstns6Mw78J6SlA19eX38D0wt2SXE8b9ybKUngigZuab7yFoVbBl/fUqxo8xNu+rLj/dS/eAhPAI9QDPWIf0T/Qmmd5bJz+guDYDr/eU96Wt/MLvVcF3WAj1IDhzct1ek57AmFSSg8vemvr0XveiAHlXYomtvaBlBQrpzq/U9/5Bw3yPOcl/wGdhsNUg+nBTChVn5wk2plS7HPRoRV+w4TcuzhdAyM77PpC04PpnZGrH3e4s6HiCKtBy2Vu1nhZotmOkaRjst0Y1cQDU8c34G3BNt/LbjUGnZ4kVIkhLsQdky8we2kdPtsaZxlIDm2B0CZ+oBw8iisq0nVGRz5eG4ry7UzCMwzgQa5SGJhsBNVm7qhmWYmTIHQ7t4byV/1GxBFi01/oM/Xgvbn7eletzJ8sbB+ZW9QuY9lrzdzzP3joq++bRSes+dodzEf6A+Y37GY72GHaZkh2GZtx9F5l5EL7d7qyo5nUhjeMquw4QF7/dcbzkO6mh139lQGGVGf7+1qz8/YZcUlZBy6ETidwcJmEk/p8gZuUUs+NKw56AkVxo6jN5hNzOlz/cklLrmiD9X4VjuA+uE6dl5r+mtSXt3MswI3udlM1wFjlnvyGulNRnkhVqmv0Sp21dWiH4yQ2tOSWlaoMY0BtQ==
+
+        externalSecrets:
+          pullSecretRemoteRef: 32286fad-dd7d-11be-a761-0c497756176c
+          sshPrivateKeyRemoteRef: ae87a773-e06c-e9b2-10b8-6e6a12f922b9

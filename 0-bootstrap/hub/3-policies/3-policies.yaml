@@ -1,0 +1,43 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: policies
+  labels:
+    gitops.tier.layer: policies
+spec:
+  sourceRepos: []  # Populated by kustomize patches in 3-policies/kustomization.yaml
+  destinations:
+  - namespace: '*'
+    server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  roles:
+  # A role which provides read-only access to all applications in the project
+  - name: read-only
+    description: Read-only privileges to my-project
+    policies:
+    - p, proj:my-project:read-only, applications, get, my-project/*, allow
+    groups:
+    - argocd-admins
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: policies
+  annotations:
+    argocd.argoproj.io/sync-wave: "300"
+  labels:
+    gitops.tier.layer: gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: policies
+  source: # repoURL  and targetRevision populated by kustomize patches in 3-policies/kustomization.yaml
+    path: 0-bootstrap/hub/3-policies
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

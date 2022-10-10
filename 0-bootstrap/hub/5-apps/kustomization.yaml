@@ -1,0 +1,37 @@
+resources:
+ ## Optional Components. These are NOT required for OTP, but can be enabled.
+
+ ## WAIOps Infrastructure Automation Pipelines
+ #- argocd/pipelines/tekton-mcm-gitops.yaml
+ #- argocd/pipelines/tekton-mcm-providers.yaml
+
+
+ ## Create Instana Virtual Machines
+ #- argocd/infra/virtual-machines/instana/instana-vm.yaml
+
+ # Cert Manager
+ #- argocd/cluster-services/cert-manager/cert-manager.yaml
+ 
+ ## Vault
+ #- argocd/vault/vault.yaml
+ 
+ ## AWS Cloud Watch
+ #- argocd/cluster-services/amazon-cloudwatch/amazon-cloudwatch.yaml
+
+ ## Deploy Applications to Managed Clusters
+ ## Include the Applications you wish to deploy below
+ ## An example has been provided
+ #- argocd/cloudpaks/cp4i/cp4i.yaml
+
+patches:
+- target:
+    group: argoproj.io
+    kind: Application
+    labelSelector: "gitops.tier.layer=applications"
+  patch: |-
+    - op: add
+      path: /spec/source/repoURL
+      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_APPLICATIONS}
+    - op: add
+      path: /spec/source/targetRevision
+      value: ${GIT_GITOPS_BRANCH}

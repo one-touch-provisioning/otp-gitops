@@ -79,11 +79,14 @@ Before Getting Started with this pattern, it's important to understand some of t
 
 <!-- GETTING STARTED -->
 ## Getting Started
+
 ### Prerequisites
 
-*Red Hat OpenShift Cluster*
+<br />
 
-Minimum OpenShift v4.10+ is required.
+#### Red Hat OpenShift Cluster
+
+* Minimum OpenShift v4.10+ is required.
 
 Deploy a "vanilla" Red Hat OpenShift cluster using either IPI (Installer Provisioned Infrastructure), UPI (User Provisioned Infrastructure), OAS (OpenShift Assisted Service) methods or a Managed OpenShift offering like AWS ROSA, Azure ARO or IBM Cloud - ROKS.
 
@@ -94,27 +97,30 @@ Deploy a "vanilla" Red Hat OpenShift cluster using either IPI (Installer Provisi
 </ul>
 
 <br />
-*CLI tools*
 
-  - Install the OpenShift CLI oc (version 4.10+) .  The binary can be downloaded from the Help menu from the OpenShift Console.
+#### CLI tools
 
-    <details>
-    <summary>Download oc cli</summary>
+Install the OpenShift CLI oc (version 4.10+).  The binary can be downloaded from the Help menu from the OpenShift cluster console, or downloaded from the [OpenShift Mirror](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/) website.
 
-    ![oc cli](doc/images/oc-cli.png)
-    </details>
+<details>
+ <summary>OpenShift cluster console oc cli download location</summary>
 
-  - Install helm and kubeseal from brew.sh
+ ![oc cli](doc/images/oc-cli.png)
+</details>
 
-   ```bash
-   brew install kubeseal && brew install helm
-   ```
+<br />
 
-  - Log in from a terminal window.
+Install helm and kubeseal from brew.sh
 
-    ```bash
-    oc login --token=<token> --server=<server>
-    ```
+ ```sh
+  brew install kubeseal && brew install helm
+ ```
+
+<br />
+
+#### IBM Entitlement Key for IBM Cloud Paks
+
+If you intend to deploy the `Infrastructure Automation` component of IBM Cloud Pak for Watson AIOps, then please follow the instructions <a href="docs/ibm-entitlement-key.md">here</a>.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -130,12 +136,12 @@ Deploy a "vanilla" Red Hat OpenShift cluster using either IPI (Installer Provisi
 
 
 
-<!-- USAGE EXAMPLES -->
+<!-- USAGE -->
 ## Usage
 
 Include usage examples here.
 
-_For more examples, please refer to the [Documentation](https://github.com/one-touch-provisioning/otp-gitops/docs)_
+_For more examples, please refer to the [Documentation](https://github.com/one-touch-provisioning/otp-gitops/doc)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -144,10 +150,10 @@ _For more examples, please refer to the [Documentation](https://github.com/one-t
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] OTP cli
+- [ ] Ansible Automation integration with Libvirt and VMWare
+- [ ] HyperShift Integration
+    - [ ] HyperShift with OpenShift Virtualisation for Worker nodes
 
 See the [open issues](https://github.com/one-touch-provisioning/otp-gitops/issues) for a full list of proposed features (and known issues).
 

@@ -16,7 +16,6 @@
   <p align="center">
     One Touch Provisioning (OTP) is a pattern that enables the seamless end-to-end provisioning of Red Hat OpenShift clusters, their applications, governance and policies to Public, Private and On-Premise Clouds all via Code.
     <br />
-    <br />
     <h3>
     <a href="https://github.com/one-touch-provisioning/otp-gitops">OTP Capabilities</a>
     | 
@@ -169,7 +168,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the APACHE 2.0 License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -193,7 +192,7 @@ Project Link: [https://github.com/one-touch-provisioning/otp-gitops](https://git
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-This asset has been built on the shoulders of giants and leverages the great work and effort undertaken by the teams/individuals below. Without these efforts, then this pattern would have struggled to get off the ground.
+This asset has been built on the shoulders of giants and leverages the great work and efforts undertaken by the teams/individuals below. Without these efforts, then this pattern would have struggled to get off the ground.
 
 The reference architecture for this GitOps workflow can be found [here](https://cloudnativetoolkit.dev/adopting/use-cases/gitops/gitops-ibm-cloud-paks/).
 
@@ -202,8 +201,6 @@ The reference architecture for this GitOps workflow can be found [here](https://
 * [Red Hat Communities of Practice](https://github.com/redhat-cop)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/one-touch-provisioning/otp-gitops.svg?style=for-the-badge

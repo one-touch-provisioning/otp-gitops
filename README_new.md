@@ -64,7 +64,7 @@ The pattern leans very heavily on technologies such as Red Hat Advanced Cluster 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- GETTING STARTED -->
+<!-- INTRODUCTION -->
 ## Introduction to Concepts and Technologies leveraged
 
 Before Getting Started with this pattern, it's important to understand some of the concepts and technologies used. This will help reduce the barrier of entry when adopting the pattern and help understand why certain design decisions were made.
@@ -74,7 +74,10 @@ Before Getting Started with this pattern, it's important to understand some of t
     <li><a href="docs/git-repo-context.md">Git Repositories Context</a></li>
     <li><a href="docs/folder-orgs.md">Use-cases for a different Git Repository folder organisation</a></li>
   </ul>
-  
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- GETTING STARTED -->
 ## Getting Started
 ### Prerequisites
 
@@ -112,6 +115,8 @@ Deploy a "vanilla" Red Hat OpenShift cluster using either IPI (Installer Provisi
     ```bash
     oc login --token=<token> --server=<server>
     ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Installation
 

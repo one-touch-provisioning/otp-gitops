@@ -96,7 +96,7 @@ Deploy a "vanilla" Red Hat OpenShift cluster using either IPI (Installer Provisi
 
 #### CLI tools
 
-#### OpenShift CLI
+##### OpenShift CLI
 
 Install the OpenShift CLI oc (version 4.10+).  The binary can be downloaded from the Help menu from the OpenShift cluster console, or downloaded from the [OpenShift Mirror](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/) website.
 
@@ -106,7 +106,7 @@ Install the OpenShift CLI oc (version 4.10+).  The binary can be downloaded from
  ![oc cli](doc/images/oc-cli.png)
 </details>
 
-#### Helm and KubeSeal
+##### Helm and KubeSeal
 
 Install helm and kubeseal from brew.sh
 

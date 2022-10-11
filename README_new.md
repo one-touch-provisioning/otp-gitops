@@ -17,7 +17,7 @@
     One Touch Provisioning (OTP) is a pattern that enables the seamless end-to-end provisioning of Red Hat OpenShift clusters, their applications, governance and policies to Public, Private and On-Premise Clouds all via Code.
     <br />
     <h3>
-    <a href="https://github.com/one-touch-provisioning/otp-gitops">OTP Capabilities</a>
+    <a href="docs/capabilities.md">OTP Capabilities</a>
     | 
     <a href="https://github.com/one-touch-provisioning/otp-gitops/issues">Report Bug</a>
     |

@@ -82,8 +82,6 @@ Before Getting Started with this pattern, it's important to understand some of t
 
 ### Prerequisites
 
-<br />
-
 #### Red Hat OpenShift Cluster
 
 * Minimum OpenShift v4.10+ is required.
@@ -96,9 +94,9 @@ Deploy a "vanilla" Red Hat OpenShift cluster using either IPI (Installer Provisi
     <li><a href="docs/managed-ocp-options.md">Managed OpenShift Offerings</a></li>
 </ul>
 
-<br />
-
 #### CLI tools
+
+#### OpenShift CLI
 
 Install the OpenShift CLI oc (version 4.10+).  The binary can be downloaded from the Help menu from the OpenShift cluster console, or downloaded from the [OpenShift Mirror](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/) website.
 
@@ -108,15 +106,13 @@ Install the OpenShift CLI oc (version 4.10+).  The binary can be downloaded from
  ![oc cli](doc/images/oc-cli.png)
 </details>
 
-<br />
+#### Helm and KubeSeal
 
 Install helm and kubeseal from brew.sh
 
  ```sh
   brew install kubeseal && brew install helm
  ```
-
-<br />
 
 #### IBM Entitlement Key for IBM Cloud Paks
 

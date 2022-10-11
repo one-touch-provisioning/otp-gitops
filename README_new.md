@@ -31,19 +31,21 @@
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
   
-  <ol>
+  <ul>
   <li><a href="#about-the-project">About The Project</a></li>
+  <li><a href="introduction-to-concepts-and-technologies-leveraged">Introduction to Concepts and Technologies leveraged</a></li>
   <li><a href="#getting-started">Getting Started</a></li>
-  <li><a href="#prerequisites">Prerequisites</a></li>
-  <li><a href="#installation">Installation</a></li>
+   <ul>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#installation">Installation</a></li>
+   </ul>
   <li><a href="#usage">Usage</a></li>
   <li><a href="#roadmap">Roadmap</a></li>
   <li><a href="#contributing">Contributing</a></li>
   <li><a href="#license">License</a></li>
   <li><a href="#contact">Contact</a></li>
   <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
+  </ul>
 <br />
 
 <!-- ABOUT THE PROJECT -->
@@ -63,7 +65,7 @@ The pattern leans very heavily on technologies such as Red Hat Advanced Cluster 
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Introduction to Concepts and Technologies leveraged
 
 Before Getting Started with this pattern, it's important to understand some of the concepts and technologies used. This will help reduce the barrier of entry when adopting the pattern and help understand why certain design decisions were made.
 
@@ -73,7 +75,8 @@ Before Getting Started with this pattern, it's important to understand some of t
     <li><a href="docs/folder-orgs.md">Use-cases for a different Git Repository folder organisation</a></li>
   </ul>
   
-## Prerequisites
+## Getting Started
+### Prerequisites
 
 *Red Hat OpenShift Cluster*
 
@@ -82,8 +85,8 @@ Minimum OpenShift v4.10+ is required.
 Deploy a "vanilla" Red Hat OpenShift cluster using either IPI (Installer Provisioned Infrastructure), UPI (User Provisioned Infrastructure), OAS (OpenShift Assisted Service) methods or a Managed OpenShift offering like AWS ROSA, Azure ARO or IBM Cloud - ROKS.
 
 <ul>
-    <li><a href="docs/ipi-options.md">IPI</a></li>
-    <li><a href="docs/upi-options.md">UPI</a></li>
+    <li><a href="docs/ipi-options.md">Installer Provisioned Infrastructure</a></li>
+    <li><a href="docs/upi-options.md">User Provisioned Infrastructure</a></li>
     <li><a href="docs/managed-ocp-options.md">Managed OpenShift Offerings</a></li>
 </ul>
 

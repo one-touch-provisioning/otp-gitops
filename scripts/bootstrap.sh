@@ -173,7 +173,7 @@ create_custom_argocd_instance () {
     pushd ${OUTPUT_DIR}
 
     oc apply -f otp-gitops/setup/ocp/argocd-instance/ -n openshift-gitops
-    while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-cntk-server -n openshift-gitops > /dev/null; do sleep 30; done
+    while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-otp-server -n openshift-gitops > /dev/null; do sleep 30; done
     popd
 }
 
@@ -224,7 +224,7 @@ argocd_git_override () {
   echo "Deploying argocd-git-override webhook"
   oc apply -n openshift-gitops -f https://github.com/csantanapr/argocd-git-override/releases/download/v1.1.0/deployment.yaml
   oc apply -f https://github.com/csantanapr/argocd-git-override/releases/download/v1.1.0/webhook.yaml
-  oc label ns openshift-gitops cntk=experiment --overwrite=true
+  oc label ns openshift-gitops otp=experiment --overwrite=true
   sleep 5
   oc wait pod --timeout=-1s --for=condition=Ready -l '!job-name' -n openshift-gitops > /dev/null
 }
@@ -292,12 +292,12 @@ print_urls_passwords () {
 
     echo "# Openshift Console UI: $(oc whoami --show-console)"
     echo "# "
-    echo "# Openshift ArgoCD/GitOps UI: $(oc get route -n openshift-gitops openshift-gitops-cntk-server -o template --template='https://{{.spec.host}}')"
+    echo "# Openshift ArgoCD/GitOps UI: $(oc get route -n openshift-gitops openshift-gitops-otp-server -o template --template='https://{{.spec.host}}')"
     echo "# "
     echo "# To get the ArgoCD/GitOps URL and admin password:"
     echo "# -----"
-    echo "oc get route -n openshift-gitops openshift-gitops-cntk-server -o template --template='https://{{.spec.host}}'"
-    echo "oc extract secrets/openshift-gitops-cntk-cluster --keys=admin.password -n openshift-gitops --to=-"
+    echo "oc get route -n openshift-gitops openshift-gitops-otp-server -o template --template='https://{{.spec.host}}'"
+    echo "oc extract secrets/openshift-gitops-otp-cluster --keys=admin.password -n openshift-gitops --to=-"
     echo "# -----"
 
 }

@@ -195,7 +195,7 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
 
     ```sh
     oc apply -k argocd-instance
-    while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-cntk-server -n openshift-gitops > /dev/null; do sleep 30; done
+    while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-otp-server -n openshift-gitops > /dev/null; do sleep 30; done
     ```
 
 3. (`Optional`) If using IBM Cloud ROKS as a RHACM Hub Cluster, then you will need to configure TLS.
@@ -207,7 +207,7 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
 4. (`Optional`) Create a console link to OpenShift GitOps
 
    ```bash
-   export ROUTE_NAME=openshift-gitops-cntk-server
+   export ROUTE_NAME=openshift-gitops-otp-server
    export ROUTE_NAMESPACE=openshift-gitops
    export CONSOLE_LINK_URL="https://$(oc get route $ROUTE_NAME -o=jsonpath='{.spec.host}' -n $ROUTE_NAMESPACE)"
    envsubst < <(cat setup/4_consolelink.yaml.envsubst) | oc apply -f -
@@ -215,7 +215,9 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
 
 #### Configure Storage and Infrastructure nodes
 
-On AWS, Azure, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the RHACM Hub Cluster. This will deploy additional nodes to support OpenShift Data Foundation (ODF) for Persistant Storage, as well as additional nodes to support Infrastructure (aka infra) components, such as RHACM, Quay, Ingress Controllers, OpenShift Internal Registry and ACS. This is done to reduce OpenShift licensing requirements as running these components on Infrastructure nodes does not consume a subscription cost.
+On AWS, Azure, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the RHACM Hub Cluster. This will deploy additional nodes to support OpenShift Data Foundation (ODF) for Persistant Storage, as well as additional nodes to support Infrastructure (aka infra) components, such as RHACM, Quay, Ingress Controllers, OpenShift Internal Registry and ACS.
+
+This is a design choice to reduce OpenShift licensing requirements as running these components on Infrastructure nodes does not consume a subscription cost.
 
    ```bash
    ./scripts/infra-mod.sh
@@ -230,15 +232,15 @@ The bootstrap YAML follows the [app of apps pattern](https://argoproj.github.io/
 1. Retrieve the ArgoCD/GitOps URL and admin password and log into the UI
 
     ```sh
-    oc get route -n openshift-gitops openshift-gitops-cntk-server -o template --template='https://{{.spec.host}}'
+    oc get route -n openshift-gitops openshift-gitops-otp-server -o template --template='https://{{.spec.host}}'
     
-    # Passsword is not needed if `Log In via OpenShift` is used (default)
-    oc extract secrets/openshift-gitops-cntk-cluster --keys=admin.password -n openshift-gitops --to=-
+    # Password is not required if using the OpenShift as an authorisation provider
+    oc extract secrets/openshift-gitops-otp-cluster --keys=admin.password -n openshift-gitops --to=-
     ```
 
 2. The resources required to be deployed for this pattern have been pre-selected. However, you can review and modify the resources deployed by editing the following.
 
-     ```sh
+     ```yaml
      0-bootstrap/hub/1-infra/kustomization.yaml
      0-bootstrap/hub/2-services/kustomization.yaml
      0-bootstrap/hub/3-policies/kustomization.yaml
@@ -246,7 +248,7 @@ The bootstrap YAML follows the [app of apps pattern](https://argoproj.github.io/
      0-bootstrap/hub/5-apps/kustomization.yaml
      ```
 
-  Any changes to the kustomization files before the Initial Bootstrap, you will need to re-commit those changes back to your Git repository, otherwise they will not be picked up by OpenShift GitOps.
+  Any changes to the kustomization files before the Initial Bootstrap, will need to be committed back to your Git repository, otherwise they will not be picked up by OpenShift GitOps.
 
 3. Deploy the OpenShift GitOps Bootstrap Application.
 
@@ -272,6 +274,7 @@ Installation is successful once all ArgoCD Applications are fully synced without
 
 You will be able to access the RHACM Hub console via the OpenShift console.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE -->
 ## Usage

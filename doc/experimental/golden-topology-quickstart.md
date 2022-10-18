@@ -76,8 +76,8 @@
 
 - To get the ArgoCD/GitOps URL and admin password:
     ```bash
-    oc get route -n openshift-gitops openshift-gitops-cntk-server -o template --template='https://{{.spec.host}}'
-    oc extract secrets/openshift-gitops-cntk-cluster --keys=admin.password -n openshift-gitops --to=-
+    oc get route -n openshift-gitops openshift-gitops-otp-server -o template --template='https://{{.spec.host}}'
+    oc extract secrets/openshift-gitops-otp-cluster --keys=admin.password -n openshift-gitops --to=-
     ```
 
 - Check the nodes being provisioned:

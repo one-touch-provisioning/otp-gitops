@@ -70,9 +70,9 @@ The pattern leans very heavily on technologies such as Red Hat Advanced Cluster 
 Before Getting Started with this pattern, it's important to understand some of the concepts and technologies used. This will help reduce the barrier of entry when adopting the pattern and help understand why certain design decisions were made.
 
   <ul>
-    <li><a href="docs/hubandspoke-concepts.md">Red Hat Advanced Cluster Management Hub and Spoke Clusters Concepts</a></li>
-    <li><a href="docs/git-repo-context.md">Git Repositories Context</a></li>
-    <li><a href="docs/folder-orgs.md">Use-cases for a different Git Repository folder organisation</a></li>
+    <li><a href="doc/hubandspoke-concepts.md">Red Hat Advanced Cluster Management Hub and Spoke Clusters Concepts</a></li>
+    <li><a href="doc/git-repo-context.md">Git Repositories Context</a></li>
+    <li><a href="doc/folder-orgs.md">Use-cases for a different Git Repository folder organisation</a></li>
   </ul>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -86,12 +86,13 @@ Before Getting Started with this pattern, it's important to understand some of t
 
 * Minimum OpenShift v4.10+ is required.
 
-Deploy a "vanilla" Red Hat OpenShift cluster using either IPI (Installer Provisioned Infrastructure), UPI (User Provisioned Infrastructure), OAS (OpenShift Assisted Service) methods or a Managed OpenShift offering like AWS ROSA, Azure ARO or IBM Cloud - ROKS.
+Deploy a "vanilla" Red Hat OpenShift cluster using one of the methods below:
 
 <ul>
-    <li><a href="docs/ipi-options.md">Installer Provisioned Infrastructure</a></li>
-    <li><a href="docs/upi-options.md">User Provisioned Infrastructure</a></li>
-    <li><a href="docs/managed-ocp-options.md">Managed OpenShift Offerings</a></li>
+    <li><a href="doc/ipi-options.md">Installer Provisioned Infrastructure</a></li>
+    <li><a href="doc/upi-options.md">User Provisioned Infrastructure</a></li>
+    <li><a href="doc/managed-ocp-options.md">Managed OpenShift Offerings</a></li>
+    <li><a href="doc/oas.md">OpenShift Assisted Installer</a></li>
 </ul>
 
 #### CLI tools
@@ -99,12 +100,6 @@ Deploy a "vanilla" Red Hat OpenShift cluster using either IPI (Installer Provisi
 ##### OpenShift CLI
 
 Install the OpenShift CLI oc (version 4.10+).  The binary can be downloaded from the Help menu from the OpenShift cluster console, or downloaded from the [OpenShift Mirror](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/) website.
-
-<details>
- <summary>OpenShift cluster console oc cli download location</summary>
-
- ![oc cli](doc/images/oc-cli.png)
-</details>
 
 ##### Helm and KubeSeal
 
@@ -114,22 +109,123 @@ Install helm and kubeseal from brew.sh
   brew install kubeseal && brew install helm
  ```
 
+#### Overview of git repositories
+
+The pattern requires the use of six git repositories within the GitOps workflow, the reason for this is explained <a href="doc/git-repo-context.md">here</a>.
+
+- RHACM Hub GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops](https://github.com/one-touch-provisioning/otp-gitops))
+  - This repository contains all the ArgoCD Applications for the `infrastructure`, `services`, `policies`, `clusters` and `application` layers. Each ArgoCD Application will reference a specific resource that will be deployed to the RHACM Hub Cluster, or depending on your chosen configuration, it may include Spoke Cluster resources as well.
+
+- Infrastructure GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-infra](https://github.com/one-touch-provisioning/otp-gitops-infra))
+  - This repository is what we've termed a "common repository". This repository will be used across both the RHACM Hub cluster and any Spoke clusters you deploy. The repository contains the YAMLs for cluster-wide and/or infrastructure related resources managed by a cluster administrator.  This would include `namespaces`, `clusterroles`, `clusterrolebindings`, `machinesets` to name a few. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
+
+- Services GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-services](https://github.com/one-touch-provisioning/otp-gitops-services))
+  - This repository is what we've termed a "common repository". This repository will be used across both the RHACM Hub cluster and any Spoke clusters you deploy. The repository contains the YAMLs for resources which will be used by the RHACM Hub and Spoke clusters.  This repository include `subscriptions` for Operators, YAMLs of custom resources provided, or Helm Charts for tools provided by a third party. These resource would usually be managed by the Administrator(s) and/or a DevOps team supporting application developers. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
+
+- Policies GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-policies](https://github.com/one-touch-provisioning/otp-gitops-policies))
+  - This repository is what we've termed a "common repository". The repository contains the YAMLs for resources to deploy `Policies` to both the RHACM Hub and Spoke clusters. These resource would usually be managed by the GRC and/or Security teams. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
+
+- Clusters GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-clusters](https://github.com/one-touch-provisioning/otp-gitops-clusters))
+  - This repository is what we've termed a "common repository". The repository contains the YAMLs for resources to deploy `OpenShift Clusters`. These resource would usually be managed by the Platform Administrator(s) and/or a Ops team supporting the Cloud Platforms. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
+
+- Apps GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-apps](https://github.com/one-touch-provisioning/otp-gitops-apps))
+  - This repository is what we've termed a "common repository". The repository contains the YAMLs for resources to deploy the RHACM Hub or Spoke `OpenShift Clusters`. Contains the YAMLs for resources to deploy `applications`. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
+
+#### Setup of git repositories
+
+1. Create a new GitHub Organization using instructions from this [GitHub documentation](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch).
+
+2. From each template repository, click the `Use this template` button and create a copy of the repository in your new GitHub Organization.
+
+    ![Create repository from a template](doc/images/git-repo-template-button.png)
+
+3. (Optional) OpenShift GitOps can leverage GitHub tokens. Many users may wish to use private Git repositories on GitHub to store their manifests, rather than leaving them publically readable. The following steps will need to repeated for each repository.
+
+    - Generate GitHub Token
+      - Visit [https://github.com/settings/tokens](https://github.com/settings/tokens) and select "Generate new token". Give your token a name, an expiration date and select the scope. The token will need to have repo access.
+
+        ![Create a GitHub Secret](doc/images/github-token-scope.png)
+
+      - Click on "Generate token" and copy your token! You will not get another chance to copy your token and you will need to regenerate if you missed to opportunity.
+
+    - Generate OpenShift GitOps Namespace
+
+       ```bash
+       oc apply -f setup/setup/0_openshift-gitops-namespace.yaml
+       ```
+
+    - Generate Secret
+      - export the GitHub token you copied earlier.
+
+        ```bash
+        $ export GITHUB_TOKEN=<insert github token>
+        $ export GIT_ORG=<git organisation>
+        ```
+
+      - Create a secret that will reside within the `openshift-gitops` namespace.
+
+        ```bash
+        $ mkdir repo-secrets
+        $ cat <<EOF > setup/ocp/repo-secrets/otp-gitops-repo-secret.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: otp-gitops-repo-secret
+          namespace: openshift-gitops
+          labels:
+            argocd.argoproj.io/secret-type: repository
+        stringData:
+          url: https://github.com/${GIT_ORG}/otp-gitops
+          password: ${GITHUB_TOKEN}
+          username: not-used
+        EOF
+        ```
+
+      - Repeat the above steps for `otp-gitops-infra`, `otp-gitops-services`, `otp-gitops-policies`, `otp-gitops-clusters` and `otp-gitops-apps` repositories.
+
+    - Apply Secrets to the OpenShift Cluster
+
+      ```bash
+      oc apply -f setup/ocp/repo-secrets/
+      rm -rf setup/ocp/repo-secrets
+      ```
+
+4. Clone the repositories locally.
+
+    ```sh
+    mkdir -p <gitops-repos>
+    cd <gitops-repos>
+    
+    # Example: set default Git org for clone commands below
+    GIT_ORG=one-touch-provisioning
+
+    # Clone using SSH
+    git clone git@github.com:$GIT_ORG/otp-gitops.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-infra.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-services.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-policies.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-clusters.git
+    git clone git@github.com:$GIT_ORG/otp-gitops-apps.git
+    ```
+
+5. Update the default Git URl and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
+
+    ```sh
+    cd otp-gitops
+    GIT_ORG=<GIT_ORG> GIT_BRANCH=master ./scripts/set-git-source.sh
+    git add .
+    git commit -m "Update Git URl and branch references"
+    git push origin master
+    ```
+
 #### IBM Entitlement Key for IBM Cloud Paks
 
 If you intend to deploy the `Infrastructure Automation` component of IBM Cloud Pak for Watson AIOps, then please follow the instructions <a href="docs/ibm-entitlement-key.md">here</a>.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- Installation -->
 ### Installation
-
-1. Installation steps will go here
-2. Clone the repo
-   ```sh
-   git clone https://github.com/one-touch-provisioning/otp-gitops.git
-   ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- USAGE -->
@@ -187,11 +283,13 @@ Distributed under the APACHE 2.0 License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Ben Swinney - [@twitter_handle](https://twitter.com/twitter_handle)
-Cong Nguyen - [@twitter_handle](https://twitter.com/twitter_handle)
-Nick Merrett - [@twitter_handle](https://twitter.com/twitter_handle)
-Marwan Attar - [@twitter_handle](https://twitter.com/twitter_handle)
-Langley Millard - [@twitter_handle](https://twitter.com/twitter_handle) 
+<ul>
+  <li>Ben Swinney | @bdgsts | Linkedin | Github</li>
+  <li>Cong Nguyen | Linkedin | Github</li>
+  <li>Nick Merrett | Linkedin | Github</li>
+  <li>Marwan Attar | Linkedin | Github</li>
+  <li>Langley Millard | Linkedin | Github</li>
+</ul>
 
 Project Link: [https://github.com/one-touch-provisioning/otp-gitops](https://github.com/one-touch-provisioning/otp-gitops)
 

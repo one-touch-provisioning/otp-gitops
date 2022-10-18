@@ -319,7 +319,9 @@ This pattern treats Managed (aka Spoke) Clusters as OpenShift GitOps Application
   
   - Originally the pattern utilised the SealedSecrets Controller to encrypt your API Keys and provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/sealed-secrets/<cloud provider>` for your use. This was deemed an ok method for 1-5 cluster deployments, but became very cumbersome when dealing with Scale and was at risk of error and misconfiguration. We will no longer be iterating the code for cluster deployment via SealedSecret and we'll eventually remove this altogether.
 
-_The pattern is capabile of full end to end deployment of not only Clusters, but also Policies, Governance and Applications. For more usage examples, please refer to the [Documentation](https://github.com/one-touch-provisioning/otp-gitops/doc/usage.md)_
+The pattern provides full end to end deployment of not only Clusters, but also Policies, Governance and Applications.
+
+_For more usage examples, please refer to the [Documentation](https://github.com/one-touch-provisioning/otp-gitops/doc/usage.md)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

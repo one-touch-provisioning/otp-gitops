@@ -23,7 +23,6 @@ popd () {
 }
 
 set +e
-#oc version --client | grep '4.8\|4.9\|4.10'
 oc version --client | grep -E '4.[7-9].[0-9]|4.[1-9][0-9].[0-9]|4.[1-9][0-9][0-9].[0-9]'
 OC_VERSION_CHECK=$?
 set -e
@@ -47,7 +46,7 @@ popd
 # Check if OpenShift is connected
 
 set +e
-if oc cluster-info>/dev/null 2>&1; then
+if oc cluster-info > /dev/null 2>&1; then
     echo "Cluster is connected"
 else
     echo "Not connected to a cluster"

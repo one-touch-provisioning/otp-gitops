@@ -334,6 +334,7 @@ _For more usage examples, please refer to the [Documentation](https://github.com
 - [ ] Ansible Automation integration with Libvirt and VMWare
 - [ ] HyperShift Integration
     - [ ] HyperShift with OpenShift Virtualisation for Worker nodes
+- [ ] Deployment of IBM Cloud Satellite for IBM Managed OpenShift platform within chosen environment.
 
 See the [open issues](https://github.com/one-touch-provisioning/otp-gitops/issues) for a full list of proposed features (and known issues).
 

@@ -200,13 +200,13 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
 
 3. (`Optional`) If using IBM Cloud ROKS as a RHACM Hub Cluster, then you will need to configure TLS.
 
-    ```bash
-    scripts/patch-argocd-tls.sh
+    ```sh
+    ./scripts/patch-argocd-tls.sh
     ```
 
 4. (`Optional`) Create a console link to OpenShift GitOps
 
-   ```bash
+   ```sh
    export ROUTE_NAME=openshift-gitops-otp-server
    export ROUTE_NAMESPACE=openshift-gitops
    export CONSOLE_LINK_URL="https://$(oc get route $ROUTE_NAME -o=jsonpath='{.spec.host}' -n $ROUTE_NAMESPACE)"
@@ -219,7 +219,7 @@ On AWS, Azure, GCP and vSphere run the following script to configure the machine
 
 This is a design choice to reduce OpenShift licensing requirements as running these components on Infrastructure nodes does not consume a subscription cost.
 
-   ```bash
+   ```sh
    ./scripts/infra-mod.sh
    ```
 

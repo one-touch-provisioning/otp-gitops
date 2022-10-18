@@ -319,7 +319,7 @@ This pattern treats Managed (aka Spoke) Clusters as OpenShift GitOps Application
   
   - Originally the pattern utilised the SealedSecrets Controller to encrypt your API Keys and provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/sealed-secrets/<cloud provider>` for your use. This was deemed an ok method for 1-5 cluster deployments, but became very cumbersome when dealing with Scale and was at risk of error and misconfiguration. We will no longer be iterating the code for cluster deployment via SealedSecret and we'll eventually remove this altogether.
 
-_For more examples, please refer to the [Documentation](https://github.com/one-touch-provisioning/otp-gitops/doc)_
+_The pattern is capabile of full end to end deployment of not only Clusters, but also Policies, Governance and Applications. For more usage examples, please refer to the [Documentation](https://github.com/one-touch-provisioning/otp-gitops/doc/usage.md)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -370,11 +370,11 @@ Distributed under the APACHE 2.0 License. See `LICENSE` for more information.
 ## Contact
 
 <ul>
-  <li>Ben Swinney | @bdgsts | Linkedin | Github</li>
-  <li>Cong Nguyen | Linkedin | Github</li>
-  <li>Nick Merrett | Linkedin | Github</li>
-  <li>Marwan Attar | Linkedin | Github</li>
-  <li>Langley Millard | Linkedin | Github</li>
+  <li>Ben Swinney | <a href="https://twitter.com/bdgsts">@bdgsts</a> | <a href="https://www.linkedin.com/in/ben-swinney/">Linkedin</a> | <a href="https://github.com/benswinney/">Github</a></li>
+  <li>Cong Nguyen | <a href="https://www.linkedin.com/in/cong-ng/">Linkedin</a> | <a href="https://github.com/rampadc/">Github</a></li>
+  <li>Nick Merrett | <a href="https://www.linkedin.com/in/nick-merrett/">Linkedin</a> | <a href="https://github.com/nickmerrett/">Github</a></li>
+  <li>Marwan Attar | <a href="https://www.linkedin.com/in/marwan-attar/">Linkedin</a></li>
+  <li>Langley Millard | <a href="https://www.linkedin.com/in/langley-millard/">Linkedin</a></li>
 </ul>
 
 Project Link: [https://github.com/one-touch-provisioning/otp-gitops](https://github.com/one-touch-provisioning/otp-gitops)

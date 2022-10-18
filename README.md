@@ -347,7 +347,7 @@ If you are running a managed OpenShift cluster on IBM Cloud, you can deploy Open
 
 On AWS, Azure, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the Hub Cluster
 
-   ```bash
+   ```sh
    ./scripts/infra-mod.sh
    ```
 

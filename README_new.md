@@ -99,15 +99,15 @@ Deploy a "vanilla" Red Hat OpenShift cluster using one of the methods below:
 
 ##### OpenShift CLI
 
-Install the OpenShift CLI oc (version 4.10+).  The binary can be downloaded from the Help menu from the OpenShift cluster console, or downloaded from the [OpenShift Mirror](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/) website.
+- Install the OpenShift `oc` CLI (version 4.10+).  The binary can be downloaded from the Help menu from the OpenShift cluster console, or downloaded from the [OpenShift Mirror](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/) website.
 
 ##### Helm and KubeSeal
 
-Install helm and kubeseal from brew.sh
+- Install helm and kubeseal from brew.sh
 
- ```sh
-  brew install kubeseal && brew install helm
- ```
+   ```sh
+    brew install kubeseal && brew install helm
+   ```
 
 #### Overview of git repositories
 
@@ -139,56 +139,7 @@ The pattern requires the use of six git repositories within the GitOps workflow,
 
     ![Create repository from a template](doc/images/git-repo-template-button.png)
 
-3. (Optional) OpenShift GitOps can leverage GitHub tokens. Many users may wish to use private Git repositories on GitHub to store their manifests, rather than leaving them publically readable. The following steps will need to repeated for each repository.
-
-    - Generate GitHub Token
-      - Visit [https://github.com/settings/tokens](https://github.com/settings/tokens) and select "Generate new token". Give your token a name, an expiration date and select the scope. The token will need to have repo access.
-
-        ![Create a GitHub Secret](doc/images/github-token-scope.png)
-
-      - Click on "Generate token" and copy your token! You will not get another chance to copy your token and you will need to regenerate if you missed to opportunity.
-
-    - Generate OpenShift GitOps Namespace
-
-       ```bash
-       oc apply -f setup/setup/0_openshift-gitops-namespace.yaml
-       ```
-
-    - Generate Secret
-      - export the GitHub token you copied earlier.
-
-        ```bash
-        $ export GITHUB_TOKEN=<insert github token>
-        $ export GIT_ORG=<git organisation>
-        ```
-
-      - Create a secret that will reside within the `openshift-gitops` namespace.
-
-        ```bash
-        $ mkdir repo-secrets
-        $ cat <<EOF > setup/ocp/repo-secrets/otp-gitops-repo-secret.yaml
-        apiVersion: v1
-        kind: Secret
-        metadata:
-          name: otp-gitops-repo-secret
-          namespace: openshift-gitops
-          labels:
-            argocd.argoproj.io/secret-type: repository
-        stringData:
-          url: https://github.com/${GIT_ORG}/otp-gitops
-          password: ${GITHUB_TOKEN}
-          username: not-used
-        EOF
-        ```
-
-      - Repeat the above steps for `otp-gitops-infra`, `otp-gitops-services`, `otp-gitops-policies`, `otp-gitops-clusters` and `otp-gitops-apps` repositories.
-
-    - Apply Secrets to the OpenShift Cluster
-
-      ```bash
-      oc apply -f setup/ocp/repo-secrets/
-      rm -rf setup/ocp/repo-secrets
-      ```
+3. (`Optional`) Many users may wish to use private Git repositories on GitHub to store their manifests, rather than leaving them publically readable. The steps for setting up OpenShift GitOps for Private repositories can be found <a href="doc/private-repos.md">here</a>.
 
 4. Clone the repositories locally.
 
@@ -208,13 +159,13 @@ The pattern requires the use of six git repositories within the GitOps workflow,
     git clone git@github.com:$GIT_ORG/otp-gitops-apps.git
     ```
 
-5. Update the default Git URl and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
+5. Update the default Git URL and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
 
     ```sh
     cd otp-gitops
     GIT_ORG=<GIT_ORG> GIT_BRANCH=master ./scripts/set-git-source.sh
     git add .
-    git commit -m "Update Git URl and branch references"
+    git commit -m "Update Git URL and branch references"
     git push origin master
     ```
 
@@ -226,6 +177,100 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
 
 <!-- Installation -->
 ### Installation
+
+#### Install and configure OpenShift GitOps
+
+- [Red Hat OpenShift GitOps](https://docs.openshift.com/container-platform/4.11/cicd/gitops/understanding-openshift-gitops.html) uses [Argo CD](https://argoproj.github.io/argo-cd/), an open-source declarative tool, to maintain and reconcile cluster resources.
+
+1. Install the OpenShift GitOps Operator and create a `ClusterRole` and `ClusterRoleBinding`.  
+
+    ```sh
+    cd setup
+    oc apply -f setup
+    while ! oc wait crd applications.argoproj.io --timeout=-1s --for=condition=Established  2>/dev/null; do sleep 30; done
+    while ! oc wait pod --timeout=-1s --for=condition=Ready -l '!job-name' -n openshift-gitops > /dev/null; do sleep 30; done
+    ```
+
+2. Create a custom ArgoCD instance with custom checks. To customise which health checks, comment out those you don't need in `setup/argocd-instance/kustomization.yaml`.
+
+    ```sh
+    oc apply -k argocd-instance
+    while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-cntk-server -n openshift-gitops > /dev/null; do sleep 30; done
+    ```
+
+3. (`Optional`) If using IBM Cloud ROKS as a RHACM Hub Cluster, then you will need to configure TLS.
+
+    ```bash
+    scripts/patch-argocd-tls.sh
+    ```
+
+4. (`Optional`) Create a console link to OpenShift GitOps
+
+   ```bash
+   export ROUTE_NAME=openshift-gitops-cntk-server
+   export ROUTE_NAMESPACE=openshift-gitops
+   export CONSOLE_LINK_URL="https://$(oc get route $ROUTE_NAME -o=jsonpath='{.spec.host}' -n $ROUTE_NAMESPACE)"
+   envsubst < <(cat setup/4_consolelink.yaml.envsubst) | oc apply -f -
+   ```
+
+#### Configure Storage and Infrastructure nodes
+
+On AWS, Azure, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the RHACM Hub Cluster. This will deploy additional nodes to support OpenShift Data Foundation (ODF) for Persistant Storage, as well as additional nodes to support Infrastructure (aka infra) components, such as RHACM, Quay, Ingress Controllers, OpenShift Internal Registry and ACS. This is done to reduce OpenShift licensing requirements as running these components on Infrastructure nodes does not consume a subscription cost.
+
+   ```bash
+   ./scripts/infra-mod.sh
+   ```
+
+If you are running a managed OpenShift cluster on IBM Cloud, you can deploy OpenShift Data Foundation as an [add-on](https://cloud.ibm.com/docs/openshift?topic=openshift-ocs-storage-prep#odf-deploy-options).
+
+### Bootstrap the OpenShift RHACM Hub cluster
+
+The bootstrap YAML follows the [app of apps pattern](https://argoproj.github.io/argo-cd/operator-manual/cluster-bootstrapping/#app-of-apps-pattern). 
+
+1. Retrieve the ArgoCD/GitOps URL and admin password and log into the UI
+
+    ```sh
+    oc get route -n openshift-gitops openshift-gitops-cntk-server -o template --template='https://{{.spec.host}}'
+    
+    # Passsword is not needed if `Log In via OpenShift` is used (default)
+    oc extract secrets/openshift-gitops-cntk-cluster --keys=admin.password -n openshift-gitops --to=-
+    ```
+
+2. The resources required to be deployed for this pattern have been pre-selected. However, you can review and modify the resources deployed by editing the following.
+
+     ```sh
+     0-bootstrap/hub/1-infra/kustomization.yaml
+     0-bootstrap/hub/2-services/kustomization.yaml
+     0-bootstrap/hub/3-policies/kustomization.yaml
+     0-bootstrap/hub/4-clusters/kustomization.yaml
+     0-bootstrap/hub/5-apps/kustomization.yaml
+     ```
+
+  Any changes to the kustomization files before the Initial Bootstrap, you will need to re-commit those changes back to your Git repository, otherwise they will not be picked up by OpenShift GitOps.
+
+3. Deploy the OpenShift GitOps Bootstrap Application.
+
+    ```sh
+    oc apply -f 0-bootstrap/hub/bootstrap.yaml
+    ```
+
+4. ArgoCD Sync waves are used to managed the order of manifest deployments, but we have seen occassions where applying both the Infrastructure, Services and Policies layers at the same time can fail. This typically occurs when there are issues with provisioning of additional nodes to support Storage and Infrastructure components. YMMV.
+
+Once the Infrastructure, Services and Policies layers have been deployed, update the `0-bootstrap/hub/kustomization.yaml` manifest to enable the Clusters and Apps layer and commit to Git. OpenShift GitOps will then automatically deploy any resources listed within those Kustomise files.
+
+   ```yaml
+   resources:
+   - 1-infra/1-infra.yaml
+   - 2-services/2-services.yaml
+   - 3-policies/3-policies.yaml
+   ## Uncomment once the above layers have completed.
+   # - 4-clusters/4-clusters.yaml
+   # - 5-apps/5-apps.yaml
+   ```
+
+Installation is successful once all ArgoCD Applications are fully synced without errors.
+
+You will be able to access the RHACM Hub console via the OpenShift console.
 
 
 <!-- USAGE -->

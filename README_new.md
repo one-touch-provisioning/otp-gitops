@@ -256,7 +256,7 @@ The bootstrap YAML follows the [app of apps pattern](https://argoproj.github.io/
     oc apply -f 0-bootstrap/hub/bootstrap.yaml
     ```
 
-4. ArgoCD Sync waves are used to managed the order of manifest deployments, but we have seen occassions where applying both the Infrastructure, Services and Policies layers at the same time can fail. This typically occurs when there are issues with provisioning of additional nodes to support Storage and Infrastructure components. YMMV.
+4. ArgoCD Sync waves are used to managed the order of manifest deployment, this is required as some objects have parent-child relationships and are expected to exist within the RHACM Hub before they can be successfully deployed. We have seen occassions where applying both the Infrastructure, Services and Policies layers at the same time can fail. This typically occurs when there are issues with provisioning of additional nodes to support Storage and Infrastructure components. YMMV.
 
 Once the Infrastructure, Services and Policies layers have been deployed, update the `0-bootstrap/hub/kustomization.yaml` manifest to enable the Clusters and Apps layer and commit to Git. OpenShift GitOps will then automatically deploy any resources listed within those Kustomise files.
 
@@ -279,7 +279,45 @@ You will be able to access the RHACM Hub console via the OpenShift console.
 <!-- USAGE -->
 ## Usage
 
-Include usage examples here.
+### Deploying and Destroying Managed (aka Spoke) OpenShift Clusters via OpenShift GitOps
+
+This pattern treats Managed (aka Spoke) Clusters as OpenShift GitOps Applications. This allows us to Create, Destroy, Hibernate and Import Managed Clusters into Red Hat Advanced Cluster Management via OpenShift GitOps.
+
+#### Creating and Destroying Managed OpenShift Clusters
+
+- ClusterPools and ClusterClaims
+
+  - We've now simplied the life-cycling of OpenShift Clusters on AWS, Google Cloud and Azure via the use of [Cluster Pools](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.6/html/clusters/managing-your-clusters#managing-cluster-pools) and [ClusterClaims](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.6/html/clusters/managing-your-clusters#clusterclaims).
+
+  - Cluster Pools allows you pre-set a common cluster configuration and RHACM will take that configuration and apply it to each Cluster it deploys from that Cluster Pool. An example could be that a Production Cluster may consume specific Compute resources, exist in a multi-zone configuration and requires a particular version of OpenShift to be deployed and RHACM will deploy a cluster to meet those requirements.
+
+  - Once a Cluster Pool has been created, you can submit ClusterClaims to deploy a cluster from that pool.
+
+- ClusterDeployment
+
+  - The ClusterDeployment method can be used to deploy AWS, Azure, GCP, VMWare, On-Premise, Edge and IBM Cloud OpenShift Clusters.
+
+  - Review the `Clusters` layer [kustomization.yaml](0-bootstrap/hub/4-clusters/kustomization.yaml) to enable/disable the Clusters that will be deployed via OpenShift GitOps.
+
+    ```yaml
+    resources:
+    ## ClusterPools
+    ## Example: - argocd/clusterpools/<env>/<cloud>/<clusterpoolname>/<clusterpoolname.yaml>
+    - argocd/clusterpools/cicd/aws/aws-cicd-pool/aws-cicd-pool.yaml
+ 
+    ## ClusterClaims
+    ## Example : - argocd/clusterclaims/<env>/<cloud>/<clusterclaimname.yaml>
+    - argocd/clusterclaims/dev/aws/project-simple.yaml
+
+    ## ClusterDeployments
+    ## Example : - argocd/<env>/<cloud>/<clustername>/<clustername.yaml>
+    - argocd/clusters/prod/aws/aws-prod/aws-prod.yaml
+    - argocd/clusters/prod/azure/azure-prod/azure-prod.yaml 
+    ```
+
+  - We have have provided examples for deploying new clusters into AWS, Azure, IBM Cloud and VMWare. Cluster Deployments require the use of your Cloud Provider API Keys to allow RHACM to connect to your Cloud Provider and deploy via Terraform an OpenShift cluster. We make use of an external keystore, e.g. Vault and leveraged the use of the External Secrets Operator to pull in the Cloud Providers API keys automatically. This simplifies the creation of new clusters, reduces the values needed and works better with Scale. The deployments for the clusters is stored within the `Clusters` repository, under `clusters/deploy/external-secrets/<cloud provider>`.
+  
+  - Originally the pattern utilised the SealedSecrets Controller to encrypt your API Keys and provided a handy script for each Cloud Provider within the `Clusters` repository, under `clusters/deploy/sealed-secrets/<cloud provider>` for your use. This was deemed an ok method for 1-5 cluster deployments, but became very cumbersome when dealing with Scale and was at risk of error and misconfiguration. We will no longer be iterating the code for cluster deployment via SealedSecret and we'll eventually remove this altogether.
 
 _For more examples, please refer to the [Documentation](https://github.com/one-touch-provisioning/otp-gitops/doc)_
 

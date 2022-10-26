@@ -101,12 +101,20 @@ Deploy a "vanilla" Red Hat OpenShift cluster using one of the methods below:
 
 - Install the OpenShift `oc` CLI (version 4.10+).  The binary can be downloaded from the Help menu from the OpenShift cluster console, or downloaded from the [OpenShift Mirror](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/) website.
 
-##### Helm and KubeSeal
+##### Helm CLI
 
-- Install helm and kubeseal from brew.sh
+- Install helm CLI from brew.sh
 
    ```sh
-    brew install kubeseal && brew install helm
+    brew install helm
+   ```
+
+##### KubeSeal CLI (Optional)
+
+- If you intend to use SealedSecrets Operator, then it's recommended to install the kubeseal CLI from brew.sh
+
+   ```sh
+   brew install kubeseal
    ```
 
 #### Overview of git repositories

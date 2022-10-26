@@ -135,31 +135,15 @@ The pattern requires the use of six git repositories within the GitOps workflow,
 
 1. Create a new GitHub Organization using instructions from this [GitHub documentation](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch).
 
-2. From each template repository, click the `Use this template` button and create a copy of the repository in your new GitHub Organization.
+2. Create the repositories within your new GitHub Organization and clone them locally.
 
-    ![Create repository from a template](doc/images/git-repo-template-button.png)
+   ```sh
+   GIT_ORG=<new-git-organization> OUTPUT_DIR=<gitops-repos> ./scripts/create-repos.sh
+   ```
 
 3. (`Optional`) Many users may wish to use private Git repositories on GitHub to store their manifests, rather than leaving them publically readable. The steps for setting up OpenShift GitOps for Private repositories can be found <a href="doc/private-repos.md">here</a>.
 
-4. Clone the repositories locally.
-
-    ```sh
-    mkdir -p <gitops-repos>
-    cd <gitops-repos>
-    
-    # Example: set default Git org for clone commands below
-    GIT_ORG=one-touch-provisioning
-
-    # Clone using SSH
-    git clone git@github.com:$GIT_ORG/otp-gitops.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-infra.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-services.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-policies.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-clusters.git
-    git clone git@github.com:$GIT_ORG/otp-gitops-apps.git
-    ```
-
-5. Update the default Git URL and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
+4. Update the default Git URL and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
 
     ```sh
     cd otp-gitops

@@ -55,4 +55,10 @@ find ${SCRIPTDIR}/../0-bootstrap/hub -name '*.yaml' -print0 |
     fi
   done
 echo "done replacing variables in kustomization.yaml files"
-echo "git commit and push changes now"
+echo "Committing changes and pushing"
+
+git add .
+git commit -m "Update Git URL and branch references"
+git push origin master
+
+echo "Changes committed and pushed"

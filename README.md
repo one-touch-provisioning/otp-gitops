@@ -111,7 +111,7 @@ Deploy a "vanilla" Red Hat OpenShift cluster using one of the methods below:
 
 ##### KubeSeal CLI (Optional)
 
-- If you intend to use SealedSecrets Operator, then it's recommended to install the kubeseal CLI from brew.sh
+- If you intend to use the SealedSecrets Operator, then it's recommended to install kubeseal CLI from brew.sh
 
    ```sh
    brew install kubeseal
@@ -121,22 +121,22 @@ Deploy a "vanilla" Red Hat OpenShift cluster using one of the methods below:
 
 The pattern requires the use of six git repositories within the GitOps workflow, the reason for this is explained <a href="doc/git-repo-context.md">here</a>.
 
-- RHACM Hub GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops](https://github.com/one-touch-provisioning/otp-gitops))
+- [RHACM Hub GitOps repository](https://github.com/one-touch-provisioning/otp-gitops)
   - This repository contains all the ArgoCD Applications for the `infrastructure`, `services`, `policies`, `clusters` and `application` layers. Each ArgoCD Application will reference a specific resource that will be deployed to the RHACM Hub Cluster, or depending on your chosen configuration, it may include Spoke Cluster resources as well.
 
-- Infrastructure GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-infra](https://github.com/one-touch-provisioning/otp-gitops-infra))
+- [Infrastructure GitOps repository](https://github.com/one-touch-provisioning/otp-gitops-infra)
   - This repository is what we've termed a "common repository". This repository will be used across both the RHACM Hub cluster and any Spoke clusters you deploy. The repository contains the YAMLs for cluster-wide and/or infrastructure related resources managed by a cluster administrator.  This would include `namespaces`, `clusterroles`, `clusterrolebindings`, `machinesets` to name a few. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
 
-- Services GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-services](https://github.com/one-touch-provisioning/otp-gitops-services))
+- [Services GitOps repository](https://github.com/one-touch-provisioning/otp-gitops-services)
   - This repository is what we've termed a "common repository". This repository will be used across both the RHACM Hub cluster and any Spoke clusters you deploy. The repository contains the YAMLs for resources which will be used by the RHACM Hub and Spoke clusters.  This repository include `subscriptions` for Operators, YAMLs of custom resources provided, or Helm Charts for tools provided by a third party. These resource would usually be managed by the Administrator(s) and/or a DevOps team supporting application developers. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
 
-- Policies GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-policies](https://github.com/one-touch-provisioning/otp-gitops-policies))
+- [Policies GitOps repository](https://github.com/one-touch-provisioning/otp-gitops-policies)
   - This repository is what we've termed a "common repository". The repository contains the YAMLs for resources to deploy `Policies` to both the RHACM Hub and Spoke clusters. These resource would usually be managed by the GRC and/or Security teams. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
 
-- Clusters GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-clusters](https://github.com/one-touch-provisioning/otp-gitops-clusters))
+- [Clusters GitOps repository](https://github.com/one-touch-provisioning/otp-gitops-clusters)
   - This repository is what we've termed a "common repository". The repository contains the YAMLs for resources to deploy `OpenShift Clusters`. These resource would usually be managed by the Platform Administrator(s) and/or a Ops team supporting the Cloud Platforms. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
 
-- Apps GitOps repository ([https://github.com/one-touch-provisioning/otp-gitops-apps](https://github.com/one-touch-provisioning/otp-gitops-apps))
+- [Apps GitOps repository](https://github.com/one-touch-provisioning/otp-gitops-apps)
   - This repository is what we've termed a "common repository". The repository contains the YAMLs for resources to deploy the RHACM Hub or Spoke `OpenShift Clusters`. Contains the YAMLs for resources to deploy `applications`. By leveraging "common repositories", you can reduce depulication of code and ensure a consistant set of resources are applied each time.
 
 #### Setup of git repositories
@@ -156,10 +156,9 @@ The pattern requires the use of six git repositories within the GitOps workflow,
     ```sh
     cd otp-gitops
     GIT_ORG=<GIT_ORG> GIT_BRANCH=master ./scripts/set-git-source.sh
-    git add .
-    git commit -m "Update Git URL and branch references"
-    git push origin master
     ```
+
+   - You can unset the changes you made above by running the `./scripts/unset-git-source.sh`.
 
 #### IBM Entitlement Key for IBM Cloud Paks
 

@@ -213,7 +213,15 @@ This is a design choice to reduce OpenShift licensing requirements as running th
    ./scripts/infra-mod.sh
    ```
 
-If you are running a managed OpenShift cluster on IBM Cloud, you can deploy OpenShift Data Foundation as an [add-on](https://cloud.ibm.com/docs/openshift?topic=openshift-ocs-storage-prep#odf-deploy-options).
+#### IBM Cloud - ROKS
+
+If you are running a managed OpenShift cluster on IBM Cloud, you can deploy OpenShift Data Foundation as an [add-on](https://cloud.ibm.com/docs/openshift?topic=openshift-ocs-storage-prep#odf-deploy-options). You will also need to label some of your worker nodes as Infra nodes, otherwise RHACM will fail to deploy.
+
+Attach the following label to the worker nodes you intend to use as Infra nodes.
+
+```sh
+node-role.kubernetes.io/infra: ''
+```  
 
 ### Bootstrap the OpenShift RHACM Hub cluster
 

@@ -154,7 +154,6 @@ The pattern requires the use of six git repositories within the GitOps workflow,
 4. Update the default Git URL and branch references in your `otp-gitops` repository by running the provided script `./scripts/set-git-source.sh` script.
 
     ```sh
-    cd otp-gitops
     GIT_ORG=<GIT_ORG> GIT_BRANCH=master ./scripts/set-git-source.sh
     ```
 

@@ -59,6 +59,6 @@ echo "Committing changes and pushing"
 
 git add .
 git commit -m "Update Git URL and branch references"
-git push origin master
+git push origin $GIT_BRANCH
 
 echo "Changes committed and pushed"

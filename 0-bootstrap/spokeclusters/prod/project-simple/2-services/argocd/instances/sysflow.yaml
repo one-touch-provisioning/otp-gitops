@@ -1,0 +1,20 @@
+#if a production deployment with CP4S this would be better as a policy
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sysflow
+  annotations:
+    argocd.argoproj.io/sync-wave: "200"
+  labels:
+    gitops.tier.layer: services
+spec:
+  destination:
+    namespace: sysflow
+    server: https://kubernetes.default.svc
+  project: services
+  source:
+    path: instances/sysflow/sf-chart
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

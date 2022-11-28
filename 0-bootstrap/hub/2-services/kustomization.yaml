@@ -1,4 +1,40 @@
 resources:
+ ## Base Components required for One Touch Provisioning
+
+ # Red Hat Advanced Cluster Management
+ - argocd/operators/openshift-acm.yaml
+ - argocd/instances/openshift-acm-instance.yaml
+ - argocd/instances/openshift-acm-observability-instance.yaml
+ - argocd/instances/openshift-gitopscluster-instance.yaml
+ # Red Hat Advanced Cluster Management - Central Infrastructure Management
+ - argocd/instances/openshift-acm-cim.yaml
+ # Red Hat Advanced Cluster Management - Discovery Service
+ #- argocd/instances/openshift-acm-discovery-service.yaml
+ # Red Hat Advanced Cluster Management - Bare Metal Operator and Ironic
+ #- argocd/operators/baremetal-operator.yaml
+ #- argocd/operators/ironic.yaml
+ 
+  # Red Hat Quay Registry
+ - argocd/operators/quay-registry.yaml
+ - argocd/instances/quay-registry-instance.yaml
+ - argocd/operators/quay-container-security.yaml
+ - argocd/operators/quay-bridge-operator.yaml
+
+ # Secrets Managment
+ - argocd/operators/external-secrets.yaml
+ - argocd/instances/external-secrets.yaml
+
+ # Ansible Automation Platform
+ - argocd/operators/ansible-automation-platform-operator.yaml
+ - argocd/instances/ansible-automation-platform-controller-instance.yaml
+ - argocd/instances/ansible-automation-platform-hub-instance.yaml
+
+ # OpenShift Advanced Cluster Security (aka Stackrox)
+ - argocd/operators/openshift-acs-operator.yaml
+ - argocd/instances/openshift-acs-instance.yaml
+
+ ## Optional Components. These are NOT required for OTP, but can be enabled.
+
  # IBM Foundations / Common Services
  #- argocd/operators/ibm-foundations.yaml
  #- argocd/instances/ibm-foundational-services-instance.yaml
@@ -20,15 +56,13 @@ resources:
  #- argocd/instances/cert-manager.yaml
 
  # Secrets Managment
- - argocd/instances/sealed-secrets.yaml
- #- argocd/operators/external-secrets.yaml
- #- argocd/instances/external-secrets.yaml
+ #- argocd/instances/sealed-secrets.yaml
 
  # CICD
  #- argocd/operators/grafana-operator.yaml
  #- argocd/instances/grafana-instance.yaml
  # In OCP 4.7+ we need to install openshift-pipelines and possibly privileged scc to the pipeline serviceaccount
- - argocd/operators/openshift-pipelines.yaml
+ #- argocd/operators/openshift-pipelines.yaml
 
  # Service Mesh
  #- argocd/operators/elasticsearch.yaml
@@ -37,36 +71,14 @@ resources:
  #- argocd/operators/openshift-service-mesh.yaml
  #- argocd/instances/openshift-service-mesh-instance.yaml
 
- # MultiCloud Management / Red Hat Advanced Cluster Management
- - argocd/operators/openshift-acm.yaml
- - argocd/instances/openshift-acm-instance.yaml
- - argocd/instances/openshift-acm-observability-instance.yaml
- - argocd/instances/openshift-gitopscluster-instance.yaml
- # Red Hat Advanced Cluster Management - Central Infrastructure Management
- #- argocd/instances/openshift-acm-cim.yaml
- # Red Hat Advanced Cluster Management - Discovery Service
- #- argocd/instances/openshift-acm-discovery-service.yaml
- # Red Hat Advanced Cluster Management - Bare Metal Operator and Ironic
- #- argocd/operators/baremetal-operator.yaml
- #- argocd/operators/ironic.yaml
-
  #- argocd/operators/ibm-cp4mcm-operator.yaml
  #- argocd/instances/ibm-cp4mcm-instance.yaml
  #- argocd/operators/ibm-infra-automation-operator.yaml
  #- argocd/instances/ibm-infra-automation-instance.yaml
 
- # Ansible Automation Platform
- # - argocd/operators/ansible-automation-platform-operator.yaml
- # - argocd/instances/ansible-automation-platform-controller-instance.yaml
- # - argocd/instances/ansible-automation-platform-hub-instance.yaml
-
  # OpenShift Virtualization (Can be used to host instana instance)
  #- argocd/operators/openshift-virtualization.yaml
  #- argocd/instances/openshift-virtualization-instance.yaml
-
- # OpenShift Advanced Cluster Security (aka Stackrox)
- #- argocd/operators/openshift-acs-operator.yaml
- #- argocd/instances/openshift-acs-instance.yaml
 
  # Observability
  #- argocd/operators/turbonomic.yaml
@@ -80,11 +92,6 @@ resources:
  #- argocd/instances/rhsso-integration-preprocessing-instance.yaml
  #- argocd/instances/rhsso-integration-argocd-instance.yaml
 
- # Red Hat Quay Registry
- - argocd/operators/quay-registry.yaml
- - argocd/instances/quay-registry-instance.yaml
- - argocd/operators/quay-container-security.yaml
- - argocd/operators/quay-bridge-operator.yaml
 
 patches:
 - target:

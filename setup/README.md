@@ -27,7 +27,7 @@
 4. Create a console link
 
    ```bash
-   export ROUTE_NAME=openshift-gitops-cntk-server
+   export ROUTE_NAME=openshift-gitops-otp-server
    export ROUTE_NAMESPACE=openshift-gitops
    export CONSOLE_LINK_URL="https://$(oc get route $ROUTE_NAME -o=jsonpath='{.spec.host}' -n $ROUTE_NAMESPACE)"
    envsubst < <(cat setup/4_consolelink.yaml.envsubst) | oc apply -f -
@@ -36,8 +36,8 @@
 5. Retrieve admin login details
 
    ```bash
-   echo $(oc get route -n openshift-gitops openshift-gitops-cntk-server -o template --template='https://{{.spec.host}}')
+   echo $(oc get route -n openshift-gitops openshift-gitops-otp-server -o template --template='https://{{.spec.host}}')
 
    # Passsword is not needed if Log In via OpenShift is used (default)
-   oc extract secrets/openshift-gitops-cntk-cluster --keys=admin.password -n openshift-gitops --to=-
+   oc extract secrets/openshift-gitops-otp-cluster --keys=admin.password -n openshift-gitops --to=-
    ```

@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: apps-cloudpak-cp4i
   annotations:
-    argocd.argoproj.io/sync-wave: "450"
+    argocd.argoproj.io/sync-wave: "350"
   labels:
     gitops.tier.layer: applications
   finalizers:

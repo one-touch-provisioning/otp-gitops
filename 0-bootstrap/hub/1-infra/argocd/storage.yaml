@@ -23,7 +23,7 @@ spec:
           storageClass: ${STORCLASS}
           argo:
             namespace: openshift-gitops
-            serviceAccount: openshift-gitops-cntk-argocd-application-controller
+            serviceAccount: openshift-gitops-otp-argocd-application-controller
   syncPolicy:
     automated:
       prune: true

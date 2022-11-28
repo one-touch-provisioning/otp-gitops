@@ -23,12 +23,11 @@ popd () {
 }
 
 set +e
-#oc version --client | grep '4.8\|4.9\|4.10'
-oc version --client | grep -E '4.[7-9].[0-9]|4.[1-9][0-9].[0-9]|4.[1-9][0-9][0-9].[0-9]'
+oc version --client | grep '4.9\|4.10\|4.11\|4.12' >/dev/null 2>&1
 OC_VERSION_CHECK=$?
 set -e
 if [[ ${OC_VERSION_CHECK} -ne 0 ]]; then
-    echo "Please use oc client version >4.8 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
+    echo "Please use oc client version > 4.10 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
 fi
 
 # Check whether in GIT otp-gitops
@@ -47,7 +46,7 @@ popd
 # Check if OpenShift is connected
 
 set +e
-if oc cluster-info>/dev/null 2>&1; then
+if oc cluster-info > /dev/null 2>&1; then
     echo "Cluster is connected"
 else
     echo "Not connected to a cluster"

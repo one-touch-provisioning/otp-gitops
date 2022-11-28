@@ -1,6 +1,10 @@
 resources:
  # OpenShift Compliance
  - argocd/operators/openshift-compliance-operator.yaml
+ 
+ # Instances
+ #- argocd/instances/sysflow.yaml
+ 
 patches:
 - target:
     group: argoproj.io

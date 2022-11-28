@@ -23,7 +23,7 @@ spec:
             managed: ${MANAGED} # set to true for ARO or ROSA
           argo:
             namespace: openshift-gitops
-            serviceAccount: openshift-gitops-cntk-argocd-application-controller
+            serviceAccount: openshift-gitops-otp-argocd-application-controller
           registry:
             storageClassName: ocs-storagecluster-cephfs
             replicas: 2

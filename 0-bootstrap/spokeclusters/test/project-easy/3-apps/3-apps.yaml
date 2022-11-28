@@ -27,7 +27,7 @@ kind: Application
 metadata:
   name: applications
   annotations:
-    argocd.argoproj.io/sync-wave: "400"
+    argocd.argoproj.io/sync-wave: "300"
   labels:
     gitops.tier.layer: gitops
 spec:

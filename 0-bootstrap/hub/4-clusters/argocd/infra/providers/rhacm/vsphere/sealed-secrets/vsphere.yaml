@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhacm-credentials-vsphere
+  annotations:
+    argocd.argoproj.io/sync-wave: "400"
+  labels:
+    gitops.tier.layer: clusters
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: rhacm-credentials
+    server: https://kubernetes.default.svc
+  project: clusters
+  source:
+    path: rhacm/providers/vsphere/sealed-secrets/
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

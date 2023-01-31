@@ -81,22 +81,39 @@ else
 fi
 
 if [[ "${platform}" == "vsphere" ]]; then
-    vsconfig=$(echo "${installconfig}" | grep -A12 "^platform:" | grep "^    " | grep -v "  vsphere:")
-    VS_NETWORK=$(echo "${vsconfig}"  | grep "network " | cut -d":" -f2 | xargs)
+    vsconfig=$(echo "${installconfig}" | grep -A13 "^platform:" | grep "^    " | grep -v "  vsphere:")
+    VS_NETWORK=$(echo "${vsconfig}"  | grep "network" | cut -d":" -f2 | xargs)
     VS_DATACENTER=$(echo "${vsconfig}" | grep "datacenter" | cut -d":" -f2 | xargs)
     VS_DATASTORE=$(echo "${vsconfig}" | grep "defaultDatastore" | cut -d":" -f2 | xargs)
     VS_CLUSTER=$(echo "${vsconfig}" | grep "cluster" | cut -d":" -f2 | xargs)
     VS_SERVER=$(echo "${vsconfig}" | grep "vCenter" | cut -d":" -f2 | xargs)
 else
     region=$(echo "${installconfig}" | grep "region:" | cut -d":" -f2  | xargs)
-    if [[ "$platform" == "aws"  ]]; then
-        image=$(curl -k -s https://raw.githubusercontent.com/openshift/installer/release-${majorVer}/data/data/rhcos.json | grep -A1 "${region}" | grep hvm | cut -d'"' -f4)
-        elif [[ "$platform" == "azure"  ]]; then
-        image=$(curl -k -s https://raw.githubusercontent.com/openshift/installer/release-${majorVer}/data/data/rhcos.json | grep -A3 "azure" | grep '"image"' | cut -d'"' -f4)
-        elif [[ "$platform" == "gcp"  ]]; then
-        image=$(curl -k -s https://raw.githubusercontent.com/openshift/installer/release-${majorVer}/data/data/rhcos.json | grep -A3 "gcp" | grep '"image"' | cut -d'"' -f4)
-        elif [[ "$platform" == "ibmcloud"  ]]; then
-        image=$(curl -k -s https://raw.githubusercontent.com/openshift/installer/release-${majorVer}/data/data/rhcos.json | grep -A3 "ibmcloud" | grep '"path"' | cut -d'"' -f4)
+    # if version is 4.1x or a two digit number
+    # the formatting in this list changed quite a bit
+    if echo $majorVer | grep -E '4.[1-9][0-9]' > /dev/null ; then
+        RHCOS_URL="https://raw.githubusercontent.com/openshift/installer/release-${majorVer}/data/data/coreos/rhcos.json"
+        if [[ "$platform" == "aws"  ]]; then
+            image=$(curl -k -s $RHCOS_URL | grep -A2 "${region}" | grep ami | tail -1 | cut -d'"' -f4)
+            elif [[ "$platform" == "azure"  ]]; then
+            image=$(curl -k -s $RHCOS_URL | grep azure | grep url | cut -d'"' -f4 | cut -d/ -f5)
+            elif [[ "$platform" == "gcp"  ]]; then
+            image=$(curl -k -s $RHCOS_URL | grep gcp | grep name | cut -d'"' -f4)
+            elif [[ "$platform" == "ibmcloud"  ]]; then
+            image=$(curl -k -s $RHCOS_URL | grep ibmcloud | grep location | cut -d'"' -f4 | cut -d/ -f10)
+        fi
+    # if version is 4.[1-9]
+    else
+        RHCOS_URL="https://raw.githubusercontent.com/openshift/installer/release-${majorVer}/data/data/rhcos.json"
+        if [[ "$platform" == "aws"  ]]; then
+            image=$(curl -k -s $RHCOS_URL | grep -A1 "${region}" | grep hvm | cut -d'"' -f4 | head -1)
+            elif [[ "$platform" == "azure"  ]]; then
+            image=$(curl -k -s $RHCOS_URL | grep -A3 "azure" | grep '"image"' | cut -d'"' -f4)
+            elif [[ "$platform" == "gcp"  ]]; then
+            image=$(curl -k -s $RHCOS_URL | grep -A3 "gcp" | grep '"image"' | cut -d'"' -f4)
+            elif [[ "$platform" == "ibmcloud"  ]]; then
+            image=$(curl -k -s $RHCOS_URL | grep -A3 "ibmcloud" | grep '"path"' | cut -d'"' -f4)
+        fi
     fi
 fi
 # platform=$(oc get -o jsonpath='{.status.platform}' infrastructure cluster | tr [:upper:] [:lower:])

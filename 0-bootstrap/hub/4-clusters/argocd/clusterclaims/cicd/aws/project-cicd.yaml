@@ -9,9 +9,14 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
+  ignoreDifferences:
+    - group: hive.openshift.io
+      kind: ClusterClaim
+      jqPathExpressions:
+        - .metadata.annotations."cluster.open-cluster-management.io/createmanagedcluster"
   syncPolicy:
     automated:
-      prune: true
+      prune: false
       selfHeal: true
   destination:
     namespace: openshift-gitops

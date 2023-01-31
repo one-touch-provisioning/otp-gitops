@@ -139,3 +139,28 @@ spec:
   tls:
     ca: {}
   kustomizeBuildOptions: --enable-alpha-plugins
+  resourceExclusions: |
+    - apiGroups:
+      - internal.open-cluster-management.io
+      kinds:
+      - ManagedClusterInfo
+      clusters:
+      - "*"
+    - apiGroups:
+      - clusterview.open-cluster-management.io
+      kinds:
+      - ManagedCluster
+      clusters:
+      - "*"
+    - apiGroups:
+      - cluster.open-cluster-management.io
+      kinds:
+      - ManagedCluster
+      clusters:
+      - "*"
+    - apiGroups:
+      - view.open-cluster-management.io
+      kinds:
+      - ManagedClusterView
+      clusters:
+      - "*"

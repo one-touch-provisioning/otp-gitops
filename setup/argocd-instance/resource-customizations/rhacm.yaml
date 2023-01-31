@@ -20,7 +20,6 @@ data:
     end
     hs.status = "Progressing"
     return hs
-
   resource.customizations.health.hive.openshift.io_ClusterDeployment: |
     hs = {}
     generation = obj.metadata.generation
@@ -47,7 +46,6 @@ data:
     end
     hs.status = "Progressing"
     return hs
-
   resource.customizations.health.internal.open-cluster-management.io_ManagedClusterInfo: |
     hs = {}
     if obj.status ~= nil and obj.status.conditions ~= nil then
@@ -67,12 +65,11 @@ data:
     hs.status = "Progressing"
     hs.message = "Waiting for managed cluster to be deploy."
     return hs 
-
   resource.customizations.health.cluster.open-cluster-management.io_ManagedCluster: |
     hs = {}
     if obj.status ~= nil and obj.status.conditions ~= nil then
       for i, condition in ipairs(obj.status.conditions) do  
-        if condition.status == "True" and condition.reason == "ManagedClusterAvailable" then
+        if condition.status == "True" and condition.reason == "ManagedClusterJoined" then
           hs.status = "Healthy"
           hs.message = "Managed Cluster is available"
           return hs
@@ -82,7 +79,20 @@ data:
     hs.status = "Progressing"
     hs.message = "Waiting for managed cluster to be deploy."
     return hs
-  
+  resource.customizations.health.clusterview.open-cluster-management.io_ManagedCluster: |
+    hs = {}
+    if obj.status ~= nil and obj.status.conditions ~= nil then
+      for i, condition in ipairs(obj.status.conditions) do  
+        if condition.status == "True" and condition.reason == "ManagedClusterJoined" then
+          hs.status = "Healthy"
+          hs.message = "Managed Cluster is available"
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for managed cluster to be deploy."
+    return hs
   resource.customizations.health.internal.observability.open-cluster-management.io_MultiClusterObservability: |
     hs = {}
     if obj.status ~= nil and obj.status.conditions ~= nil then
@@ -97,21 +107,17 @@ data:
     hs.status = "Progressing"
     hs.message = "Waiting for MultiClusterObservability to deploy."
     return hs
-
   resource.customizations.health.hive.openshift.io_ClusterClaim: |
     hs = {}
-    hs.status = "Progressing"
-    hs.message = "Waiting for cluster claim"
     if obj.status ~= nil and obj.status.conditions ~= nil then
       for i, condition in ipairs(obj.status.conditions) do  
         if condition.status == "True" and condition.type == "ClusterRunning" then
           hs.status = "Healthy"
           hs.message = condition.message
           return hs
-        else
-          hs.status = "Progressing"
-          hs.message = "Waiting for cluster claim"
         end
       end
     end
+    hs.status = "Progressing"
+    hs.message = "Waiting for cluster claim"
     return hs

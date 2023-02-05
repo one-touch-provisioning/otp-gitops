@@ -153,12 +153,6 @@ spec:
       clusters:
       - "*"
     - apiGroups:
-      - cluster.open-cluster-management.io
-      kinds:
-      - ManagedCluster
-      clusters:
-      - "*"
-    - apiGroups:
       - view.open-cluster-management.io
       kinds:
       - ManagedClusterView

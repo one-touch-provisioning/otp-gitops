@@ -1,6 +1,6 @@
 resources:
  ## Policy to install OpenShift GitOps on Managed Clusters for "Last Mile" Configuration
- # - argocd/otp-policies/openshift-gitops/openshift-gitops.yaml
+ # - argocd/otp-policies/deploy-openshift-gitops/deploy-openshift-gitops.yaml
 
 patches:
 - target:

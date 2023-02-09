@@ -60,7 +60,7 @@ spec:
         /policy-generator/PolicyGenerator
       command:
       - /bin/bash
-      image: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel8:v2.6
+      image: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel8:v2.7
       name: policy-generator-install
       volumeMounts:
       - mountPath: /policy-generator
@@ -158,3 +158,11 @@ spec:
       - ManagedClusterView
       clusters:
       - "*"
+  nodePlacement:
+    tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/infra
+        operator: Exists
+      - effect: NoExecute
+        key: node-role.kubernetes.io/infra
+        operator: Exists

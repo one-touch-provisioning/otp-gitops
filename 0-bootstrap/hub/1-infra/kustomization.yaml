@@ -34,12 +34,12 @@ resources:
  # OpenShift Data Foundation aka OpenShift Container Storage
  #- unneeded for IBM Cloud ROKS with ODF add-on configured
  - argocd/namespaces/namespace-openshift-storage.yaml
- - argocd/storage.yaml
+ #- argocd/storage-odf.yaml
  
  # MachineSets and Infra Nodes
  #- unneeded for IBM Cloud ROKS with ODF add-on configured
- - argocd/machinesets.yaml
- - argocd/infraconfig.yaml
+ #- argocd/machinesets.yaml
+ #- argocd/infraconfig.yaml
 
  ## Optional Components. These are NOT required for OTP, but can be enabled.
 

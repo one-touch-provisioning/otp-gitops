@@ -147,9 +147,9 @@ sed -i '' -e '/cloudProvider:/ {' -e 'n; s/.*name.*$/            name: '${platfo
 sed -i '' -e '/cloudProvider:/ {' -e 'n;n; s/.*managed.*$/            managed: '${managed}'/' -e '}'  argocd/infraconfig.yaml
 
 sed -i '' -e '/namespace-openshift-storage.yaml/s/^#//g' kustomization.yaml
-sed -i '' -e '/storage.yaml/s/^#//g' kustomization.yaml
+sed -i '' -e '/storage-odf.yaml/s/^#//g' kustomization.yaml
 
-# edit argocd/storage.yaml
+# edit argocd/storage-odf.yaml
 newChannel="stable-${majorVer}"
 defsc=$(oc get sc | grep default | awk '{print $1}')
 if [[ "$platform" == "aws" ]]; then
@@ -165,8 +165,8 @@ if [[ "$platform" == "aws" ]]; then
 fi
 
 echo " -  Updating storage"
-sed -i '' -e 's#.*channel.*$#          channel: '${newChannel}'#' argocd/storage.yaml
-sed -i '' -e 's#.*storageClass.*$#          storageClass: '${storageClass}'#' argocd/storage.yaml
+sed -i '' -e 's#.*channel.*$#          channel: '${newChannel}'#' argocd/storage-odf.yaml
+sed -i '' -e 's#.*storageClass.*$#          storageClass: '${storageClass}'#' argocd/storage-odf.yaml
 
 popd
 

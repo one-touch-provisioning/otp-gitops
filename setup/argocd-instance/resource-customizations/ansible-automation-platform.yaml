@@ -1,0 +1,25 @@
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+data:
+  resource.customizations.health.automationcontroller.ansible.com_AutomationController: |
+    hs = {}
+    hs.status = "Progressing"
+    hs.message = "Waiting for Automation Controller deployment..."
+    if obj.status ~= nil and obj.status.conditions ~= nil then
+      for i, condition in ipairs(obj.status.conditions) do  
+        if condition.status == "True" and condition.type == "Running" then
+          hs.status = "Healthy"
+          hs.message = condition.message
+          return hs
+        else
+          hs.status = "Progressing"
+          hs.message = condition.message
+        end
+      end
+    end
+    hs.status = "Progressing"
+    return hs

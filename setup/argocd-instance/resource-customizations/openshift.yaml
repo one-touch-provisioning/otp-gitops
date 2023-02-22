@@ -25,21 +25,15 @@ data:
   resource.customizations.health.machine.openshift.io_Machine: |
     hs = {}
     if obj.status ~= nil then
-      hs.message = "Not Ready"
-      if obj.status.replicas == 0 then
+      hs.message = obj.status.phase
+      if obj.status.nodeRef ~= nil then
         hs.status = "Healthy"
         return hs
-      end
-      if obj.status.phase == "Running" then
-        hs.status = "Healthy"
       else
         hs.status = "Progressing"
+        return hs
       end
-      return hs
     end
-    hs.status = "Progressing"
-    hs.message = "Unknown"
-    return hs
   resource.customizations.ignoreDifferences.build.openshift.io_BuildConfig: |
     jsonPointers:
     - /status/lastVersion

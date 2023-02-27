@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: policies-namespace
+  name: rhacm-policies-namespace
   namespace: openshift-gitops
   labels:
     gitops.tier.layer: infra
@@ -9,11 +9,11 @@ metadata:
     argocd.argoproj.io/sync-wave: "100"
 spec:
   destination:
-    namespace: policies
+    namespace: rhacm-policies
     server: https://kubernetes.default.svc
   project: infra
   source:
-    path: namespaces/policies
+    path: namespaces/rhacm-policies
   syncPolicy:
     automated:
       prune: true

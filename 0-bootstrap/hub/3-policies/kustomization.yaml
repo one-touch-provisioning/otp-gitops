@@ -1,6 +1,27 @@
 resources:
- ## Policy to install OpenShift GitOps on Managed Clusters for "Last Mile" Configuration
+ ## Deploy PlacementRules for Policies on Hub Cluster
+ # - argocd/otp-policies/deploy-placement-rules/deploy-placement-rules.yaml
+
+ ## Deploy PlacementBindings for Policies on Hub Cluster
+ # - argocd/otp-policies/deploy-placement-bindings/deploy-placement-bindings.yaml 
+
+ ## Policy to install OpenShift GitOps on all OpenShift Clusters, except the Hub Cluster
  # - argocd/otp-policies/deploy-openshift-gitops/deploy-openshift-gitops.yaml
+
+ ## Policy to deploy Infra Nodes to AWS Managed Clusters
+ # - argocd/otp-policies/deploy-aws-managed-clusters-infra-nodes/deploy-aws-managed-cluster-infra-nodes.yaml
+
+ # Policy to deploy Storage Nodes to AWS Managed Clusters
+ # - argocd/otp-policies/deploy-aws-managed-clusters-storage-nodes/deploy-aws-managed-cluster-storage-nodes.yaml
+
+ # Policy to deploy ODF Operator to Managed Clusters
+ # - argocd/otp-policies/deploy-odf/deploy-odf.yaml
+
+ # Policy to deploy LSO Operator to Managed Clusters
+ # - argocd/otp-policies/deploy-lso/deploy-lso.yaml
+
+ ## Policy to install OpenShift Serverless Operator
+ # - argocd/otp-policies/deploy-openshift-gitops/deploy-openshift-serverless.yaml
 
 patches:
 - target:

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: policy-deploy-openshift-gitops
+  name: policy-deploy-odf
   annotations:
     argocd.argoproj.io/sync-wave: "300"
   labels:
@@ -14,7 +14,7 @@ spec:
     server: https://kubernetes.default.svc
   project: policies
   source:
-    path: otp-policies/policy-generators/deploy-openshift-gitops
+    path: otp-policies/policy-generators/deploy-odf
   syncPolicy:
     automated:
       prune: true

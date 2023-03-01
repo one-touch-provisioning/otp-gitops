@@ -18,6 +18,8 @@ spec:
     automated:
       prune: false
       selfHeal: true
+    syncOptions:
+    - RespectIgnoreDifferences=true
   destination:
     namespace: openshift-gitops
     server: https://kubernetes.default.svc

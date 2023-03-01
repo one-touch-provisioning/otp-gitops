@@ -24,6 +24,12 @@ resources:
  #- argocd/clusterclaims/cicd/aws/project-cicd.yaml
  #- argocd/clusterclaims/test/aws/project-easy.yaml
 
+ ## Machinepools for managed clusters
+ #- argocd/machinepools/machinepools.yaml
+
+ ## Storage (ODF) for managed clusters (>=4.10)
+ #- argocd/storage/storage.yaml
+
  ## ClusterDeployments
  ## Example : - argocd/<env>/<cloud>/<clustername>/<clustername.yaml>
 

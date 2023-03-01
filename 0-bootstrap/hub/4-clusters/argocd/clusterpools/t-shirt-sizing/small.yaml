@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: azure-small-clusterpool
+  annotations:
+    argocd.argoproj.io/sync-wave: "410"
+  labels:
+    gitops.tier.layer: clusters
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: clusters
+  source:
+    path: clusterpools/azure/
+    helm:
+      values: |
+        clusterpoolName: azure-small-clusterpool
+        imageName: 4.12.2
+        provider:
+          region: eastus
+          baseDomain: << base-domain >>
+          sshPublickey: << ssh public key >>
+          resource_group: << resource group >>
+
+        masters:
+          architecture: amd64
+          count: 3
+          diskSize: 128
+          machineType: Standard_D8s_v3
+
+        workers:
+          architecture: amd64
+          count: 3
+          diskSize: 128
+          machineType: Standard_D4s_v3
+        
+        poolSize: 3

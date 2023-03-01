@@ -9,7 +9,7 @@ spec:
   sourceRepos: []  # Populated by kustomize patches in 4-clusters/kustomization.yaml
   destinations:
   - namespace: '*'
-    server: https://kubernetes.default.svc
+    server: '*'
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'

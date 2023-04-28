@@ -175,8 +175,7 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
 1. Install the OpenShift GitOps Operator and create a `ClusterRole` and `ClusterRoleBinding`.  
 
     ```sh
-    cd setup
-    oc apply -f setup
+    oc apply -k setup/argocd-operator
     while ! oc wait crd applications.argoproj.io --timeout=-1s --for=condition=Established  2>/dev/null; do sleep 30; done
     while ! oc wait pod --timeout=-1s --for=condition=Ready -l '!job-name' -n openshift-gitops > /dev/null; do sleep 30; done
     ```
@@ -184,7 +183,7 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
 2. Create a custom ArgoCD instance with custom checks. To customise which health checks, comment out those you don't need in `setup/argocd-instance/kustomization.yaml`.
 
     ```sh
-    oc apply -k argocd-instance
+    oc apply -k setup/argocd-instance
     while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-otp-server -n openshift-gitops > /dev/null; do sleep 30; done
     ```
 

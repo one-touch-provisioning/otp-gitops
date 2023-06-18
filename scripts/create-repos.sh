@@ -16,7 +16,7 @@ popd () {
 command -v gh >/dev/null 2>&1 || { echo >&2 "The Github CLI gh but it's not installed. Download https://github.com/cli/cli "; exit 1; }
 
 set +e
-oc version --client | grep '4.9\|4.10\|4.11\|4.12' >/dev/null 2>&1
+oc version --client | grep '4.9\|4.10\|4.11\|4.12\|4.13' >/dev/null 2>&1
 OC_VERSION_CHECK=$?
 set -e
 if [[ ${OC_VERSION_CHECK} -ne 0 ]]; then

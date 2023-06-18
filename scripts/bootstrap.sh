@@ -16,26 +16,26 @@ popd () {
 command -v gh >/dev/null 2>&1 || { echo >&2 "The Github CLI gh but it's not installed. Download https://github.com/cli/cli "; exit 1; }
 
 set +e
-oc version --client | grep '4.7\|4.8'
+oc version --client | grep '4.9\|4.10\|4.11\|4.12\|4.13'
 OC_VERSION_CHECK=$?
 set -e
 if [[ ${OC_VERSION_CHECK} -ne 0 ]]; then
-  echo "Please use oc client version 4.7 or 4.8 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
+  echo "Please use oc client version > 4.10 download from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/ "
 fi
 
 
 if [[ -z ${GIT_ORG} ]]; then
   echo "We recommend to create a new github organization for all your gitops repos"
   echo "Setup a new organization on github https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch"
-  echo "Please set the environment variable GIT_ORG when running the script like:"
-  echo "GIT_ORG=acme-org OUTPUT_DIR=gitops-production ./scripts/bootstrap.sh"
+  echo "Please set the environment variable GIT_ORG when running the script"
+  echo "Example: GIT_ORG=one-touch-provisioning OUTPUT_DIR=one-touch-provisioning ./scripts/bootstrap.sh"
 
   exit 1
 fi
 
 if [[ -z ${OUTPUT_DIR} ]]; then
-  echo "Please set the environment variable OUTPUT_DIR when running the script like:"
-  echo "GIT_ORG=acme-org OUTPUT_DIR=gitops-production ./scripts/bootstrap.sh"
+  echo "Please set the environment variable OUTPUT_DIR when running the script"
+  echo "Example: GIT_ORG=one-touch-provisioning OUTPUT_DIR=one-touch-provisioning ./scripts/bootstrap.sh"
 
   exit 1
 fi
@@ -162,7 +162,7 @@ check_infra () {
 install_argocd () {
     echo "Installing OpenShift GitOps Operator for OpenShift"
     pushd ${OUTPUT_DIR}
-    oc apply -f otp-gitops/setup/ocp/
+    oc apply -k setup/argocd-operator/
     while ! oc wait crd applications.argoproj.io --timeout=-1s --for=condition=Established  2>/dev/null; do sleep 30; done
     while ! oc wait pod --timeout=-1s --for=condition=Ready -l '!job-name' -n openshift-gitops > /dev/null; do sleep 30; done
     popd
@@ -172,7 +172,7 @@ create_custom_argocd_instance () {
     echo "Create a custom ArgoCD instance with custom checks"
     pushd ${OUTPUT_DIR}
 
-    oc apply -f otp-gitops/setup/ocp/argocd-instance/ -n openshift-gitops
+    oc apply -k setup/argocd-instance/ -n openshift-gitops
     while ! oc wait pod --timeout=-1s --for=condition=ContainersReady -l app.kubernetes.io/name=openshift-gitops-otp-server -n openshift-gitops > /dev/null; do sleep 30; done
     popd
 }

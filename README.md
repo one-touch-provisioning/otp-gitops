@@ -193,15 +193,6 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
     ./scripts/patch-argocd-tls.sh
     ```
 
-4. (`Optional`) Create a console link to OpenShift GitOps
-
-   ```sh
-   export ROUTE_NAME=openshift-gitops-otp-server
-   export ROUTE_NAMESPACE=openshift-gitops
-   export CONSOLE_LINK_URL="https://$(oc get route $ROUTE_NAME -o=jsonpath='{.spec.host}' -n $ROUTE_NAMESPACE)"
-   envsubst < <(cat setup/4_consolelink.yaml.envsubst) | oc apply -f -
-   ```
-
 #### Configure Storage and Infrastructure nodes
 
 On AWS, Azure, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the RHACM Hub Cluster. This will deploy additional nodes to support OpenShift Data Foundation (ODF) for Persistant Storage, as well as additional nodes to support Infrastructure (aka infra) components, such as RHACM, Quay, Ingress Controllers, OpenShift Internal Registry and ACS.

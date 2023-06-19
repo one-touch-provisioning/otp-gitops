@@ -117,9 +117,9 @@ Deploy a "vanilla" Red Hat OpenShift cluster using one of the methods below:
    brew install kubeseal
    ```
 
-#### Overview of git repositories
+#### Repository considerations
 
-The pattern requires the use of six git repositories within the GitOps workflow, the reason for this is explained <a href="doc/git-repo-context.md">here</a>.
+There are two repository patterns to consider when leveraging GitOps: Monorepo or Polyrepo. For OTP, we have leveraged a Polyrepo structure, which consists of six git repositories within the GitOps workflow. You can learn more on why we chose a Polyrepo explained <a href="doc/git-repo-context.md">here</a>.
 
 - [RHACM Hub GitOps repository](https://github.com/one-touch-provisioning/otp-gitops)
   - This repository contains all the ArgoCD Applications for the `infrastructure`, `services`, `policies`, `clusters` and `application` layers. Each ArgoCD Application will reference a specific resource that will be deployed to the RHACM Hub Cluster, or depending on your chosen configuration, it may include Spoke Cluster resources as well.
@@ -170,7 +170,7 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
 
 #### Install and configure OpenShift GitOps
 
-- [Red Hat OpenShift GitOps](https://docs.openshift.com/container-platform/4.11/cicd/gitops/understanding-openshift-gitops.html) uses [Argo CD](https://argoproj.github.io/argo-cd/), an open-source declarative tool, to maintain and reconcile cluster resources.
+- [Red Hat OpenShift GitOps](https://docs.openshift.com/container-platform/4.13/cicd/gitops/understanding-openshift-gitops.html) uses [Argo CD](https://argoproj.github.io/argo-cd/), an open-source declarative tool, to maintain and reconcile cluster resources.
 
 1. Install the OpenShift GitOps Operator and create a `ClusterRole` and `ClusterRoleBinding`.  
 

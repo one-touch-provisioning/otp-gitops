@@ -119,7 +119,7 @@ Deploy a "vanilla" Red Hat OpenShift cluster using one of the methods below:
 
 #### Repository considerations
 
-There are two repository patterns to consider when leveraging GitOps: Monorepo or Polyrepo. For OTP, we have leveraged a Polyrepo structure, which consists of six git repositories within the GitOps workflow. You can learn more on why we chose a Polyrepo explained <a href="doc/git-repo-context.md">here</a>.
+There are two repository patterns to consider when leveraging GitOps: Monorepo or Polyrepo. For OTP, we have leveraged a Polyrepo structure, which consists of six git repositories within the GitOps workflow. You can learn more on why we chose a Polyrepo <a href="doc/git-repo-context.md">here</a>.
 
 - [RHACM Hub GitOps repository](https://github.com/one-touch-provisioning/otp-gitops)
   - This repository contains all the ArgoCD Applications for the `infrastructure`, `services`, `policies`, `clusters` and `application` layers. Each ArgoCD Application will reference a specific resource that will be deployed to the RHACM Hub Cluster, or depending on your chosen configuration, it may include Spoke Cluster resources as well.

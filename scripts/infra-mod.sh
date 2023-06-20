@@ -23,7 +23,7 @@ popd () {
 }
 
 set +e
-oc version --client | grep '4.9\|4.10\|4.11\|4.12' >/dev/null 2>&1
+oc version --client | grep '4.9\|4.10\|4.11\|4.12\|4.13' >/dev/null 2>&1
 OC_VERSION_CHECK=$?
 set -e
 if [[ ${OC_VERSION_CHECK} -ne 0 ]]; then
@@ -73,7 +73,7 @@ infraID=$(oc get -o jsonpath='{.status.infrastructureName}' infrastructure clust
 platform=$(echo "${installconfig}" | grep -A1 "platform:" | grep -v "platform:" | tail -1 | cut -d":" -f1 | xargs)
 shopt -s extglob
 
-if [[ $platform == @(aws|azure|vsphere) ]]; then
+if [[ $platform == @(aws|azure|vsphere|baremetal) ]]; then
     echo "Platform ${platform} is valid"
 else
     echo "Supported platform is not found"
@@ -87,7 +87,10 @@ if [[ "${platform}" == "vsphere" ]]; then
     VS_DATASTORE=$(echo "${vsconfig}" | grep "defaultDatastore" | cut -d":" -f2 | xargs)
     VS_CLUSTER=$(echo "${vsconfig}" | grep "cluster" | cut -d":" -f2 | xargs)
     VS_SERVER=$(echo "${vsconfig}" | grep "vCenter" | cut -d":" -f2 | xargs)
-else
+elif [[ "${platform}" == "baremetal" ]]; then
+    echo "Platform is baremetal, use local storage for ODF"
+    echo "Skipping MachineSets Configuration"
+else 
     region=$(echo "${installconfig}" | grep "region:" | cut -d":" -f2  | xargs)
     # if version is 4.1x or a two digit number
     # the formatting in this list changed quite a bit
@@ -118,55 +121,74 @@ else
 fi
 # platform=$(oc get -o jsonpath='{.status.platform}' infrastructure cluster | tr [:upper:] [:lower:])
 
-sed -i '' -e '/machinesets.yaml/s/^#//g' kustomization.yaml
+# MachineSets
+if [[ $platform == @(aws|azure|vsphere) ]]; then
+    sed -i '' -e '/machinesets.yaml/s/^#//g' kustomization.yaml
     
-# edit argocd/machinesets.yaml
-echo " -  Updating machinesets"
+    # edit argocd/machinesets.yaml
+    echo " -  Updating machinesets"
 
-# spacings are intended 
-sed -i '' -e '/cloudProvider:/ {' -e 'n; s/.*name.*$/            name: '${platform}'/' -e '}'  argocd/machinesets.yaml
-sed -i '' -e '/cloudProvider:/ {' -e 'n;n; s/.*managed.*$/            managed: '${managed}'/' -e '}'  argocd/machinesets.yaml
-sed -i '' -e 's#.*infrastructureId.*$#          infrastructureId: '${infraID}'#' argocd/machinesets.yaml
+    # spacings are intended 
+    sed -i '' -e '/cloudProvider:/ {' -e 'n; s/.*name.*$/            name: '${platform}'/' -e '}'  argocd/machinesets.yaml
+    sed -i '' -e '/cloudProvider:/ {' -e 'n;n; s/.*managed.*$/            managed: '${managed}'/' -e '}'  argocd/machinesets.yaml
+    sed -i '' -e 's#.*infrastructureId.*$#          infrastructureId: '${infraID}'#' argocd/machinesets.yaml
 
-if [[ "${platform}" == "vsphere" ]]; then
-    sed -i '' -e 's#.*networkName.*$#            networkName: '$VS_NETWORK'#' argocd/machinesets.yaml
-    sed -i '' -e 's#.*datacenter.*$#           datacenter: '$VS_DATACENTER'#' argocd/machinesets.yaml
-    sed -i '' -e 's#.*datastore.*$#            datastore: '$VS_DATASTORE'#' argocd/machinesets.yaml
-    sed -i '' -e 's#.*cluster.*$#            cluster: '$VS_CLUSTER'#' argocd/machinesets.yaml
-    sed -i '' -e 's#.*server.*$#            server: '$VS_SERVER'#' argocd/machinesets.yaml
-else
-    sed -i '' -e 's#.*region.*$#            region: '${region}'#' argocd/machinesets.yaml
-    sed -i '' -e 's#.*image.*$#            image: '${image}'#' argocd/machinesets.yaml
+    if [[ "${platform}" == "vsphere" ]]; then
+        sed -i '' -e 's#.*networkName.*$#            networkName: '$VS_NETWORK'#' argocd/machinesets.yaml
+        sed -i '' -e 's#.*datacenter.*$#           datacenter: '$VS_DATACENTER'#' argocd/machinesets.yaml
+        sed -i '' -e 's#.*datastore.*$#            datastore: '$VS_DATASTORE'#' argocd/machinesets.yaml
+        sed -i '' -e 's#.*cluster.*$#            cluster: '$VS_CLUSTER'#' argocd/machinesets.yaml
+        sed -i '' -e 's#.*server.*$#            server: '$VS_SERVER'#' argocd/machinesets.yaml
+    else
+        sed -i '' -e 's#.*region.*$#            region: '${region}'#' argocd/machinesets.yaml
+        sed -i '' -e 's#.*image.*$#            image: '${image}'#' argocd/machinesets.yaml
+    fi
 fi
 
-sed -i '' -e  '/infraconfig.yaml/s/^#//g' kustomization.yaml
+# InfraConfig
+if [[ $platform == @(aws|azure|vsphere) ]]; then
+    sed -i '' -e  '/infraconfig.yaml/s/^#//g' kustomization.yaml
 
-# edit argocd/infraconfig.yaml
-echo " -  Updating infraconfig"
-sed -i '' -e '/cloudProvider:/ {' -e 'n; s/.*name.*$/            name: '${platform}'/' -e '}'  argocd/infraconfig.yaml
-sed -i '' -e '/cloudProvider:/ {' -e 'n;n; s/.*managed.*$/            managed: '${managed}'/' -e '}'  argocd/infraconfig.yaml
-
-sed -i '' -e '/namespace-openshift-storage.yaml/s/^#//g' kustomization.yaml
-sed -i '' -e '/storage-odf.yaml/s/^#//g' kustomization.yaml
-
-# edit argocd/storage-odf.yaml
-newChannel="stable-${majorVer}"
-defsc=$(oc get sc | grep default | awk '{print $1}')
-if [[ "$platform" == "aws" ]]; then
-    storageClass=${defsc:-"gp2"}
-    elif [[ "$platform" == "azure" ]]; then
-    storageClass=${defsc:-"managed-premium"}
-    elif [[ "$platform" == "gcp" ]]; then
-    storageClass=${defsc:-"standard"}
-    elif [[ "$platform" == "ibmcloud" ]]; then
-    storageClass=${defsc:-"ibmc-vpc-block-10iops-tier"}
-    elif [[ "$platform" == "vsphere" ]]; then
-    storageClass=${defsc};
+    # edit argocd/infraconfig.yaml
+    echo " -  Updating infraconfig"
+    sed -i '' -e '/cloudProvider:/ {' -e 'n; s/.*name.*$/            name: '${platform}'/' -e '}'  argocd/infraconfig.yaml
+    sed -i '' -e '/cloudProvider:/ {' -e 'n;n; s/.*managed.*$/            managed: '${managed}'/' -e '}'  argocd/infraconfig.yaml
+elif [[ "${platform}" == "baremetal" ]]; then
+    echo "Platform is baremetal"
+    echo "Skipping InfraConfig Configuration"
 fi
 
-echo " -  Updating storage"
-sed -i '' -e 's#.*channel.*$#          channel: '${newChannel}'#' argocd/storage-odf.yaml
-sed -i '' -e 's#.*storageClass.*$#          storageClass: '${storageClass}'#' argocd/storage-odf.yaml
+# Storage
+if [[ $platform == @(aws|azure|vsphere) ]]; then
+    sed -i '' -e '/namespace-openshift-storage.yaml/s/^#//g' kustomization.yaml
+    sed -i '' -e '/storage-odf.yaml/s/^#//g' kustomization.yaml
+
+    # edit argocd/storage-odf.yaml
+    newChannel="stable-${majorVer}"
+    defsc=$(oc get sc | grep default | awk '{print $1}')
+    if [[ "$platform" == "aws" ]]; then
+        storageClass=${defsc:-"gp2"}
+        elif [[ "$platform" == "azure" ]]; then
+        storageClass=${defsc:-"managed-premium"}
+        elif [[ "$platform" == "gcp" ]]; then
+        storageClass=${defsc:-"standard"}
+        elif [[ "$platform" == "ibmcloud" ]]; then
+        storageClass=${defsc:-"ibmc-vpc-block-10iops-tier"}
+        elif [[ "$platform" == "vsphere" ]]; then
+        storageClass=${defsc};
+    fi
+
+    echo " -  Updating storage"
+    sed -i '' -e 's#.*channel.*$#          channel: '${newChannel}'#' argocd/storage-odf.yaml
+    sed -i '' -e 's#.*storageClass.*$#          storageClass: '${storageClass}'#' argocd/storage-odf.yaml
+elif [[ "${platform}" == "baremetal" ]]; then
+    echo "Platform is baremetal, using local storage for ODF"
+    sed -i '' -e 's#.*channel.*$#          channel: '${newChannel}'#' argocd/storage-local-odf.yaml
+    sed -i '' -e 's#.*storageClass.*$#          storageClass: '${storageClass}'#' argocd/storage-local-odf.yaml
+    sed -i '' -e '/namespace-openshift-storage.yaml/s/^#//g' kustomization.yaml
+    sed -i '' -e '/namespace-openshift-local-storage.yaml/s/^#//g' kustomization.yaml
+    sed -i '' -e '/storage-local-odf.yaml/s/^#//g' kustomization.yaml 
+fi
 
 popd
 

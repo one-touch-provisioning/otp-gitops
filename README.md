@@ -195,9 +195,13 @@ If you intend to deploy the `Infrastructure Automation` component of IBM Cloud P
 
 #### Configure Storage and Infrastructure nodes
 
-On AWS, Azure, GCP and vSphere run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the RHACM Hub Cluster. This will deploy additional nodes to support OpenShift Data Foundation (ODF) for Persistant Storage, as well as additional nodes to support Infrastructure (aka infra) components, such as RHACM, Quay, Ingress Controllers, OpenShift Internal Registry and ACS.
+On AWS, Azure, GCP, vSphere and Baremetal you can run the following script to configure the machinesets, infra nodes and storage definitions for the `Cloud` you are using for the RHACM Hub Cluster.
+
+This will deploy additional nodes to support OpenShift Data Foundation (ODF) for Persistant Storage, as well as additional nodes to support Infrastructure (aka infra) components, such as RHACM, Quay, Ingress Controllers, OpenShift Internal Registry and ACS.
 
 This is a design choice to reduce OpenShift licensing requirements as running these components on Infrastructure nodes does not consume a subscription cost.
+
+When running on Baremetal, it will utilise Local Storage for deploying ODF. It will autoselect all workerIt will not deploy additional nodes for storage or Infra, this will be improved upon in later versions.
 
    ```sh
    ./scripts/infra-mod.sh
@@ -212,6 +216,54 @@ Attach the following label to the worker nodes you intend to use as Infra nodes.
 ```sh
 node-role.kubernetes.io/infra: ''
 ```  
+#### Install a Local Hashicorp Vault Instance (Optional)
+
+OTP works best when connected to an Secret Store like Hashicorp Vault, if you already have a pre-existing Vault-like instance available, for example IBM Secrets Manager, you can skip this step and move onto installing the External Secrets Operator, however if you'd like to install a local Hashicorp Vault Instances into the Hub Cluster, then follow the below steps.
+
+   ```sh
+   oc apply -k setup/hashicorp-vault-chart
+   ```
+
+#### Install External Secrets Operator
+
+1. Install the External Secrets Operator to enable OTP to connect to either a pre-existing Vault-like instance or to the Local Hashicorp Vault instance deployed in the previous step.
+
+   ```sh
+   oc apply -k setup/external-secrets-operator
+   ```
+
+2. Apply the API Key as a secret that will allow OTP to connect to your Vault-like instance via the External Secret Operator.
+
+   ```sh
+   oc create secret generic ibm-secret --from-literal=apiKey='<APIKEY>' -n kube-system
+   ```
+
+3. Configure the `ClusterSecretStore` with the API Key secret and URL of your Vault-like instance.
+
+   ```yaml
+   apiVersion: external-secrets.io/v1beta1
+   kind: ClusterSecretStore
+   metadata:
+     name: cluster
+     namespace: external-secrets
+   spec:
+     provider:
+       ibm:
+         auth:
+           secretRef:
+             secretApiKeySecretRef:
+               name: ibm-secret
+               namespace: kube-system
+               key: apiKey
+         serviceUrl: >-
+           https://3f5f4d5b-6179-4d7c-a7a2-72dc28eb4a81.au-syd.secrets-manager.appdomain.cloud
+   ```
+
+4. Apply the updated `ClusterSecretStore`.
+
+   ```sh
+   oc apply -f setup/external-secrets-instance/cluster-secret-store.yaml
+   ```
 
 ### Bootstrap the OpenShift RHACM Hub cluster
 

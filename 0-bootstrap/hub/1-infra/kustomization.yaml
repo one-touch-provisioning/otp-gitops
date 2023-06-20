@@ -32,12 +32,14 @@ resources:
  - argocd/namespaces/namespace-quay-registry.yaml
  
  # OpenShift Data Foundation aka OpenShift Container Storage
- #- unneeded for IBM Cloud ROKS with ODF add-on configured
- - argocd/namespaces/namespace-openshift-storage.yaml
+ #- not required for IBM Cloud ROKS with ODF add-on configured
+ #- argocd/namespaces/namespace-openshift-storage.yaml
+ #- argocd/namespaces/namespace-openshift-local-storage.yaml
  #- argocd/storage-odf.yaml
+ #- argocd/storage-local-odf.yaml
  
  # MachineSets and Infra Nodes
- #- unneeded for IBM Cloud ROKS with ODF add-on configured
+ #- Not required for IBM Cloud ROKS with ODF add-on configured
  #- argocd/machinesets.yaml
  #- argocd/infraconfig.yaml
 

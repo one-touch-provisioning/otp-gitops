@@ -158,6 +158,13 @@ spec:
       - ManagedClusterView
       clusters:
       - "*"
+    - apiGroups:
+      - tekton.dev
+      clusters:
+      - '*'
+      kinds:
+      - TaskRun
+      - PipelineRun
 #  nodePlacement:
 #    tolerations:
 #      - effect: NoSchedule

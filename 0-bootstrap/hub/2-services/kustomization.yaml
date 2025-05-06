@@ -20,9 +20,12 @@ resources:
  - argocd/operators/quay-container-security.yaml
  - argocd/operators/quay-bridge-operator.yaml
 
- # Secrets Managment (Applied at bootstrapping of Hub Cluster)
- #- argocd/operators/external-secrets.yaml
- #- argocd/instances/external-secrets.yaml
+ # Local Hashicorp Vault Instance
+ # - argocd/instances/hashicorp-vault.yaml
+
+ # Secrets Managment
+ - argocd/operators/external-secrets.yaml
+ - argocd/instances/external-secrets.yaml
 
  # Ansible Automation Platform
  - argocd/operators/ansible-automation-platform-operator.yaml

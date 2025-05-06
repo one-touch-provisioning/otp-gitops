@@ -72,8 +72,12 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: metal-provisioner
     server: https://kubernetes.default.svc
+  - namespace: vault
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   # TODO: SCC needs to be moved to 1-infra, here for now for artifactory
+  - group: ""
+    kind: Namespace
   - group: "security.openshift.io"
     kind: SecurityContextConstraints
   - group: "console.openshift.io"

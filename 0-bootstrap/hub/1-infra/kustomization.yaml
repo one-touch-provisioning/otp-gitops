@@ -51,7 +51,7 @@ resources:
  #- argocd/namespaces/namespace-cert-manager.yaml
  
  #- argocd/namespaces/namespace-sealed-secrets.yaml
- #- argocd/namespaces/namespace-tools.yaml
+ - argocd/namespaces/namespace-tools.yaml
 
  # Observability
  #- argocd/namespaces/namespace-turbonomic.yaml

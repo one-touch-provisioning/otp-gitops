@@ -1,39 +1,58 @@
-# Deployment of Cloud Paks through OpenShift GitOps
+# Deploying IBM Cloud Paks with OpenShift GitOps
 
-We will use IBM Cloud Pak for Integration (CP4i) as an example Application that can be deployed onto your Managed Clusters. As mentioned previously, we re-use the GitOps approach, and utilise OpenShift GitOps to configure the cluster ready for CP4i, through deploying OpenShift Container Storage, creating Nodes with the correct CPU and Memory, installing the necessary services and tools, and finally, deploy CP4i with MQ and ACE.
+This guide demonstrates how to deploy IBM Cloud Paks using OpenShift GitOps, using IBM Cloud Pak for Integration (CP4i) as a practical example. We'll walk through the process of preparing your managed clusters for CP4i deployment, including setting up OpenShift Container Storage, configuring nodes with appropriate resources, and installing required services and tools.
 
-There is a few minor manual steps which need to be completed, and that is preparing the CP4i respository with your Cloud details and adding the IBM Cloud Pak Entitlement Secret into the Managed Cluster. In future, we aim to automate this step via SealedSecrets, Vault and Ansible Tower.
+## Prerequisites
 
-We will use the [Cloud Native Toolkit - GitOps Production Deployment Guide](https://github.com/cloud-native-toolkit/multi-tenancy-gitops) repositories and it is assumed you have already configured these repostories by following the very comprehensive guide put together by that team. That configuration of those repositories are beyond the scope of this asset.
+Before you begin, ensure you have:
+- Access to your managed cluster
+- The Cloud Native Toolkit - GitOps Production Deployment Guide repositories configured
+- An IBM Cloud Pak entitlement key
+
+## Deployment Steps
+
+### 1. Access Your Managed Cluster
 
 ```bash
-# Log into Managed Cluster that the CP4i will be deployed too via oc login
+# Log into your managed cluster using the OpenShift CLI
 oc login --token=<token> --server=<server> 
+```
 
-# Clone the multi-tenancy-gitops repository you configured via the Cloud Native Toolkit - GitOps Production Deployment Guide
+### 2. Configure Infrastructure
+
+```bash
+# Clone your configured multi-tenancy-gitops repository
 git clone git@github.com:cp4i-cloudpak/multi-tenancy-gitops.git
 
 cd multi-tenancy-gitops
-# Run the infra-mod.sh script to configure the Infrastruture details of the Managed Cluster
+# Configure infrastructure details for your managed cluster
 ./scripts/infra-mod.sh
+```
 
-# Create an IBM Entitlement Secret within the tools namespace
-   
-## To get an entitlement key:
-## 1. Log in to https://myibm.ibm.com/products-services/containerlibrary with an IBMid and password associated with the entitled software.  
-## 2. Select the **View library** option to verify your entitlement(s). 
-## 3. Select the **Get entitlement key** to retrieve the key.
+### 3. Set Up IBM Entitlement Secret
 
+Create an IBM Entitlement Secret in the tools namespace:
+
+```bash
+# Create the tools namespace if it doesn't exist
 oc new-project tools || true
+
+# Create the entitlement secret
 oc create secret docker-registry ibm-entitlement-key -n tools \
 --docker-username=cp \
 --docker-password="<entitlement_key>" \
 --docker-server=cp.icr.io
 ```
 
-*Note:* Our aim is to reduce these steps in future releases of the asset.
+> **Note:** To obtain your entitlement key:
+> 1. Visit [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary)
+> 2. Log in with your IBM ID associated with the entitled software
+> 3. Select "View library" to verify your entitlements
+> 4. Click "Get entitlement key" to retrieve your key
 
-You will need to update the `tenents/cloudpaks/cp4i/cp4i-placement-rule.yaml` file within the `otp-gitops-apps` repository to match the cluster you wish to deploy the Cloud Pak to and commit to Git.
+### 4. Configure Cloud Pak Placement
+
+Update the placement rule in your `otp-gitops-apps` repository to specify your target cluster:
 
 ```yaml
 apiVersion: apps.open-cluster-management.io/v1
@@ -50,11 +69,13 @@ spec:
   clusterSelector:
     matchExpressions: []
     matchLabels:
-      # Replace value with Cluster you wish to provision too.
+      # Update this value with your target cluster name
       name: aws-ireland
 ```
 
-Uncomment the CP4i Application within `Application` [kustomization.yaml](0-bootstrap/3-apps/kustomization.yaml) file and commit to Git.
+### 5. Enable CP4i Application
+
+Uncomment the CP4i Application in your `kustomization.yaml` file:
 
 ```yaml
 resources:
@@ -64,6 +85,18 @@ resources:
  - argocd/cloudpaks/cp4i/cp4i.yaml
 ```
 
-OpenShift GitOps will create a RHACM Application that subscribes to the `multi-tenancy-gitops` repository you configured and apply the manifests to the Managed Cluster's OpenShift-GitOps controller.
+## What Happens Next?
+
+Once you commit these changes to Git, OpenShift GitOps will automatically:
+1. Create a Red Hat Advanced Cluster Management (RHACM) Application
+2. Subscribe to your configured `multi-tenancy-gitops` repository
+3. Apply the manifests through the Managed Cluster's OpenShift-GitOps controller
+
+## Future Improvements
+
+We're continuously working to enhance this deployment process. Future releases will aim to:
+- Automate the manual steps using SealedSecrets
+- Integrate with Vault for secure secret management
+- Implement Ansible Tower for automated configuration
 
 <p align="right">(<a href="https://github.com/one-touch-provisioning/otp-gitops/">back to main</a>)</p>

@@ -1,12 +1,38 @@
 # Hibernating Managed OpenShift Clusters
 
-* You can Hibernate deployed Managed OpenShift Clusters running on AWS, Azure and GCP when not in use to reduce on running costs. This has to be done *AFTER* a cluster has been deployed. This is accomplished by modifying the `spec.powerState` from `Running` to `Hibernating` of the ClusterDeployment manifest (Located under `<otp-gitops>/0-bootstrap/hub/4-clusters/clusters/<env>/<cloud>/<clusterdeploymentname>/<clusterdeploymentname.yaml>`) of the Managed OpenShift Cluster and committing to Git.
+## Overview
+Save costs on your Managed OpenShift clusters by hibernating them when not in use. This feature is available for clusters running on AWS, Azure, and GCP platforms.
 
-  ```yaml
-  spec:
-    powerState: Hibernating
-  ```
+## Prerequisites
+- A successfully deployed Managed OpenShift cluster
+- Access to the cluster's GitOps configuration
 
-* To resume a hibernating Managed OpenShift Cluster, you modify the `spec.powerState` value from `Hibernating` to `Running` and commit to Git.
+## How to Hibernate a Cluster
+To hibernate a running cluster, follow these steps:
+
+1. Locate your cluster's ClusterDeployment manifest at:
+   ```
+   <otp-gitops>/0-bootstrap/hub/4-clusters/clusters/<env>/<cloud>/<clusterdeploymentname>/<clusterdeploymentname.yaml>
+   ```
+
+2. Modify the `spec.powerState` from `Running` to `Hibernating`:
+   ```yaml
+   spec:
+     powerState: Hibernating
+   ```
+
+3. Commit and push the changes to your Git repository
+
+## Resuming a Hibernated Cluster
+To bring your cluster back online:
+
+1. Locate the same ClusterDeployment manifest
+2. Change the `spec.powerState` from `Hibernating` to `Running`
+3. Commit and push the changes to your Git repository
+
+## Benefits
+- Significantly reduce operational costs when clusters are not in use
+- Maintain cluster configuration and data while hibernated
+- Quick and easy process to resume clusters when needed
 
 <p align="right">(<a href="https://github.com/one-touch-provisioning/otp-gitops/">back to main</a>)</p>

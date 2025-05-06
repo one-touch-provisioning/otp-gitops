@@ -1,23 +1,61 @@
 # Pattern Capabilities
 
-   - The pattern will deploy an opionated [Red Hat Advanced Cluster Management](https://www.redhat.com/en/technologies/management/advanced-cluster-management) configuration which we will term as our **Hub** Cluster running OpenShift GitOps (ArgoCD), OpenShift Pipelines (Tekton), OpenShift Data Foundation (Rook.io), Ansible Automation Platform (Additional Subscription required), Red Hat Advanced Cluster Management (Open Cluster Management), Red Hat Advanced Cluster Security (Stackrox), Quay Registry, Quay Container Security, OpenShift Virtualisation (KubeVirt), IBM Infrastructure Automation from the IBM Cloud Pak for AIOps 3.2, Instana, Turbonomics, External Secrets and RHACM Observability.
+This pattern delivers a comprehensive enterprise-grade OpenShift management solution with the following key features:
 
-   - Deployment and management of Managed OpenShift Clusters via OpenShift GitOps (everything is Infrastructure as Code) onto Amazon Web Services, Microsoft Azure, IBM Cloud, Google Cloud Platform, VMWare vSphere and Bare-metal environments, including Single Node OpenShift onto On Premise hosts. Allowing Managed OpenShift Clusters to be treated as "Cattle" not "Pets".
+## Core Infrastructure
+- Deploys an opinionated **Hub Cluster** configuration featuring:
+  - Red Hat Advanced Cluster Management (RHACM)
+  - OpenShift GitOps (ArgoCD)
+  - OpenShift Pipelines (Tekton)
+  - OpenShift Data Foundation (Rook.io)
+  - Ansible Automation Platform (Additional Subscription required)
+  - Red Hat Advanced Cluster Security (Stackrox)
+  - Quay Registry with Container Security
+  - OpenShift Virtualization (KubeVirt)
+  - IBM Infrastructure Automation (IBM Cloud Pak for AIOps 3.2)
+  - Instana
+  - Turbonomics
+  - External Secrets
+  - RHACM Observability
 
-   - Deployed Managed OpenShift Clusters on AWS, Azure and GCP can be Hibernated when not in-use to reduce the amount of resources consumed on your provider, potentially lowering costs.
+## Multi-Cloud Management
+- **Infrastructure as Code (IaC)**: Deploy and manage OpenShift clusters across multiple environments:
+  - Amazon Web Services (AWS)
+  - Microsoft Azure
+  - IBM Cloud
+  - Google Cloud Platform (GCP)
+  - VMware vSphere
+  - Bare-metal environments
+  - Single Node OpenShift for on-premise deployments
 
-   - Configured to Auto-Discover OpenShift Clusters from provided Red Hat OpenShift Cluster Manager credentials, and provide the opportunity to import the OpenShift clusters as Managed Clusters and automatically configure them into the OpenShift GitOps Cluster.
+## Cost Optimization
+- **Cluster Hibernation**: Automatically hibernate managed OpenShift clusters on AWS, Azure, and GCP when not in use, reducing resource consumption and lowering cloud costs
 
-   - Centralised OpenShift GitOps for deployment of Applications across any Managed OpenShift Cluster. View all deployed Applications across the entire fleet of OpenShift Clusters, regardless of Clusters location (i.e. AWS, GCP, on-premise etc).
+## Automated Cluster Management
+- **Auto-Discovery**: Automatically discover OpenShift clusters using Red Hat OpenShift Cluster Manager credentials
+- **Seamless Integration**: Import discovered clusters as managed clusters with automatic OpenShift GitOps configuration
 
-   - Automatically apply policies and governance to ALL Clusters within Red Hat Advanced Cluster Management, regardless of Clusters location.
+## Centralized Application Management
+- **Unified GitOps Control**: Deploy and manage applications across your entire OpenShift fleet
+- **Global Visibility**: Monitor and manage applications across all clusters, regardless of their location (cloud or on-premise)
 
-   - Hub Cluster can self-host Instana Virtual Machine using OpenShift Virtualisation and managed via OpenShift GitOps, or automatically deployed to an IaaS environment using IBM Infrastructure Automation.
+## Enterprise Governance
+- **Automated Policy Enforcement**: Apply consistent policies and governance across all managed clusters
+- **Cross-Environment Compliance**: Maintain compliance standards across your entire OpenShift estate
 
-   - Can be configured to automatically connect to IaaS environments, enable deployment of Virtual Machines via IBM Infrastructure Automation and OpenShift Pipelines.
+## Advanced Infrastructure Management
+- **Flexible Instana Deployment**:
+  - Self-hosted option using OpenShift Virtualization
+  - Automated deployment to IaaS environments via IBM Infrastructure Automation
+- **IaaS Integration**: Automatic connection to IaaS environments for streamlined virtual machine deployment
+- **Pipeline-Driven Automation**: Deploy virtual machines using IBM Infrastructure Automation and OpenShift Pipelines
 
-   - Can be configured to automatically deploy applications to Managed Clusters via OpenShift GitOps. An example provided will deploy IBM Cloud Pak for Integration (utilising full GitOps Principles) to Managed Clusters.
+## Application Deployment
+- **Automated Application Delivery**: Configure automatic application deployment to managed clusters via OpenShift GitOps
+- **Reference Implementation**: Includes example deployment of IBM Cloud Pak for Integration using GitOps principles
 
-   - Zero Touch Provisioning of Managed OpenShift Clusters to Bare-metal nodes to support Near and Far Edge deployments
-  
+## Edge Computing Support
+- **Zero Touch Provisioning**: Automated deployment of managed OpenShift clusters to bare-metal nodes
+- **Edge-Ready**: Supports both near and far edge deployment scenarios
+
 <p align="right">(<a href="https://github.com/one-touch-provisioning/otp-gitops/">back to main</a>)</p>

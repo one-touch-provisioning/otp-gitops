@@ -29,7 +29,7 @@ spec:
           sshPublickey: << ssh public key >>
           resource_group: << resource group >>
 
-        masters:
+        ${GIT_GITOPS_BRANCH}s:
           architecture: amd64
           count: 3
           diskSize: 128

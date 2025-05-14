@@ -62,4 +62,4 @@ patches:
       value: https://github.com/platformengineers-xyz/otp-gitops-clusters.git
     - op: add
       path: /spec/source/targetRevision
-      value: master
+      value: ${GIT_GITOPS_BRANCH}

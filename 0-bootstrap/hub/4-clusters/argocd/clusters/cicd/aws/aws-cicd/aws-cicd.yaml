@@ -26,8 +26,8 @@ spec:
 
         managedCluster: 
           status: "enabled" # Valid values "enabled" or "disabled"
-          managedRepo: https://github.com/one-touch-provisioning/otp-gitops.git # Repository that will be used to manage the Cluster resources
-          managedRepoBranch: master # Branch to use
+          managedRepo: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS} # Repository that will be used to manage the Cluster resources
+          managedRepoBranch: ${GIT_GITOPS_BRANCH} # Branch to use
           environment:  cicd # Typically this would be dev, test, cicd, prod
           projectName:  project-cicd # This could be a project, line of business, anything that makes sense to you. This references the folder name
                                      # within the "environment" folder

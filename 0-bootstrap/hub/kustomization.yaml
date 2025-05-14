@@ -17,14 +17,14 @@ patches:
       value: https://github.com/platformengineers-xyz/otp-gitops.git
     - op: add
       path: /spec/source/targetRevision
-      value: master
+      value: ${GIT_GITOPS_BRANCH}
 - target:
     group: argoproj.io
     kind: AppProject
   patch: |-
     - op: add
       path: /spec/sourceRepos/-
-      value: https://charts.cloudnativetoolkit.dev
+      value: ${HELM_REPOURL}
 - target:
     group: argoproj.io
     kind: AppProject

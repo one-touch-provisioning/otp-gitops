@@ -26,7 +26,7 @@ spec:
 
         managedCluster: 
           status: "enabled" # Valid values "enabled" or "disabled"
-          managedRepo: https://github.com/one-touch-provisioning/otp-gitops.git # Repository that will be used to manage the Cluster resources
+          managedRepo: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS} # Repository that will be used to manage the Cluster resources
 
         powerState: Running
 

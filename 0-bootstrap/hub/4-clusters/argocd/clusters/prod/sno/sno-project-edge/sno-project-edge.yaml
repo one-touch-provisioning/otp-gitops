@@ -49,7 +49,7 @@ spec:
         # Manage Cluster from Hub Cluster Repository
         managedCluster: 
           status: "disabled" # Valid values "enabled" or "disabled"
-          managedRepo: https://github.com/one-touch-provisioning/otp-gitops.git # Repository that will be used to manage the Cluster resources
+          managedRepo: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS} # Repository that will be used to manage the Cluster resources
           environment:  # Typically this would be dev, test, cicd, prod
           projectName:  # This could be a project, line of business, anything that makes sense to you. This references the folder name
                         # within the "environment" folder

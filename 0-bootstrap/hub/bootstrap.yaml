@@ -11,7 +11,7 @@ spec:
   source:
     path: 0-bootstrap/hub
     repoURL: https://github.com/platformengineers-xyz/otp-gitops.git
-    targetRevision: master
+    targetRevision: ${GIT_GITOPS_BRANCH}
   syncPolicy:
     automated:
       prune: true

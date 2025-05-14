@@ -14,17 +14,17 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS}
+      value: https://github.com/platformengineers-xyz/otp-gitops.git
     - op: add
       path: /spec/source/targetRevision
-      value: ${GIT_GITOPS_BRANCH}
+      value: master
 - target:
     group: argoproj.io
     kind: AppProject
   patch: |-
     - op: add
       path: /spec/sourceRepos/-
-      value: ${HELM_REPOURL}
+      value: https://charts.cloudnativetoolkit.dev
 - target:
     group: argoproj.io
     kind: AppProject
@@ -32,10 +32,10 @@ patches:
   patch: |-
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS}
+      value: https://github.com/platformengineers-xyz/otp-gitops.git
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_INFRA}
+      value: https://github.com/platformengineers-xyz/otp-gitops-infra.git
 - target:
     group: argoproj.io
     kind: AppProject
@@ -43,10 +43,10 @@ patches:
   patch: |-
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS}
+      value: https://github.com/platformengineers-xyz/otp-gitops.git
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_SERVICES}
+      value: https://github.com/platformengineers-xyz/otp-gitops-services.git
 - target:
     group: argoproj.io
     kind: AppProject
@@ -54,10 +54,10 @@ patches:
   patch: |-
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS}
+      value: https://github.com/platformengineers-xyz/otp-gitops.git
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_APPLICATIONS}
+      value: https://github.com/platformengineers-xyz/otp-gitops-apps.git
 - target:
     group: argoproj.io
     kind: AppProject
@@ -65,13 +65,13 @@ patches:
   patch: |-
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS}
+      value: https://github.com/platformengineers-xyz/otp-gitops.git
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_CLUSTERS}
+      value: https://github.com/platformengineers-xyz/otp-gitops-clusters.git
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_INFRA}
+      value: https://github.com/platformengineers-xyz/otp-gitops-infra.git
 - target:
     group: argoproj.io
     kind: AppProject
@@ -79,10 +79,10 @@ patches:
   patch: |-
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS}
+      value: https://github.com/platformengineers-xyz/otp-gitops.git
     - op: add
       path: /spec/sourceRepos/-
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_POLICIES}
+      value: https://github.com/platformengineers-xyz/otp-gitops-policies.git
 - target:
     group: argoproj.io
     kind: Application

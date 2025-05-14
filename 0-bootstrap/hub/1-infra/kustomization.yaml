@@ -5,7 +5,7 @@ resources:
  - argocd/consolenotification.yaml
 
  # Console link
- - argocd/consolelink.yaml
+ #- argocd/consolelink.yaml
 
  # External Secrets
  - argocd/rbac/rbac-external-secrets.yaml
@@ -13,23 +13,23 @@ resources:
 
  # Red Hat Advanced Cluster Management
  - argocd/rbac/rbac-rhacm.yaml
- - argocd/namespaces/namespace-openshift-acm.yaml
- - argocd/namespaces/namespace-openshift-acm-observability.yaml
+ #- argocd/namespaces/namespace-openshift-acm.yaml
+ #- argocd/namespaces/namespace-openshift-acm-observability.yaml
  - argocd/namespaces/namespace-rhacm-credentials.yaml
  - argocd/namespaces/namespace-rhacm-policies.yaml
- - argocd/namespaces/namespace-rhacm-clusterpools.yaml
- - argocd/namespaces/namespace-rhacm-clusterclaims.yaml
+ #- argocd/namespaces/namespace-rhacm-clusterpools.yaml
+ #- argocd/namespaces/namespace-rhacm-clusterclaims.yaml
  # RHACM Metal Provisioner (Not required if Hub is running on Bare-Metal)
  #- argocd/namespaces/namespace-metal-provisioner.yaml
  
  # Ansible Automation Platform
- - argocd/namespaces/namespace-ansible-automation-platform.yaml
+ #- argocd/namespaces/namespace-ansible-automation-platform.yaml
  
  # Openshift Advanced Cluster Security
- - argocd/namespaces/namespace-openshift-acs.yaml
+ #- argocd/namespaces/namespace-openshift-acs.yaml
 
   # Quay Registry
- - argocd/namespaces/namespace-quay-registry.yaml
+ #- argocd/namespaces/namespace-quay-registry.yaml
  
  # OpenShift Data Foundation aka OpenShift Container Storage
  #- not required for IBM Cloud ROKS with ODF add-on configured
@@ -51,7 +51,7 @@ resources:
  #- argocd/namespaces/namespace-cert-manager.yaml
  
  #- argocd/namespaces/namespace-sealed-secrets.yaml
- - argocd/namespaces/namespace-tools.yaml
+ #- argocd/namespaces/namespace-tools.yaml
 
  # Observability
  #- argocd/namespaces/namespace-turbonomic.yaml
@@ -87,7 +87,7 @@ patches:
   patch: |-
     - op: add
       path: /spec/source/repoURL
-      value: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_INFRA}
+      value: https://github.com/platformengineers-xyz/otp-gitops-infra.git
     - op: add
       path: /spec/source/targetRevision
-      value: ${GIT_GITOPS_BRANCH}
+      value: master

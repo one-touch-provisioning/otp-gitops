@@ -1,22 +1,24 @@
 resources:
-  - argocd-instance.yaml
-  - argocd-cm.yaml
+- argocd-instance.yaml
+- argocd-cm.yaml
 
-patchesStrategicMerge:
   # Platform
-  - resource-customizations/k8s.yaml
-  - resource-customizations/openshift.yaml
-  - resource-customizations/operators.yaml
 
   # Platform services
-  - resource-customizations/ocs.yaml
-  - resource-customizations/kubevirt.yaml
-  - resource-customizations/external-secrets.yaml
   
   # Apps
-  - resource-customizations/argocd.yaml
-  - resource-customizations/rhacm.yaml
-  - resource-customizations/rhacs.yaml
-  - resource-customizations/cp4i.yaml
-  - resource-customizations/cpd.yaml
-  - resource-customizations/ansible-automation-platform.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patches:
+- path: resource-customizations/k8s.yaml
+- path: resource-customizations/openshift.yaml
+- path: resource-customizations/operators.yaml
+- path: resource-customizations/ocs.yaml
+- path: resource-customizations/kubevirt.yaml
+- path: resource-customizations/external-secrets.yaml
+- path: resource-customizations/argocd.yaml
+- path: resource-customizations/rhacm.yaml
+- path: resource-customizations/rhacs.yaml
+- path: resource-customizations/cp4i.yaml
+- path: resource-customizations/cpd.yaml
+- path: resource-customizations/ansible-automation-platform.yaml

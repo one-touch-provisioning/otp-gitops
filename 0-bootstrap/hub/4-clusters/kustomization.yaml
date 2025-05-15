@@ -41,6 +41,9 @@ resources:
  ### Azure
  #- argocd/clusters/cicd/azure/azure-cicd/azure-cicd.yaml
  #- argocd/clusters/prod/azure/azure-prod/azure-prod.yaml 
+
+ ### Hosted Control Planes
+ #- argocd/clusters/dev/hcp/hcp-dev/hcp-dev.yaml
  
  ### vSphere
  #- argocd/clusters/test/vsphere/vsphere-test.yaml
